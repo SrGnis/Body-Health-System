@@ -12,6 +12,10 @@ public abstract class Body {
         parts.put(identifier, part);
     }
 
+    public BodyPart getPart(Identifier identifier){
+        return parts.get(identifier);
+    }
+
     public void removePart(Identifier identifier){
         parts.remove(identifier);
     }
