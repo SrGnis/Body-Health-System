@@ -5,7 +5,7 @@ import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 
 
-public class BodyPart {
+public abstract class BodyPart {
     private float maxHealth;
     private float health;
     private Entity entity;
@@ -19,6 +19,7 @@ public class BodyPart {
     }
 
     public void takeDamage(float amount){
+        BHSMain.LOGGER.info("Damage taken by: " + entity.getName() + " on " + identifier + " Amount: " + amount);
         if(amount > health){
             setHealth(0);
         }else {
