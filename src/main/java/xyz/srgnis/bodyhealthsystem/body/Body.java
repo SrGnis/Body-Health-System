@@ -20,7 +20,10 @@ public abstract class Body {
         parts.remove(identifier);
     }
 
-    public ArrayList<BodyPart> getparts(){
+    public ArrayList<BodyPart> getParts(){
         return new ArrayList<>(parts.values());
+    }
+    public ArrayList<Identifier> getPartsIdentifiers(){
+        return new ArrayList<>(parts.keySet());
     }
 }

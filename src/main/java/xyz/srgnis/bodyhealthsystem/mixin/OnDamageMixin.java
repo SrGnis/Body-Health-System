@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.srgnis.bodyhealthsystem.TheInterface;
-import xyz.srgnis.bodyhealthsystem.body.Identifiers;
+import xyz.srgnis.bodyhealthsystem.body.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.impl.PlayerBody;
 
 @Mixin(PlayerEntity.class)
 public abstract class OnDamageMixin extends LivingEntity {
@@ -24,12 +24,8 @@ public abstract class OnDamageMixin extends LivingEntity {
     public boolean redirectDamageToCustomLogic(LivingEntity livingEntity, DamageSource source, float amount) {
         if(livingEntity instanceof PlayerEntity){
             PlayerEntity pe = (PlayerEntity)livingEntity;
-            if(getRandom().nextDouble() < 0.5){
-                ((TheInterface)pe).getThe_body().getPart(Identifiers.HEAD).takeDamage(amount);
-            }
-            else {
-                ((TheInterface)pe).getThe_body().getPart(Identifiers.BODY).takeDamage(amount);
-            }
+            PlayerBody body = ((PlayerBodyProvider)pe).getBody();
+            body.getPart(body.getPartsIdentifiers().get(livingEntity.getRandom().nextInt(body.getPartsIdentifiers().size()))).takeDamage(amount);
         }
 
         return false;
