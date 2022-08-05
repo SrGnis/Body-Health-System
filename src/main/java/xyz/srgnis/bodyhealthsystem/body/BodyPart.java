@@ -52,4 +52,9 @@ public abstract class BodyPart {
     public void setIdentifier(Identifier identifier) {
         this.identifier = identifier;
     }
+
+    @Override
+    public String toString() {
+        return identifier + " MaxHP: " + maxHealth + " HP " + health + "\n";
+    }
 }
