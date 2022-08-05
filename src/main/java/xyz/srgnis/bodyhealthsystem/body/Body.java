@@ -26,4 +26,13 @@ public abstract class Body {
     public ArrayList<Identifier> getPartsIdentifiers(){
         return new ArrayList<>(parts.keySet());
     }
+
+    @Override
+    public String toString(){
+        String s = "Body of player: TODO \n";
+        for (BodyPart p : getParts()) {
+            s = s + p.toString();
+        }
+        return s;
+    }
 }
