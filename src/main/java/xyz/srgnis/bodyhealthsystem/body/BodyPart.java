@@ -1,6 +1,7 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 
@@ -51,6 +52,18 @@ public abstract class BodyPart {
     }
     public void setIdentifier(Identifier identifier) {
         this.identifier = identifier;
+    }
+
+    public void writeToNbt(NbtCompound nbt){
+        NbtCompound new_nbt = new NbtCompound();
+        new_nbt.putFloat("health", health);
+        new_nbt.putFloat("maxHealth", maxHealth);
+        nbt.put(identifier.toString(), new_nbt);
+    }
+
+    public void readFromNbt(NbtCompound nbt){
+        health = nbt.getFloat("health");
+        maxHealth = nbt.getFloat("maxHealth");
     }
 
     @Override

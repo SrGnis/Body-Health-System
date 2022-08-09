@@ -1,6 +1,8 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
+import xyz.srgnis.bodyhealthsystem.BHSMain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,22 @@ public abstract class Body {
     }
     public ArrayList<Identifier> getPartsIdentifiers(){
         return new ArrayList<>(parts.keySet());
+    }
+
+    public void writeToNbt (NbtCompound nbt){
+        NbtCompound new_nbt = new NbtCompound();
+        for(BodyPart part : getParts()){
+            part.writeToNbt(new_nbt);
+        }
+        nbt.put(BHSMain.MOD_ID, new_nbt);
+    }
+
+    //TODO: Handle parts not found
+    public void readFromNbt (NbtCompound nbt) {
+        NbtCompound bodyNbt = nbt.getCompound(BHSMain.MOD_ID);
+        for (Identifier partId : getPartsIdentifiers()) {
+            getPart(partId).readFromNbt(bodyNbt.getCompound(partId.toString()));
+        }
     }
 
     @Override
