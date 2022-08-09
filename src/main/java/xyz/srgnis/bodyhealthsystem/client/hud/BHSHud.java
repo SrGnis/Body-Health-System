@@ -11,6 +11,7 @@ public class BHSHud implements HudRenderCallback {
     int green = 0xff8fce00;
     int red = 0xffb70000;
 
+    //TODO: Create a better Hud
     @Override
     public void onHudRender(MatrixStack matrixStack, float v) {
         PlayerBodyProvider player = (PlayerBodyProvider)MinecraftClient.getInstance().player;

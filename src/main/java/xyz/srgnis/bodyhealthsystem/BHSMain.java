@@ -25,6 +25,7 @@ public class BHSMain implements ModInitializer {
 		// Proceed with mild caution.
 		HudRenderCallback.EVENT.register(new BHSHud());
 
+		//TODO: create a class for the network handlers
 		ClientPlayNetworking.registerGlobalReceiver(MOD_IDENTIFIER, (client, handler, buf, responseSender) -> {
 			while (buf.isReadable()) {
 				Identifier id = buf.readIdentifier();
