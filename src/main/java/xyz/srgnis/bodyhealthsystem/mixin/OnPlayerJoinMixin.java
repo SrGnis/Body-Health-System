@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.PlayerBodyProvider;
-import xyz.srgnis.bodyhealthsystem.body.impl.PlayerBody;
+import xyz.srgnis.bodyhealthsystem.body.player.PlayerBody;
 
 @Mixin(PlayerEntity.class)
 public class OnPlayerJoinMixin implements PlayerBodyProvider {

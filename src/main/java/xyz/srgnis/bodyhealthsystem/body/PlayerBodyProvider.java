@@ -1,6 +1,6 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
-import xyz.srgnis.bodyhealthsystem.body.impl.PlayerBody;
+import xyz.srgnis.bodyhealthsystem.body.player.PlayerBody;
 
 public interface PlayerBodyProvider {
     public PlayerBody body = null;

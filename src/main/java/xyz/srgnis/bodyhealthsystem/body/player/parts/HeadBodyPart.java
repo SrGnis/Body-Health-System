@@ -1,9 +1,8 @@
-package xyz.srgnis.bodyhealthsystem.body.impl.parts;
+package xyz.srgnis.bodyhealthsystem.body.player.parts;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
-import xyz.srgnis.bodyhealthsystem.body.impl.PlayerBodyParts;
+import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 
 public class HeadBodyPart extends BodyPart {
     private static float defaultMaxHealth = 4;

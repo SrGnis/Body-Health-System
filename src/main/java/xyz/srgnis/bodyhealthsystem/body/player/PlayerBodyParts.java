@@ -1,4 +1,4 @@
-package xyz.srgnis.bodyhealthsystem.body.impl;
+package xyz.srgnis.bodyhealthsystem.body.player;
 
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;

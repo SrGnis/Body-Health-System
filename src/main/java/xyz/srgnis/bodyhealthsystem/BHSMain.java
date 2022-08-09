@@ -3,12 +3,10 @@ package xyz.srgnis.bodyhealthsystem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.srgnis.bodyhealthsystem.body.PlayerBodyProvider;
-import xyz.srgnis.bodyhealthsystem.body.impl.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.client.hud.BHSHud;
 
 public class BHSMain implements ModInitializer {
