@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.PlayerBodyProvider;
-import xyz.srgnis.bodyhealthsystem.body.impl.PlayerBody;
+import xyz.srgnis.bodyhealthsystem.body.player.PlayerBody;
 
 @Mixin(PlayerEntity.class)
 public abstract class OnDamageMixin extends LivingEntity {
