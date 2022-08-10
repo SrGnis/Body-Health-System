@@ -3,9 +3,16 @@ package xyz.srgnis.bodyhealthsystem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.PlayerBodyProvider;
 import xyz.srgnis.bodyhealthsystem.client.hud.BHSHud;
 
@@ -38,5 +45,23 @@ public class BHSMain implements ModInitializer {
 				});
 			}
 		});
+
+		ServerPlayConnectionEvents.JOIN.register((serverPlayNetworkHandler,packetSender,server)->{
+			BHSMain.syncBody(serverPlayNetworkHandler.player);
+		});
+
+	}
+
+	//TODO: Create a class for this
+	public static void syncBody(PlayerEntity pe){
+		PacketByteBuf buf = PacketByteBufs.create();
+
+		for (BodyPart part : ((PlayerBodyProvider)pe).getBody().getParts()) {
+			buf.writeIdentifier(part.getIdentifier());
+			buf.writeFloat(part.getHealth());
+			buf.writeFloat(part.getMaxHealth());
+		}
+
+		ServerPlayNetworking.send( (ServerPlayerEntity) pe, BHSMain.MOD_IDENTIFIER, buf);
 	}
 }

@@ -33,15 +33,7 @@ public abstract class OnDamageMixin extends LivingEntity {
             PlayerBody body = ((PlayerBodyProvider)pe).getBody();
             body.getPart(body.getPartsIdentifiers().get(livingEntity.getRandom().nextInt(body.getPartsIdentifiers().size()))).takeDamage(amount);
 
-            PacketByteBuf buf = PacketByteBufs.create();
-
-            for (BodyPart part : body.getParts()) {
-                buf.writeIdentifier(part.getIdentifier());
-                buf.writeFloat(part.getHealth());
-                buf.writeFloat(part.getMaxHealth());
-            }
-
-            ServerPlayNetworking.send((ServerPlayerEntity) pe, BHSMain.MOD_IDENTIFIER, buf);
+            BHSMain.syncBody(pe);
         }
 
         return false;
