@@ -5,7 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
-import xyz.srgnis.bodyhealthsystem.body.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
 
 public class BHSHud implements HudRenderCallback {
     int green = 0xff8fce00;

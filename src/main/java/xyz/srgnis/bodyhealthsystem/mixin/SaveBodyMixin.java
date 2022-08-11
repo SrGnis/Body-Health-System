@@ -1,18 +1,13 @@
 package xyz.srgnis.bodyhealthsystem.mixin;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
-import xyz.srgnis.bodyhealthsystem.body.BodyPart;
-import xyz.srgnis.bodyhealthsystem.body.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
 
 @Mixin(PlayerEntity.class)
 public class SaveBodyMixin {
