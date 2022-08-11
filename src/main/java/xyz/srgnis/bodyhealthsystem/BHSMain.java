@@ -1,14 +1,18 @@
 package xyz.srgnis.bodyhealthsystem;
 
+import static net.minecraft.server.command.CommandManager.*;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +54,18 @@ public class BHSMain implements ModInitializer {
 			BHSMain.syncBody(serverPlayNetworkHandler.player);
 		});
 
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("bhs")
+				.executes(context -> {
+					// For versions below 1.19, replace "Text.literal" with "new LiteralText".
+					context.getSource().getPlayer().sendMessage(Text.literal(((PlayerBodyProvider)context.getSource().getPlayer()).getBody().toString()));
+
+					return 1;
+				}).then(literal("reset").executes(context -> {
+					context.getSource().getPlayer().sendMessage(Text.literal("reset"));
+					return 1;
+				})))
+		);
+
 	}
 
 	//TODO: Create a class for this
@@ -64,4 +80,6 @@ public class BHSMain implements ModInitializer {
 
 		ServerPlayNetworking.send( (ServerPlayerEntity) pe, BHSMain.MOD_IDENTIFIER, buf);
 	}
+
+
 }
