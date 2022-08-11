@@ -20,6 +20,5 @@ public class SaveBodyMixin {
     public void deserializeBodyParts(NbtCompound tag, CallbackInfo ci) {
         PlayerBodyProvider pe = (PlayerBodyProvider)this;
         pe.getBody().readFromNbt(tag);
-        BHSMain.LOGGER.warn("BODY READ");
     }
 }

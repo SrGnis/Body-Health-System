@@ -26,6 +26,7 @@ public abstract class OnDamageMixin extends LivingEntity {
         if(livingEntity instanceof PlayerEntity){
             PlayerEntity pe = (PlayerEntity)livingEntity;
             PlayerBody body = ((PlayerBodyProvider)pe).getBody();
+            //Random damage application, this is not the final implementation
             body.getPart(body.getPartsIdentifiers().get(livingEntity.getRandom().nextInt(body.getPartsIdentifiers().size()))).takeDamage(amount);
 
             BHSMain.syncBody(pe);
