@@ -1,4 +1,4 @@
-package xyz.srgnis.bodyhealthsystem.body;
+package xyz.srgnis.bodyhealthsystem.body.player;
 
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBody;
 

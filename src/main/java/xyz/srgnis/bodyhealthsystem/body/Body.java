@@ -36,12 +36,15 @@ public abstract class Body {
         }
         nbt.put(BHSMain.MOD_ID, new_nbt);
     }
-
-    //TODO: Handle parts not found
+    //TODO: Is this the best way of handling not found parts?
     public void readFromNbt (NbtCompound nbt) {
         NbtCompound bodyNbt = nbt.getCompound(BHSMain.MOD_ID);
-        for (Identifier partId : getPartsIdentifiers()) {
-            getPart(partId).readFromNbt(bodyNbt.getCompound(partId.toString()));
+        if (!bodyNbt.isEmpty()) {
+            for (Identifier partId : getPartsIdentifiers()) {
+                if(!bodyNbt.getCompound(partId.toString()).isEmpty()) {
+                    getPart(partId).readFromNbt(bodyNbt.getCompound(partId.toString()));
+                }
+            }
         }
     }
 
