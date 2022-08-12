@@ -21,17 +21,19 @@ public abstract class BodyPart {
 
     public void takeDamage(float amount){
         BHSMain.LOGGER.info("Damage taken by: " + entity.getName() + " on " + identifier + " Amount: " + amount);
-        if(amount > health){
-            setHealth(0);
-        }else {
-            setHealth(health - amount);
-        }
+        health = Math.max(0, health - amount);
         BHSMain.LOGGER.info("Health of " + identifier + " is: " + health);
     }
 
-    public void setHealth(float health) {
-        this.health = health;
+    public void heal(){
+        health = maxHealth;
     }
+
+    public void heal(float amount){
+        health = Math.min(maxHealth, health + amount);
+    }
+
+    public void setHealth(float health) { this.health = health;}
     public float getHealth() {
         return health;
     }

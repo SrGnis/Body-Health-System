@@ -1,14 +1,17 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Body {
     private final HashMap<Identifier, BodyPart> parts = new HashMap<>();
+    protected LivingEntity entity;
 
     public void addPart(Identifier identifier, BodyPart part){
         parts.put(identifier, part);
@@ -27,6 +30,18 @@ public abstract class Body {
     }
     public ArrayList<Identifier> getPartsIdentifiers(){
         return new ArrayList<>(parts.keySet());
+    }
+
+    public void healAll(){
+        for(BodyPart part : getParts()){
+            part.heal();
+        }
+    }
+
+    public void damage(float amount){
+        ArrayList<Identifier> identifiers = getPartsIdentifiers();
+        //Random damage application, this is not the final implementation
+        getPart(identifiers.get(entity.getRandom().nextInt(identifiers.size()))).takeDamage(amount);
     }
 
     public void writeToNbt (NbtCompound nbt){

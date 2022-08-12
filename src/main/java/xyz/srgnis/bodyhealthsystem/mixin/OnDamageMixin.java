@@ -24,12 +24,9 @@ public abstract class OnDamageMixin extends LivingEntity {
     @Redirect(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
     public boolean redirectDamageToCustomLogic(LivingEntity livingEntity, DamageSource source, float amount) {
         if(livingEntity instanceof PlayerEntity){
-            PlayerEntity pe = (PlayerEntity)livingEntity;
-            PlayerBody body = ((PlayerBodyProvider)pe).getBody();
-            //Random damage application, this is not the final implementation
-            body.getPart(body.getPartsIdentifiers().get(livingEntity.getRandom().nextInt(body.getPartsIdentifiers().size()))).takeDamage(amount);
-
-            BHSMain.syncBody(pe);
+            PlayerBody body = ((PlayerBodyProvider)livingEntity).getBody();
+            body.damage(amount);
+            BHSMain.syncBody((PlayerEntity)livingEntity);
         }
 
         return false;

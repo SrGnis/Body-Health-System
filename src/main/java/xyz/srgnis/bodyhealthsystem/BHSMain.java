@@ -56,12 +56,15 @@ public class BHSMain implements ModInitializer {
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("bhs")
 				.executes(context -> {
-					// For versions below 1.19, replace "Text.literal" with "new LiteralText".
 					context.getSource().getPlayer().sendMessage(Text.literal(((PlayerBodyProvider)context.getSource().getPlayer()).getBody().toString()));
-
 					return 1;
 				}).then(literal("reset").executes(context -> {
-					context.getSource().getPlayer().sendMessage(Text.literal("reset"));
+					((PlayerBodyProvider)context.getSource().getPlayer()).getBody().healAll();
+					BHSMain.syncBody(context.getSource().getPlayer());
+					return 1;
+				})).then(literal("damage").executes(context -> {
+					((PlayerBodyProvider)context.getSource().getPlayer()).getBody().damage(1);
+					BHSMain.syncBody(context.getSource().getPlayer());
 					return 1;
 				})))
 		);
