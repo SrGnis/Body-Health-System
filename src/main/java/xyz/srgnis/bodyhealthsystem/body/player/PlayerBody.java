@@ -1,11 +1,8 @@
 package xyz.srgnis.bodyhealthsystem.body.player;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.player.parts.*;
-
-import javax.swing.text.html.parser.Entity;
 
 public class PlayerBody extends Body {
 

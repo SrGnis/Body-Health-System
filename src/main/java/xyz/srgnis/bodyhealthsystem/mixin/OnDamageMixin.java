@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBody;
 import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;

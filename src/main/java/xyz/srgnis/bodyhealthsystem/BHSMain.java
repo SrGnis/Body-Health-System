@@ -1,24 +1,10 @@
 package xyz.srgnis.bodyhealthsystem;
 
-import static net.minecraft.server.command.CommandManager.*;
-import static xyz.srgnis.bodyhealthsystem.network.ClientNetworking.handleHealthChange;
-
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.srgnis.bodyhealthsystem.body.BodyPart;
-import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
 import xyz.srgnis.bodyhealthsystem.client.hud.BHSHud;
 import xyz.srgnis.bodyhealthsystem.command.DevCommands;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;

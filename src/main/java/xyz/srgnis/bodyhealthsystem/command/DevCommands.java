@@ -1,15 +1,12 @@
 package xyz.srgnis.bodyhealthsystem.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
-import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
 
 import static net.minecraft.server.command.CommandManager.literal;

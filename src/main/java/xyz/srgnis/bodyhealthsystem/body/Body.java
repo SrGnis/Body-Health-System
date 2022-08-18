@@ -5,7 +5,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
