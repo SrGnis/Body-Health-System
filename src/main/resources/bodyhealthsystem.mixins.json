@@ -4,8 +4,8 @@
   "package": "xyz.srgnis.bodyhealthsystem.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "OnApplyDamage",
     "OnPlayerJoinMixin",
-    "OnDamageMixin",
     "SaveBodyMixin"
   ],
   "injectors": {
