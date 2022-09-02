@@ -27,7 +27,7 @@ public class DevCommands {
                     ServerNetworking.syncBody(context.getSource().getPlayer());
                     return 1;
                 })).then(literal("damage").executes(context -> {
-                    ((PlayerBodyProvider)context.getSource().getPlayer()).getBody().damage(1);
+                    ((PlayerBodyProvider)context.getSource().getPlayer()).getBody().applyDamageBySource(1, null);
                     ServerNetworking.syncBody(context.getSource().getPlayer());
                     return 1;
                 })));

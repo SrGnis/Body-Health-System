@@ -1,12 +1,15 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class Body {
     private final HashMap<Identifier, BodyPart> parts = new HashMap<>();
@@ -37,10 +40,54 @@ public abstract class Body {
         }
     }
 
-    public void damage(float amount){
-        ArrayList<Identifier> identifiers = getPartsIdentifiers();
-        //Random damage application, this is not the final implementation
-        getPart(identifiers.get(entity.getRandom().nextInt(identifiers.size()))).takeDamage(amount);
+    public void applyDamageBySource(float amount, DamageSource source){
+        applyDamageLocalRandom(amount);
+    }
+
+    //Applies the damage to a single part
+    public void applyDamageLocal(float amount, BodyPart part){
+        part.takeDamage(amount);
+    }
+
+    //Applies the damage to a random part
+    public void applyDamageLocalRandom(float amount){
+        getParts().get(entity.getRandom().nextInt(parts.size())).takeDamage(amount);
+    }
+
+    //Splits the damage into all parts
+    public void applyDamageGeneral(float amount){
+        float split_amount = amount/getParts().size();
+        getParts().forEach(new Consumer<BodyPart>() {
+            @Override
+            public void accept(BodyPart bodyPart) {
+                bodyPart.takeDamage(split_amount);
+            }
+        });
+    }
+
+    //Randomly splits the damage into all parts
+    public void applyDamageGeneralRandom(float amount){
+
+    }
+
+    //Splits the damage into list of parts
+    public void applyDamageList(float amount, List<BodyPart> parts){
+
+    }
+
+    //Randomly splits the damage into list of parts
+    public void applyDamageListRandom(float amount, List<BodyPart> parts){
+
+    }
+
+    //Splits the damage into a random list of parts
+    public void applyDamageRandomList(float amount){
+
+    }
+
+    //Randomly splits the damage into a random list of parts
+    public void applyDamageFullRandom(float amount){
+
     }
 
     public void writeToNbt (NbtCompound nbt){

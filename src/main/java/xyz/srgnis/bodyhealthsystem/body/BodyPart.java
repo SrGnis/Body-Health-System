@@ -19,10 +19,13 @@ public abstract class BodyPart {
         this.identifier = identifier;
     }
 
-    public void takeDamage(float amount){
+    public float takeDamage(float amount){
         BHSMain.LOGGER.info("Damage taken by: " + entity.getName() + " on " + identifier + " Amount: " + amount);
-        health = Math.max(0, health - amount);
+        float sub = health - amount;
+        health = Math.max(0, sub);
         BHSMain.LOGGER.info("Health of " + identifier + " is: " + health);
+
+        return Math.max(0, -sub);
     }
 
     public void heal(){
