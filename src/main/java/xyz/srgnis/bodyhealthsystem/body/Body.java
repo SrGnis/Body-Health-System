@@ -5,11 +5,12 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
+import xyz.srgnis.bodyhealthsystem.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
 
 public abstract class Body {
     private final HashMap<Identifier, BodyPart> parts = new HashMap<>();
@@ -41,6 +42,7 @@ public abstract class Body {
     }
 
     public void applyDamageBySource(float amount, DamageSource source){
+        //Here we se the default way
         applyDamageLocalRandom(amount);
     }
 
@@ -55,39 +57,41 @@ public abstract class Body {
     }
 
     //Splits the damage into all parts
-    public void applyDamageGeneral(float amount){
-        float split_amount = amount/getParts().size();
-        getParts().forEach(new Consumer<BodyPart>() {
-            @Override
-            public void accept(BodyPart bodyPart) {
-                bodyPart.takeDamage(split_amount);
-            }
-        });
-    }
+    public void applyDamageGeneral(float amount){ applyDamageList(amount, getParts()); }
 
     //Randomly splits the damage into all parts
-    public void applyDamageGeneralRandom(float amount){
-
-    }
+    public void applyDamageGeneralRandom(float amount){ applyDamageListRandom(amount, getParts()); }
 
     //Splits the damage into list of parts
     public void applyDamageList(float amount, List<BodyPart> parts){
+        float split_amount = amount/parts.size();
 
+        for(BodyPart bodyPart : parts){
+            bodyPart.takeDamage(split_amount);
+        }
     }
 
     //Randomly splits the damage into list of parts
     public void applyDamageListRandom(float amount, List<BodyPart> parts){
+        List<Float> damages = Utils.n_random(amount, parts.size());
 
+        int i = 0;
+        for(BodyPart bodyPart : parts){
+            bodyPart.takeDamage(damages.get(i));
+            i++;
+        }
     }
 
     //Splits the damage into a random list of parts
     public void applyDamageRandomList(float amount){
-
+        ArrayList<BodyPart> randomlist = (ArrayList<BodyPart>) Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size()+1));
+        applyDamageList(amount, randomlist);
     }
 
     //Randomly splits the damage into a random list of parts
     public void applyDamageFullRandom(float amount){
-
+        ArrayList<BodyPart> randomlist = (ArrayList<BodyPart>) Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size()+1));
+        applyDamageListRandom(amount,randomlist);
     }
 
     public void writeToNbt (NbtCompound nbt){
