@@ -84,13 +84,13 @@ public abstract class Body {
 
     //Splits the damage into a random list of parts
     public void applyDamageRandomList(float amount){
-        ArrayList<BodyPart> randomlist = (ArrayList<BodyPart>) Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size()+1));
+        List<BodyPart> randomlist = Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size() + 1));
         applyDamageList(amount, randomlist);
     }
 
     //Randomly splits the damage into a random list of parts
     public void applyDamageFullRandom(float amount){
-        ArrayList<BodyPart> randomlist = (ArrayList<BodyPart>) Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size()+1));
+        List<BodyPart> randomlist = Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size() + 1));
         applyDamageListRandom(amount,randomlist);
     }
 
