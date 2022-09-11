@@ -17,6 +17,7 @@ public class OnApplyDamage {
     public float handleHealthChange(float amount, DamageSource source) {
         PlayerBody body = ((PlayerBodyProvider)this).getBody();
         body.applyDamageBySource(amount, source);
+        body.updateHealth();
         ServerNetworking.syncBody((PlayerEntity)(Object)this);
         return 0;
     }

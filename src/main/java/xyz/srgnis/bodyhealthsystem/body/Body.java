@@ -94,6 +94,16 @@ public abstract class Body {
         applyDamageListRandom(amount,randomlist);
     }
 
+    public void updateHealth(){
+        float max_health = 0;
+        float actual_health = 0;
+        for( BodyPart part : this.getParts()){
+            max_health += part.getMaxHealth();
+            actual_health += part.getHealth();
+        }
+        entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ) );
+    }
+
     public void writeToNbt (NbtCompound nbt){
         NbtCompound new_nbt = new NbtCompound();
         for(BodyPart part : getParts()){
