@@ -6,7 +6,8 @@
   "mixins": [
     "OnApplyDamage",
     "OnPlayerJoinMixin",
-    "SaveBodyMixin"
+    "SaveBodyMixin",
+    "OnHealMixin"
   ],
   "injectors": {
     "defaultRequire": 1
