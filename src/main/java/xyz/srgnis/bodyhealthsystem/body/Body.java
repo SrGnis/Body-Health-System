@@ -41,6 +41,18 @@ public abstract class Body {
         }
     }
 
+    public void heal(float amount){
+        ArrayList<BodyPart> parts_l = getParts();
+        Collections.shuffle(parts_l);
+        for(BodyPart part : parts_l){
+            if(amount <= 0){break;}
+            amount = part.heal(amount);
+        }
+    }
+    public void heal(float amount, BodyPart part){
+        part.heal(amount);
+    }
+
     public void applyDamageBySource(float amount, DamageSource source){
         //Here we se the default way
         applyDamageLocalRandom(amount);

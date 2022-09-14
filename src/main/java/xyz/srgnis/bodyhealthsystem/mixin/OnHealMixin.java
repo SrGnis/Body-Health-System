@@ -21,8 +21,8 @@ public class OnHealMixin {
         if(le instanceof PlayerEntity){
             PlayerEntity pe = (PlayerEntity) le;
             PlayerBody body = ((PlayerBodyProvider)pe).getBody();
-            ArrayList<Identifier> identifiers = body.getPartsIdentifiers();
-            body.getPart(identifiers.get(pe.getRandom().nextInt(identifiers.size()))).heal(amount);
+            body.heal(amount);
+            body.updateHealth();
             ServerNetworking.syncBody(pe);
             return 0;
         }

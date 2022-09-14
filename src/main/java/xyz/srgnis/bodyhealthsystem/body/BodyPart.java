@@ -32,8 +32,10 @@ public abstract class BodyPart {
         health = maxHealth;
     }
 
-    public void heal(float amount){
-        health = Math.min(maxHealth, health + amount);
+    public float heal(float amount){
+        float add = health + amount;
+        health = Math.min(maxHealth, add);
+        return add - health;
     }
 
     public void setHealth(float health) { this.health = health;}
