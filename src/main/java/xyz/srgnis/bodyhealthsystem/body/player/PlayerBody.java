@@ -2,6 +2,7 @@ package xyz.srgnis.bodyhealthsystem.body.player;
 
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.player.parts.*;
@@ -27,6 +28,7 @@ public class PlayerBody extends Body {
         }
         //TODO: apply armor protection
         //TODO: handle more damage sources
+        //TODO: starvation over powered?
         switch (source.getName()){
             case "fall":
             case "hotFloor":
@@ -34,6 +36,9 @@ public class PlayerBody extends Body {
                 break;
             case "lightningBolt":
             case "lava":
+            case "fireball":
+            case "explosion":
+            case "explosion.player":
                 applyDamageFullRandom(amount);
                 break;
             case "drown":
