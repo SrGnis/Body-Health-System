@@ -1,27 +1,29 @@
 package xyz.srgnis.bodyhealthsystem.body.player.parts;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
+import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
+import xyz.srgnis.bodyhealthsystem.constants.ArmorSlots;
 
 public class LegBodyPart extends BodyPart {
-    private static float defaultMaxHealth = 4;
+    private static final float defaultMaxHealth = 4;
 
-    //TODO: think other way to do this
-    public static Identifier getSide(String side){
-        if(side == "left") {
-            return PlayerBodyParts.LEFT_LEG;
-        }else{
-            return PlayerBodyParts.RIGHT_LEG;
-        }
+    private final BodySide side;
+
+    public LegBodyPart(BodySide side, PlayerEntity entity) {
+        this(side, defaultMaxHealth, defaultMaxHealth, entity);
     }
 
-    public LegBodyPart(String side, Entity entity) {
-        super(defaultMaxHealth, defaultMaxHealth, entity, getSide(side));
+    public LegBodyPart(BodySide side, float maxHealth, float health, PlayerEntity entity) {
+        super(maxHealth, health, entity,  side==BodySide.LEFT? PlayerBodyParts.LEFT_FOOT : PlayerBodyParts.RIGHT_FOOT);
+        this.side = side;
+        this.armorSlot = ArmorSlots.LEGGINGS;
+        this.armorList = entity.getInventory().armor;
     }
 
-    public LegBodyPart(String side, float maxHealth, float health, Entity entity) {
-        super(maxHealth, health, entity,  getSide(side));
+    public BodySide getSide(){
+        return side;
     }
 }

@@ -1,29 +1,37 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
+import net.minecraft.util.collection.DefaultedList;
 
 
 public abstract class BodyPart {
     private float maxHealth;
     private float health;
-    private Entity entity;
+    private LivingEntity entity;
     private Identifier identifier;
 
-    public BodyPart(float maxHealth, float health, Entity entity, Identifier identifier) {
+    protected int armorSlot;
+    protected DefaultedList<ItemStack> armorList;
+
+    public BodyPart(float maxHealth, float health, LivingEntity entity, Identifier identifier) {
         this.maxHealth = maxHealth;
         this.health = health;
         this.entity = entity;
         this.identifier = identifier;
     }
 
-    public float takeDamage(float amount){
-        BHSMain.LOGGER.info("Damage taken by: " + entity.getName() + " on " + identifier + " Amount: " + amount);
+    public float takeDamage(float amount, DamageSource source){
+        //armor
+        //modifyAppliedDamage
+        //Absobtion
+
         float sub = health - amount;
         health = Math.max(0, sub);
-        BHSMain.LOGGER.info("Health of " + identifier + " is: " + health);
 
         return Math.max(0, -sub);
     }
@@ -36,6 +44,10 @@ public abstract class BodyPart {
         float add = health + amount;
         health = Math.min(maxHealth, add);
         return add - health;
+    }
+
+    public ItemStack getAffectedArmor(){
+        return armorList.get(armorSlot);
     }
 
     public void setHealth(float health) { this.health = health;}
@@ -51,7 +63,7 @@ public abstract class BodyPart {
     public Entity getEntity() {
         return entity;
     }
-    public void setEntity(Entity entity) {
+    public void setEntity(LivingEntity entity) {
         this.entity = entity;
     }
     public Identifier getIdentifier() {

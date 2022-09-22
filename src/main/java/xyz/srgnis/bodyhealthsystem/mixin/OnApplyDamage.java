@@ -15,10 +15,12 @@ public class OnApplyDamage {
     //The method signature is needed to be able to access the source parameter.
     @ModifyVariable(method = "applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public float handleHealthChange(float amount, DamageSource source) {
-        PlayerBody body = ((PlayerBodyProvider)this).getBody();
-        body.applyDamageBySource(amount, source);
-        body.updateHealth();
-        ServerNetworking.syncBody((PlayerEntity)(Object)this);
+        if (!((PlayerEntity) (Object)this).isInvulnerableTo(source)) {
+            PlayerBody body = ((PlayerBodyProvider)this).getBody();
+            body.applyDamageBySource(amount, source);
+            body.updateHealth();
+            ServerNetworking.syncBody((PlayerEntity)(Object)this);
+        }
         return 0;
     }
 }

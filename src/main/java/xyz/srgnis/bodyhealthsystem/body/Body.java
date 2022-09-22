@@ -55,55 +55,55 @@ public abstract class Body {
 
     public void applyDamageBySource(float amount, DamageSource source){
         //Here we se the default way
-        applyDamageLocalRandom(amount);
+        applyDamageLocalRandom(amount, source);
     }
 
     //Applies the damage to a single part
-    public void applyDamageLocal(float amount, BodyPart part){
-        part.takeDamage(amount);
+    public void applyDamageLocal(float amount, DamageSource source, BodyPart part){
+        part.takeDamage(amount, source);
     }
 
     //Applies the damage to a random part
-    public void applyDamageLocalRandom(float amount){
-        getParts().get(entity.getRandom().nextInt(parts.size())).takeDamage(amount);
+    public void applyDamageLocalRandom(float amount, DamageSource source){
+        getParts().get(entity.getRandom().nextInt(parts.size())).takeDamage(amount, source);
     }
 
     //Splits the damage into all parts
-    public void applyDamageGeneral(float amount){ applyDamageList(amount, getParts()); }
+    public void applyDamageGeneral(float amount, DamageSource source){ applyDamageList(amount, source, getParts()); }
 
     //Randomly splits the damage into all parts
-    public void applyDamageGeneralRandom(float amount){ applyDamageListRandom(amount, getParts()); }
+    public void applyDamageGeneralRandom(float amount, DamageSource source){ applyDamageListRandom(amount, source, getParts()); }
 
     //Splits the damage into list of parts
-    public void applyDamageList(float amount, List<BodyPart> parts){
+    public void applyDamageList(float amount, DamageSource source, List<BodyPart> parts){
         float split_amount = amount/parts.size();
 
         for(BodyPart bodyPart : parts){
-            bodyPart.takeDamage(split_amount);
+            bodyPart.takeDamage(split_amount, source);
         }
     }
 
     //Randomly splits the damage into list of parts
-    public void applyDamageListRandom(float amount, List<BodyPart> parts){
+    public void applyDamageListRandom(float amount, DamageSource source, List<BodyPart> parts){
         List<Float> damages = Utils.n_random(amount, parts.size());
 
         int i = 0;
         for(BodyPart bodyPart : parts){
-            bodyPart.takeDamage(damages.get(i));
+            bodyPart.takeDamage(damages.get(i), source);
             i++;
         }
     }
 
     //Splits the damage into a random list of parts
-    public void applyDamageRandomList(float amount){
+    public void applyDamageRandomList(float amount, DamageSource source){
         List<BodyPart> randomlist = Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size() + 1));
-        applyDamageList(amount, randomlist);
+        applyDamageList(amount, source, randomlist);
     }
 
     //Randomly splits the damage into a random list of parts
-    public void applyDamageFullRandom(float amount){
+    public void applyDamageFullRandom(float amount, DamageSource source){
         List<BodyPart> randomlist = Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size() + 1));
-        applyDamageListRandom(amount,randomlist);
+        applyDamageListRandom(amount, source, randomlist);
     }
 
     public void updateHealth(){
