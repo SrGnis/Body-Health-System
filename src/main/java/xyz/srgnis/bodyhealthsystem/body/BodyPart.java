@@ -1,12 +1,16 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
+import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
+import xyz.srgnis.bodyhealthsystem.BHSMain;
 
 
 public abstract class BodyPart {
@@ -26,7 +30,12 @@ public abstract class BodyPart {
     }
 
     public float takeDamage(float amount, DamageSource source){
-        //armor
+        if (!source.bypassesArmor()) {
+            //this.damageArmor(source, amount);
+            BHSMain.LOGGER.debug("The start damage is " + amount);
+            amount = DamageUtil.getDamageLeft(amount, ((ArmorItem)getAffectedArmor().getItem()).getProtection(), (float)entity.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS));
+            BHSMain.LOGGER.debug("The resulting damage is " + amount);
+        }
         //modifyAppliedDamage
         //Absobtion
 
