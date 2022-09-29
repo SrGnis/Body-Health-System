@@ -1,9 +1,13 @@
 package xyz.srgnis.bodyhealthsystem.util;
 
+import net.minecraft.item.ArmorItem;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import static xyz.srgnis.bodyhealthsystem.constants.ArmorSlots.*;
 
 public class Utils {
     public static List<Float> n_random(float total, float size) {
@@ -32,5 +36,21 @@ public class Utils {
     public static <T> List<T> random_sublist(List<T> list, int newSize){
         Collections.shuffle(list);
         return list.subList(0, newSize);
+    }
+
+    public static float modifyProtection(ArmorItem armorItem, int slot){
+        //TODO
+        float armor = armorItem.getProtection();
+        switch (slot){
+            case HELMET:
+                break;
+            case CHESTPLATE:
+                break;
+            case LEGGINGS:
+                break;
+            case BOOTS:
+                break;
+        }
+        return 0;
     }
 }

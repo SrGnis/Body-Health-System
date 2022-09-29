@@ -30,11 +30,14 @@ public abstract class BodyPart {
     }
 
     public float takeDamage(float amount, DamageSource source){
-        if (!source.bypassesArmor()) {
-            //this.damageArmor(source, amount);
-            BHSMain.LOGGER.debug("The start damage is " + amount);
-            amount = DamageUtil.getDamageLeft(amount, ((ArmorItem)getAffectedArmor().getItem()).getProtection(), (float)entity.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS));
-            BHSMain.LOGGER.debug("The resulting damage is " + amount);
+        if(getAffectedArmor().getItem() instanceof ArmorItem) {
+            if (!source.bypassesArmor() || true) {
+                ArmorItem armorItem = ((ArmorItem) getAffectedArmor().getItem());
+                //this.damageArmor(source, amount);
+                BHSMain.LOGGER.info("The start damage is " + amount);
+                amount = DamageUtil.getDamageLeft(amount, armorItem.getProtection(), armorItem.getToughness());
+                BHSMain.LOGGER.info("The resulting damage is " + amount);
+            }
         }
         //modifyAppliedDamage
         //Absobtion

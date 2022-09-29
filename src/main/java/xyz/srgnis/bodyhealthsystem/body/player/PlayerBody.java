@@ -60,7 +60,6 @@ public class PlayerBody extends Body {
 
     //Progressive application of the damage from foot to torso
     public void applyFallDamage(float amount, DamageSource source){
-        //TODO this is wrong two remainigs is needed
         amount = amount/2;
         float remaining;
         remaining = this.getPart(PlayerBodyParts.RIGHT_FOOT).takeDamage(amount, source);

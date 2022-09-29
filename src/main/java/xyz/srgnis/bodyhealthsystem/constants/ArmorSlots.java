@@ -1,8 +1,8 @@
 package xyz.srgnis.bodyhealthsystem.constants;
 
 public class ArmorSlots {
-        public static int BOOTS = 0;
-        public static int LEGGINGS = 1;
-        public static int CHESTPLATE = 2;
-        public static int HELMET = 3;
+        public static final int BOOTS = 0;
+        public static final int LEGGINGS = 1;
+        public static final int CHESTPLATE = 2;
+        public static final int HELMET = 3;
 }
