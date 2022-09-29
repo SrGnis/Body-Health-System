@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
+import xyz.srgnis.bodyhealthsystem.util.Utils;
 
 
 public abstract class BodyPart {
@@ -31,11 +32,11 @@ public abstract class BodyPart {
 
     public float takeDamage(float amount, DamageSource source){
         if(getAffectedArmor().getItem() instanceof ArmorItem) {
-            if (!source.bypassesArmor() || true) {
+            if (!source.bypassesArmor()) {
                 ArmorItem armorItem = ((ArmorItem) getAffectedArmor().getItem());
-                //this.damageArmor(source, amount);
+                //TODO: this.damageArmor(source, amount);
                 BHSMain.LOGGER.info("The start damage is " + amount);
-                amount = DamageUtil.getDamageLeft(amount, armorItem.getProtection(), armorItem.getToughness());
+                amount = DamageUtil.getDamageLeft(amount, Utils.modifyProtection(armorItem,armorSlot), Utils.modifyToughness(armorItem,armorSlot));
                 BHSMain.LOGGER.info("The resulting damage is " + amount);
             }
         }
