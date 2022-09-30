@@ -8,7 +8,8 @@
     "OnPlayerJoinMixin",
     "SaveBodyMixin",
     "OnHealMixin",
-    "NaturalRegenMixin"
+    "NaturalRegenMixin",
+    "ModifyAppliedDamageInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

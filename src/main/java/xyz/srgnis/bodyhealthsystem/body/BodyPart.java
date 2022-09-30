@@ -5,12 +5,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
+import xyz.srgnis.bodyhealthsystem.mixin.ModifyAppliedDamageInvoker;
 import xyz.srgnis.bodyhealthsystem.util.Utils;
 
 
@@ -30,18 +33,36 @@ public abstract class BodyPart {
         this.identifier = identifier;
     }
 
+    //TODO: I don't like casting to PlayerEntity in BodyPart.takeDamage()
     public float takeDamage(float amount, DamageSource source){
+        PlayerEntity player = (PlayerEntity)entity;
+        //applyArmor
         if(getAffectedArmor().getItem() instanceof ArmorItem) {
             if (!source.bypassesArmor()) {
                 ArmorItem armorItem = ((ArmorItem) getAffectedArmor().getItem());
-                //TODO: this.damageArmor(source, amount);
-                BHSMain.LOGGER.info("The start damage is " + amount);
+                player.getInventory().damageArmor(source,amount,new int[]{armorSlot});
                 amount = DamageUtil.getDamageLeft(amount, Utils.modifyProtection(armorItem,armorSlot), Utils.modifyToughness(armorItem,armorSlot));
-                BHSMain.LOGGER.info("The resulting damage is " + amount);
             }
         }
-        //modifyAppliedDamage
-        //Absobtion
+        //TODO: The protection enchantment is applied globally, is this ok?
+        float f = amount = ((ModifyAppliedDamageInvoker)entity).invokeModifyAppliedDamage(source, amount);
+
+        //Copied from PlayerEntity.applyDamage
+        amount = Math.max(amount - entity.getAbsorptionAmount(), 0.0f);
+        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - (f - amount));
+        float g = f - amount;
+        if (g > 0.0f && g < 3.4028235E37f) {
+            player.increaseStat(Stats.DAMAGE_ABSORBED, Math.round(g * 10.0f));
+        }
+        if (amount == 0.0f) {
+            return amount;
+        }
+        player.addExhaustion(source.getExhaustion());
+        float h = entity.getHealth();
+        player.getDamageTracker().onDamage(source, h, amount);
+        if (amount < 3.4028235E37f) {
+            player.increaseStat(Stats.DAMAGE_TAKEN, Math.round(amount * 10.0f));
+        }
 
         float sub = health - amount;
         health = Math.max(0, sub);
