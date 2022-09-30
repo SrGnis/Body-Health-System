@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
+import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
 import xyz.srgnis.bodyhealthsystem.mixin.ModifyAppliedDamageInvoker;
 import xyz.srgnis.bodyhealthsystem.util.Utils;
@@ -21,9 +22,6 @@ public abstract class BodyPart {
     private float health;
     private LivingEntity entity;
     private Identifier identifier;
-
-    private final Body body;
-
     protected int armorSlot;
     protected DefaultedList<ItemStack> armorList;
 
@@ -32,7 +30,7 @@ public abstract class BodyPart {
         this.health = health;
         this.entity = entity;
         this.identifier = identifier;
-        this.body = ((PlayerBodyProvider)entity).getBody();
+        //TODO: add body to parts
     }
 
     //TODO: I don't like casting to PlayerEntity in BodyPart.takeDamage()
@@ -89,7 +87,7 @@ public abstract class BodyPart {
 
     public void setHealth(float health) {
         this.health = health;
-        body.checkNoCritical(this);
+        ((PlayerBodyProvider)entity).getBody().checkNoCritical(this);
     }
     public float getHealth() {
         return health;
