@@ -3,7 +3,6 @@ package xyz.srgnis.bodyhealthsystem.body;
 import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
@@ -12,7 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
+import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
 import xyz.srgnis.bodyhealthsystem.mixin.ModifyAppliedDamageInvoker;
 import xyz.srgnis.bodyhealthsystem.util.Utils;
 
@@ -23,6 +22,8 @@ public abstract class BodyPart {
     private LivingEntity entity;
     private Identifier identifier;
 
+    private final Body body;
+
     protected int armorSlot;
     protected DefaultedList<ItemStack> armorList;
 
@@ -31,6 +32,7 @@ public abstract class BodyPart {
         this.health = health;
         this.entity = entity;
         this.identifier = identifier;
+        this.body = ((PlayerBodyProvider)entity).getBody();
     }
 
     //TODO: I don't like casting to PlayerEntity in BodyPart.takeDamage()
@@ -65,18 +67,19 @@ public abstract class BodyPart {
         }
 
         float sub = health - amount;
-        health = Math.max(0, sub);
+        setHealth(Math.max(0, sub));
 
         return Math.max(0, -sub);
     }
 
     public void heal(){
-        health = maxHealth;
+        setHealth(maxHealth);
     }
 
     public float heal(float amount){
         float add = health + amount;
-        health = Math.min(maxHealth, add);
+        setHealth(Math.min(maxHealth, add));
+
         return add - health;
     }
 
@@ -84,7 +87,10 @@ public abstract class BodyPart {
         return armorList.get(armorSlot);
     }
 
-    public void setHealth(float health) { this.health = health;}
+    public void setHealth(float health) {
+        this.health = health;
+        body.checkNoCritical(this);
+    }
     public float getHealth() {
         return health;
     }

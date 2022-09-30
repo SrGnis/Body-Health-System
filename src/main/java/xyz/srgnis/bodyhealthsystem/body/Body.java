@@ -13,7 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class Body {
-    private final HashMap<Identifier, BodyPart> parts = new HashMap<>();
+    protected final HashMap<Identifier, BodyPart> parts = new HashMap<>();
+    protected HashMap<Identifier, BodyPart> noCriticalParts = new HashMap<>();
     protected LivingEntity entity;
 
     public void addPart(Identifier identifier, BodyPart part){
@@ -42,11 +43,15 @@ public abstract class Body {
     }
 
     public void heal(float amount){
-        ArrayList<BodyPart> parts_l = getParts();
-        Collections.shuffle(parts_l);
-        for(BodyPart part : parts_l){
-            if(amount <= 0){break;}
-            amount = part.heal(amount);
+        if(amount > 0) {
+            ArrayList<BodyPart> parts_l = getParts();
+            Collections.shuffle(parts_l);
+            for (BodyPart part : parts_l) {
+                if (amount <= 0) {
+                    break;
+                }
+                amount = part.heal(amount);
+            }
         }
     }
     public void heal(float amount, BodyPart part){
@@ -116,6 +121,14 @@ public abstract class Body {
         entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ) );
     }
 
+    public void checkNoCritical(BodyPart part){
+        if(part.getHealth() > 0) {
+            noCriticalParts.putIfAbsent(part.getIdentifier(), part);
+        }else{
+            noCriticalParts.remove(part.getIdentifier());
+        }
+    }
+
     public void writeToNbt (NbtCompound nbt){
         NbtCompound new_nbt = new NbtCompound();
         for(BodyPart part : getParts()){
@@ -123,13 +136,19 @@ public abstract class Body {
         }
         nbt.put(BHSMain.MOD_ID, new_nbt);
     }
+
     //TODO: Is this the best way of handling not found parts?
     public void readFromNbt (NbtCompound nbt) {
         NbtCompound bodyNbt = nbt.getCompound(BHSMain.MOD_ID);
         if (!bodyNbt.isEmpty()) {
+            noCriticalParts.clear();
             for (Identifier partId : getPartsIdentifiers()) {
                 if(!bodyNbt.getCompound(partId.toString()).isEmpty()) {
-                    getPart(partId).readFromNbt(bodyNbt.getCompound(partId.toString()));
+                    BodyPart part = getPart(partId);
+                    part.readFromNbt(bodyNbt.getCompound(partId.toString()));
+                    if(part.getHealth()>0){
+                        noCriticalParts.put(part.getIdentifier(), part);
+                    }
                 }
             }
         }

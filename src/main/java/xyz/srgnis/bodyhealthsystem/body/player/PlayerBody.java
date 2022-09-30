@@ -7,19 +7,21 @@ import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.parts.*;
+import static xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts.*;
 
 public class PlayerBody extends Body {
 
     public PlayerBody(PlayerEntity player) {
         this.entity = player;
-        this.addPart(PlayerBodyParts.HEAD, new HeadBodyPart(player));
-        this.addPart(PlayerBodyParts.TORSO, new TorsoBodyPart(player));
-        this.addPart(PlayerBodyParts.LEFT_ARM, new ArmBodyPart(BodySide.LEFT,player));
-        this.addPart(PlayerBodyParts.RIGHT_ARM, new ArmBodyPart(BodySide.RIGHT,player));
-        this.addPart(PlayerBodyParts.LEFT_FOOT, new FootBodyPart(BodySide.LEFT,player));
-        this.addPart(PlayerBodyParts.RIGHT_FOOT, new FootBodyPart(BodySide.RIGHT,player));
-        this.addPart(PlayerBodyParts.LEFT_LEG, new LegBodyPart(BodySide.LEFT,player));
-        this.addPart(PlayerBodyParts.RIGHT_LEG, new LegBodyPart(BodySide.RIGHT,player));
+        this.addPart(HEAD, new HeadBodyPart(player));
+        this.addPart(TORSO, new TorsoBodyPart(player));
+        this.addPart(LEFT_ARM, new ArmBodyPart(BodySide.LEFT,player));
+        this.addPart(RIGHT_ARM, new ArmBodyPart(BodySide.RIGHT,player));
+        this.addPart(LEFT_FOOT, new FootBodyPart(BodySide.LEFT,player));
+        this.addPart(RIGHT_FOOT, new FootBodyPart(BodySide.RIGHT,player));
+        this.addPart(LEFT_LEG, new LegBodyPart(BodySide.LEFT,player));
+        this.addPart(RIGHT_LEG, new LegBodyPart(BodySide.RIGHT,player));
+        this.noCriticalParts.putAll(this.parts);
     }
 
     @Override
@@ -44,13 +46,13 @@ public class PlayerBody extends Body {
                 break;
             case "drown":
             case "starve":
-                applyDamageLocal(amount, source, this.getPart(PlayerBodyParts.TORSO));
+                applyDamageLocal(amount, source, this.getPart(TORSO));
                 break;
             case "flyIntoWall":
             case "anvil":
             case "fallingBlock":
             case "fallingStalactite":
-                applyDamageLocal(amount, source, this.getPart(PlayerBodyParts.HEAD));
+                applyDamageLocal(amount, source, this.getPart(HEAD));
                 break;
             default:
                 applyDamageLocalRandom(amount, source);
@@ -62,13 +64,13 @@ public class PlayerBody extends Body {
     public void applyFallDamage(float amount, DamageSource source){
         amount = amount/2;
         float remaining;
-        remaining = this.getPart(PlayerBodyParts.RIGHT_FOOT).takeDamage(amount, source);
-        if(remaining > 0){remaining = this.getPart(PlayerBodyParts.RIGHT_LEG).takeDamage(remaining, source);}
-        if(remaining > 0){this.getPart(PlayerBodyParts.TORSO).takeDamage(remaining, source);}
+        remaining = this.getPart(RIGHT_FOOT).takeDamage(amount, source);
+        if(remaining > 0){remaining = this.getPart(RIGHT_LEG).takeDamage(remaining, source);}
+        if(remaining > 0){this.getPart(TORSO).takeDamage(remaining, source);}
 
-        remaining = this.getPart(PlayerBodyParts.LEFT_FOOT).takeDamage(amount, source);
-        if(remaining > 0){remaining = this.getPart(PlayerBodyParts.LEFT_LEG).takeDamage(remaining, source);}
-        if(remaining > 0){this.getPart(PlayerBodyParts.TORSO).takeDamage(remaining, source);}
+        remaining = this.getPart(LEFT_FOOT).takeDamage(amount, source);
+        if(remaining > 0){remaining = this.getPart(LEFT_LEG).takeDamage(remaining, source);}
+        if(remaining > 0){this.getPart(TORSO).takeDamage(remaining, source);}
     }
 
     @Override
@@ -83,6 +85,6 @@ public class PlayerBody extends Body {
     }
 
     public int isAlive(){
-        return getPart(PlayerBodyParts.TORSO).getHealth() <= 0 || getPart(PlayerBodyParts.HEAD).getHealth() <= 0 ? 0 : 1;
+        return getPart(TORSO).getHealth() <= 0 || getPart(HEAD).getHealth() <= 0 ? 0 : 1;
     }
 }
