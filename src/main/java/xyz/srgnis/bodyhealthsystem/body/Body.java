@@ -35,6 +35,12 @@ public abstract class Body {
     public ArrayList<Identifier> getPartsIdentifiers(){
         return new ArrayList<>(parts.keySet());
     }
+    public ArrayList<BodyPart> getNoCriticalParts(){
+        return new ArrayList<>(noCriticalParts.values());
+    }
+    public ArrayList<Identifier> getNoCriticalIdentifiers(){
+        return new ArrayList<>(noCriticalParts.keySet());
+    }
 
     public void healAll(){
         for(BodyPart part : getParts()){
@@ -63,6 +69,7 @@ public abstract class Body {
         applyDamageLocalRandom(amount, source);
     }
 
+    //TODO: remaining no critical part damage application
     //Applies the damage to a single part
     public void applyDamageLocal(float amount, DamageSource source, BodyPart part){
         part.takeDamage(amount, source);
@@ -70,7 +77,7 @@ public abstract class Body {
 
     //Applies the damage to a random part
     public void applyDamageLocalRandom(float amount, DamageSource source){
-        getParts().get(entity.getRandom().nextInt(parts.size())).takeDamage(amount, source);
+        getNoCriticalParts().get(entity.getRandom().nextInt(noCriticalParts.size())).takeDamage(amount, source);
     }
 
     //Splits the damage into all parts
@@ -101,13 +108,13 @@ public abstract class Body {
 
     //Splits the damage into a random list of parts
     public void applyDamageRandomList(float amount, DamageSource source){
-        List<BodyPart> randomlist = Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size() + 1));
+        List<BodyPart> randomlist = Utils.random_sublist(getNoCriticalParts(), entity.getRandom().nextInt(getNoCriticalParts().size() + 1));
         applyDamageList(amount, source, randomlist);
     }
 
     //Randomly splits the damage into a random list of parts
     public void applyDamageFullRandom(float amount, DamageSource source){
-        List<BodyPart> randomlist = Utils.random_sublist(getParts(), entity.getRandom().nextInt(parts.size() + 1));
+        List<BodyPart> randomlist = Utils.random_sublist(getNoCriticalParts(), entity.getRandom().nextInt(getNoCriticalParts().size() + 1));
         applyDamageListRandom(amount, source, randomlist);
     }
 
