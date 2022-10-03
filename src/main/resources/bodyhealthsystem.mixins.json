@@ -9,7 +9,8 @@
     "SaveBodyMixin",
     "OnHealMixin",
     "NaturalRegenMixin",
-    "ModifyAppliedDamageInvoker"
+    "ModifyAppliedDamageInvoker",
+    "PlayerTickMixin"
   ],
   "injectors": {
     "defaultRequire": 1

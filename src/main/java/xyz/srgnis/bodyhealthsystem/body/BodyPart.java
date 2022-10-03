@@ -81,6 +81,11 @@ public abstract class BodyPart {
         return add - health;
     }
 
+    //TODO: applyCriticalEffect in BodyPart is ok?
+    public void applyCriticalEffect(){
+
+    }
+
     public ItemStack getAffectedArmor(){
         return armorList.get(armorSlot);
     }
@@ -98,7 +103,7 @@ public abstract class BodyPart {
     public void setMaxHealth(float maxHealth) {
         this.maxHealth = maxHealth;
     }
-    public Entity getEntity() {
+    public LivingEntity getEntity() {
         return entity;
     }
     public void setEntity(LivingEntity entity) {
