@@ -15,8 +15,6 @@ public class PlayerTickMixin {
     public void onTick(CallbackInfo ci){
         PlayerEntity player = (PlayerEntity) (Object) this;
         PlayerBody body = ((PlayerBodyProvider)player).getBody();
-        for (BodyPart part : body.getParts()) {
-            part.applyCriticalEffect();
-        }
+        body.applyCriticalPartsEffect();
     }
 }

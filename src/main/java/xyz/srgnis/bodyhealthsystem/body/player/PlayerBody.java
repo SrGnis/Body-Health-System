@@ -1,6 +1,9 @@
 package xyz.srgnis.bodyhealthsystem.body.player;
 
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
@@ -86,5 +89,45 @@ public class PlayerBody extends Body {
 
     public int isAlive(){
         return getPart(TORSO).getHealth() <= 0 || getPart(HEAD).getHealth() <= 0 ? 0 : 1;
+    }
+
+    //TODO: make clear why subtract from amplifier
+    public void applyCriticalPartsEffect(){
+        int amplifier;
+        //legs and foot
+        amplifier = getAmplifier(getPart(RIGHT_FOOT));
+        amplifier += getAmplifier(getPart(LEFT_FOOT));
+        amplifier += getAmplifier(getPart(RIGHT_LEG));
+        amplifier += getAmplifier(getPart(LEFT_LEG));
+        applyStatusEffectWithAmplifier(StatusEffects.SLOWNESS, amplifier-1);
+
+        //arms
+        amplifier = getAmplifier(getPart(RIGHT_ARM));
+        amplifier += getAmplifier(getPart(LEFT_ARM));
+        applyStatusEffectWithAmplifier(StatusEffects.MINING_FATIGUE, amplifier-1);
+
+        //torso
+        amplifier = getAmplifier(getPart(TORSO));
+        applyStatusEffectWithAmplifier(StatusEffects.WEAKNESS, amplifier-1);
+    }
+
+    //TODO: pass threshold as a parameter and only one threshold
+    //TODO: Util function? More efficient add variables with threshold values
+    public int getAmplifier(BodyPart part){
+        if(part.getHealth() == 0){
+            return 1;
+        }
+        return 0;
+    }
+
+    public void applyStatusEffectWithAmplifier(StatusEffect effect, int amplifier){
+        if(amplifier > 0){
+            StatusEffectInstance s = entity.getStatusEffect(effect);
+            if(s == null){
+                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
+            }else if(s.getDuration()<= 5 || s.getAmplifier() != amplifier){
+                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
+            }
+        }
     }
 }

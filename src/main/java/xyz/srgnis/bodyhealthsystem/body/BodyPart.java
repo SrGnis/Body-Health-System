@@ -81,11 +81,6 @@ public abstract class BodyPart {
         return add - health;
     }
 
-    //TODO: applyCriticalEffect in BodyPart is ok?
-    public void applyCriticalEffect(){
-
-    }
-
     public ItemStack getAffectedArmor(){
         return armorList.get(armorSlot);
     }

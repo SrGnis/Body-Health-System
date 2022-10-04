@@ -29,15 +29,4 @@ public class FootBodyPart extends BodyPart {
     public BodySide getSide(){
         return side;
     }
-    @Override
-    public void applyCriticalEffect(){
-        if(getHealth()==0){
-            StatusEffectInstance s = getEntity().getStatusEffect(StatusEffects.SLOWNESS);
-            if(s == null){
-                getEntity().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 40, 4));
-            }else if(s.getDuration()<= 5){
-                s.upgrade(new StatusEffectInstance(StatusEffects.SLOWNESS, 40, 4));
-            }
-        }
-    }
 }
