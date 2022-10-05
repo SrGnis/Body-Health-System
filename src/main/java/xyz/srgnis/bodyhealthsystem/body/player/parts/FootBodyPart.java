@@ -24,6 +24,7 @@ public class FootBodyPart extends BodyPart {
         this.side = side;
         this.armorSlot = ArmorSlots.BOOTS;
         this.armorList = entity.getInventory().armor;
+        this.criticalThreshold = 0;
     }
 
     public BodySide getSide(){

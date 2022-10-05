@@ -20,6 +20,8 @@ import xyz.srgnis.bodyhealthsystem.util.Utils;
 public abstract class BodyPart {
     private float maxHealth;
     private float health;
+
+    protected float criticalThreshold;
     private LivingEntity entity;
     private Identifier identifier;
     protected int armorSlot;
@@ -109,6 +111,10 @@ public abstract class BodyPart {
     }
     public void setIdentifier(Identifier identifier) {
         this.identifier = identifier;
+    }
+
+    public float getCriticalThreshold() {
+        return criticalThreshold;
     }
 
     public void writeToNbt(NbtCompound nbt){

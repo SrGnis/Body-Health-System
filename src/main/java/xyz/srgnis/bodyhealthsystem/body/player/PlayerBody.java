@@ -32,9 +32,8 @@ public class PlayerBody extends Body {
         if(source==null){
             super.applyDamageBySource(amount,source);
         }
-        //TODO: apply armor protection
         //TODO: handle more damage sources
-        //TODO: starvation over powered?
+        //TODO: starvation overpowered?
         switch (source.getName()){
             case "fall":
             case "hotFloor":
@@ -91,41 +90,46 @@ public class PlayerBody extends Body {
         return getPart(TORSO).getHealth() <= 0 || getPart(HEAD).getHealth() <= 0 ? 0 : 1;
     }
 
-    //TODO: make clear why subtract from amplifier
+    //TODO: blindness on head critical?
     public void applyCriticalPartsEffect(){
-        int amplifier;
-        //legs and foot
-        amplifier = getAmplifier(getPart(RIGHT_FOOT));
-        amplifier += getAmplifier(getPart(LEFT_FOOT));
-        amplifier += getAmplifier(getPart(RIGHT_LEG));
-        amplifier += getAmplifier(getPart(LEFT_LEG));
-        applyStatusEffectWithAmplifier(StatusEffects.SLOWNESS, amplifier-1);
+        if(true) {//TODO: Morphine applied
+            int amplifier;
+            //legs and foot
+            amplifier = -1;
+            amplifier += getAmplifier(getPart(RIGHT_FOOT));
+            amplifier += getAmplifier(getPart(LEFT_FOOT));
+            amplifier += getAmplifier(getPart(RIGHT_LEG));
+            amplifier += getAmplifier(getPart(LEFT_LEG));
+            applyStatusEffectWithAmplifier(StatusEffects.SLOWNESS, amplifier);
 
-        //arms
-        amplifier = getAmplifier(getPart(RIGHT_ARM));
-        amplifier += getAmplifier(getPart(LEFT_ARM));
-        applyStatusEffectWithAmplifier(StatusEffects.MINING_FATIGUE, amplifier-1);
+            //arms
+            amplifier = -1;
+            amplifier += getAmplifier(getPart(RIGHT_ARM));
+            amplifier += getAmplifier(getPart(LEFT_ARM));
+            applyStatusEffectWithAmplifier(StatusEffects.MINING_FATIGUE, amplifier);
 
-        //torso
-        amplifier = getAmplifier(getPart(TORSO));
-        applyStatusEffectWithAmplifier(StatusEffects.WEAKNESS, amplifier-1);
+            //torso
+            amplifier = -1;
+            amplifier += getAmplifier(getPart(TORSO));
+            amplifier += getAmplifier(getPart(HEAD));
+            applyStatusEffectWithAmplifier(StatusEffects.WEAKNESS, amplifier);
+        }
     }
 
-    //TODO: pass threshold as a parameter and only one threshold
-    //TODO: Util function? More efficient add variables with threshold values
+    //TODO: Utility function?
     public int getAmplifier(BodyPart part){
-        if(part.getHealth() == 0){
+        if(part.getHealth() <= part.getCriticalThreshold()){
             return 1;
         }
         return 0;
     }
 
     public void applyStatusEffectWithAmplifier(StatusEffect effect, int amplifier){
-        if(amplifier > 0){
+        if(amplifier >= 0){
             StatusEffectInstance s = entity.getStatusEffect(effect);
             if(s == null){
                 entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
-            }else if(s.getDuration()<= 5 || s.getAmplifier() != amplifier){
+            }else if(s.getDuration() <= 5 || s.getAmplifier() != amplifier){
                 entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
             }
         }

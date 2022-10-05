@@ -16,5 +16,6 @@ public class HeadBodyPart extends BodyPart {
         super(maxHealth, health, entity, PlayerBodyParts.HEAD);
         this.armorSlot = ArmorSlots.HELMET;
         this.armorList = entity.getInventory().armor;
+        this.criticalThreshold = maxHealth/3;
     }
 }

@@ -22,6 +22,7 @@ public class ArmBodyPart extends BodyPart {
         this.side = side;
         this.armorSlot = ArmorSlots.CHESTPLATE;
         this.armorList = entity.getInventory().armor;
+        this.criticalThreshold = 0;
 
     }
 
