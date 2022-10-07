@@ -8,8 +8,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class BandageItem extends Item {
-    public BandageItem(Settings settings) {
+public class PlasterItem extends Item {
+    public PlasterItem(Settings settings) {
         super(settings);
     }
 
