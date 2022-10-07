@@ -10,6 +10,9 @@ import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.parts.*;
+import xyz.srgnis.bodyhealthsystem.effects.MorphineStatusEffect;
+import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
+
 import static xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts.*;
 
 public class PlayerBody extends Body {
@@ -92,7 +95,7 @@ public class PlayerBody extends Body {
 
     //TODO: blindness on head critical?
     public void applyCriticalPartsEffect(){
-        if(true) {//TODO: Morphine applied
+        if(entity.getStatusEffect(ModStatusEffects.MORPHINE_EFFECT) == null) {
             int amplifier;
             //legs and foot
             amplifier = -1;

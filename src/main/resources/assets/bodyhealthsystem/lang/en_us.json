@@ -1,4 +1,6 @@
 {
   "item.bodyhealthsystem.plaster": "Plaster",
-  "itemGroup.bodyhealthsystem.general": "Body Health System"
+  "itemGroup.bodyhealthsystem.general": "Body Health System",
+  "effect.bodyhealthsystem.morphine_effect": "Morphine",
+  "item.bodyhealthsystem.morphine": "Morphine"
 }

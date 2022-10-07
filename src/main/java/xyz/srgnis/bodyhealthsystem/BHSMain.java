@@ -13,6 +13,7 @@ import xyz.srgnis.bodyhealthsystem.command.DevCommands;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
 import xyz.srgnis.bodyhealthsystem.registry.ModItems;
+import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
 public class BHSMain implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
@@ -33,6 +34,7 @@ public class BHSMain implements ModInitializer {
 		ServerNetworking.initialize();
 		DevCommands.initialize();
 		ModItems.registerItems();
+		ModStatusEffects.registerStatusEffects();
 
 	}
 }
