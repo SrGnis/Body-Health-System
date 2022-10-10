@@ -10,16 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.srgnis.bodyhealthsystem.client.hud.BHSHud;
 import xyz.srgnis.bodyhealthsystem.command.DevCommands;
+import xyz.srgnis.bodyhealthsystem.config.ConfigInstance;
+import xyz.srgnis.bodyhealthsystem.config.ModConfig;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
 import xyz.srgnis.bodyhealthsystem.registry.ModItems;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
 public class BHSMain implements ModInitializer {
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-
 	public static final String MOD_ID = "bodyhealthsystem";
 	public  static Identifier MOD_IDENTIFIER = new Identifier(BHSMain.MOD_ID);
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -27,8 +25,11 @@ public class BHSMain implements ModInitializer {
 			new Identifier(MOD_ID, "general"))
 			.icon(() -> new ItemStack(ModItems.PLASTER_ITEM))
 			.build();
+	public static ConfigInstance CONFIG;
 	@Override
 	public void onInitialize() {
+		ModConfig.setup(MOD_ID);
+		CONFIG = ModConfig.init();
 		HudRenderCallback.EVENT.register(new BHSHud());
 		ClientNetworking.initialize();
 		ServerNetworking.initialize();

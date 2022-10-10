@@ -7,9 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static xyz.srgnis.bodyhealthsystem.config.FakeConfig.FOOT_TOUGH_OFFSET;
+import static xyz.srgnis.bodyhealthsystem.BHSMain.CONFIG;
 import static xyz.srgnis.bodyhealthsystem.constants.ArmorSlots.*;
-import static xyz.srgnis.bodyhealthsystem.config.FakeConfig.*;
 
 public class Utils {
     public static List<Float> n_random(float total, float size) {
@@ -44,20 +43,20 @@ public class Utils {
         float armor = armorItem.getProtection();
         switch (slot){
             case HELMET:
-                armor *= HEAD_ARMOR_MULT;
-                armor += HEAD_ARMOR_OFFSET;
+                armor *= CONFIG.HEAD_ARMOR_MULT;
+                armor += CONFIG.HEAD_ARMOR_OFFSET;
                 break;
             case CHESTPLATE:
-                armor *= TORSO_ARMOR_MULT;
-                armor += TORSO_ARMOR_OFFSET;
+                armor *= CONFIG.TORSO_ARMOR_MULT;
+                armor += CONFIG.TORSO_ARMOR_OFFSET;
                 break;
             case LEGGINGS:
-                armor *= LEG_ARMOR_MULT;
-                armor += LEG_ARMOR_OFFSET;
+                armor *= CONFIG.LEG_ARMOR_MULT;
+                armor += CONFIG.LEG_ARMOR_OFFSET;
                 break;
             case BOOTS:
-                armor *= FOOT_ARMOR_MULT;
-                armor += FOOT_ARMOR_OFFSET;
+                armor *= CONFIG.FOOT_ARMOR_MULT;
+                armor += CONFIG.FOOT_ARMOR_OFFSET;
                 break;
         }
         return armor;
@@ -67,20 +66,20 @@ public class Utils {
         float toughness = armorItem.getToughness();
         switch (slot){
             case HELMET:
-                toughness *= HEAD_TOUGH_MULT;
-                toughness += HEAD_TOUGH_OFFSET;
+                toughness *= CONFIG.HEAD_TOUGH_MULT;
+                toughness += CONFIG.HEAD_TOUGH_OFFSET;
                 break;
             case CHESTPLATE:
-                toughness *= TORSO_TOUGH_MULT;
-                toughness += TORSO_TOUGH_OFFSET;
+                toughness *= CONFIG.TORSO_TOUGH_MULT;
+                toughness += CONFIG.TORSO_TOUGH_OFFSET;
                 break;
             case LEGGINGS:
-                toughness *= LEG_TOUGH_MULT;
-                toughness += LEG_TOUGH_OFFSET;
+                toughness *= CONFIG.LEG_TOUGH_MULT;
+                toughness += CONFIG.LEG_TOUGH_OFFSET;
                 break;
             case BOOTS:
-                toughness *= FOOT_TOUGH_MULT;
-                toughness += FOOT_TOUGH_OFFSET;
+                toughness *= CONFIG.FOOT_TOUGH_MULT;
+                toughness += CONFIG.FOOT_TOUGH_OFFSET;
                 break;
         }
         return toughness;

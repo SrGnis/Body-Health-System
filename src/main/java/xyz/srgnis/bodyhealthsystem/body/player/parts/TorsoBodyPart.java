@@ -5,11 +5,11 @@ import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.constants.ArmorSlots;
 
-public class TorsoBodyPart extends BodyPart {
-    private static final float defaultMaxHealth = 6;
+import static xyz.srgnis.bodyhealthsystem.BHSMain.CONFIG;
 
+public class TorsoBodyPart extends BodyPart {
     public TorsoBodyPart(PlayerEntity entity) {
-        this(defaultMaxHealth, defaultMaxHealth, entity);
+        this(CONFIG.TORSO_MAX_HEALTH, CONFIG.TORSO_MAX_HEALTH, entity);
     }
 
     public TorsoBodyPart(float maxHealth, float health, PlayerEntity entity) {

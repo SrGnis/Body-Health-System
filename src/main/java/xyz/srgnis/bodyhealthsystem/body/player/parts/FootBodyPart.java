@@ -1,22 +1,18 @@
 package xyz.srgnis.bodyhealthsystem.body.player.parts;
 
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.constants.ArmorSlots;
 
-public class FootBodyPart extends BodyPart {
-    private static final float defaultMaxHealth = 4;
+import static xyz.srgnis.bodyhealthsystem.BHSMain.CONFIG;
 
+public class FootBodyPart extends BodyPart {
     private final BodySide side;
 
     public FootBodyPart(BodySide side, PlayerEntity entity) {
-        this(side, defaultMaxHealth, defaultMaxHealth, entity);
+        this(side, CONFIG.FOOT_MAX_HEALTH, CONFIG.FOOT_MAX_HEALTH, entity);
     }
 
     public FootBodyPart(BodySide side, float maxHealth, float health, PlayerEntity entity) {

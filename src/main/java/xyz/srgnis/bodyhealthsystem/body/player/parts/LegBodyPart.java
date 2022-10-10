@@ -1,19 +1,18 @@
 package xyz.srgnis.bodyhealthsystem.body.player.parts;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.constants.ArmorSlots;
 
-public class LegBodyPart extends BodyPart {
-    private static final float defaultMaxHealth = 4;
+import static xyz.srgnis.bodyhealthsystem.BHSMain.CONFIG;
 
+public class LegBodyPart extends BodyPart {
     private final BodySide side;
 
     public LegBodyPart(BodySide side, PlayerEntity entity) {
-        this(side, defaultMaxHealth, defaultMaxHealth, entity);
+        this(side, CONFIG.LEG_MAX_HEALTH, CONFIG.LEG_MAX_HEALTH, entity);
     }
 
     public LegBodyPart(BodySide side, float maxHealth, float health, PlayerEntity entity) {

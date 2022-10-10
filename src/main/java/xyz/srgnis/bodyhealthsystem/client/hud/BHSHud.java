@@ -24,7 +24,7 @@ public class BHSHud implements HudRenderCallback {
         PlayerBodyProvider player = (PlayerBodyProvider)MinecraftClient.getInstance().player;
 
         if (player != null) {
-            int color = 0;
+            int color;
             matrixStack.push();
             //head
             color = selectHealthColor(player.getBody().getPart(PlayerBodyParts.HEAD));
@@ -62,7 +62,7 @@ public class BHSHud implements HudRenderCallback {
 
     public int selectHealthColor(BodyPart part){
         float percent = part.getHealth()/part.getMaxHealth();
-        if(percent==1){
+        if(percent>=1){
             return dark_green;
         }
         if(percent>0.75){

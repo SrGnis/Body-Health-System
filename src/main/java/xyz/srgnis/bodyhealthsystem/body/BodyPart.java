@@ -1,7 +1,6 @@
 package xyz.srgnis.bodyhealthsystem.body;
 
 import net.minecraft.entity.DamageUtil;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,12 +10,11 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
 import xyz.srgnis.bodyhealthsystem.mixin.ModifyAppliedDamageInvoker;
 import xyz.srgnis.bodyhealthsystem.util.Utils;
 
-
+//TODO: Allow Override max health on write/read to nbt?
 public abstract class BodyPart {
     private float maxHealth;
     private float health;
@@ -120,13 +118,11 @@ public abstract class BodyPart {
     public void writeToNbt(NbtCompound nbt){
         NbtCompound new_nbt = new NbtCompound();
         new_nbt.putFloat("health", health);
-        new_nbt.putFloat("maxHealth", maxHealth);
         nbt.put(identifier.toString(), new_nbt);
     }
 
     public void readFromNbt(NbtCompound nbt){
         health = nbt.getFloat("health");
-        maxHealth = nbt.getFloat("maxHealth");
     }
 
     @Override
