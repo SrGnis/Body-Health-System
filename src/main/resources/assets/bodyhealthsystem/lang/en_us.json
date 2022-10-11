@@ -2,5 +2,39 @@
   "item.bodyhealthsystem.plaster": "Plaster",
   "itemGroup.bodyhealthsystem.general": "Body Health System",
   "effect.bodyhealthsystem.morphine_effect": "Morphine",
-  "item.bodyhealthsystem.morphine": "Morphine"
+  "item.bodyhealthsystem.morphine": "Morphine",
+
+  "bodyhealthsystem.midnightconfig.title": "Body Health System",
+
+  "bodyhealthsystem.midnightconfig.headMaxHealth": "Head Max Health",
+  "bodyhealthsystem.midnightconfig.torsoMaxHealth": "Torso Max Health",
+  "bodyhealthsystem.midnightconfig.legMaxHealth": "Leg Max Health",
+  "bodyhealthsystem.midnightconfig.armMaxHealth": "Arm Max Health",
+  "bodyhealthsystem.midnightconfig.footMaxHealth": "Foot Max Health",
+
+  "bodyhealthsystem.midnightconfig.headArmorMult": "Head Armor Multiplier",
+  "bodyhealthsystem.midnightconfig.torsoArmorMult": "Torso Armor Multiplier",
+  "bodyhealthsystem.midnightconfig.legArmorMult": "Leg Armor Multiplier",
+  "bodyhealthsystem.midnightconfig.footArmorMult": "Foot Armor Multiplier",
+
+  "bodyhealthsystem.midnightconfig.headArmorOffset": "Head Armor Offset",
+  "bodyhealthsystem.midnightconfig.torsoArmorOffset": "Torso Armor Offset",
+  "bodyhealthsystem.midnightconfig.legArmorOffset": "Leg Armor Offset",
+  "bodyhealthsystem.midnightconfig.footArmorOffset": "Foot Armor Offset",
+
+  "bodyhealthsystem.midnightconfig.headToughMult": "Head Toughness Multiplier",
+  "bodyhealthsystem.midnightconfig.torsoToughMult": "Torso Toughness Multiplier",
+  "bodyhealthsystem.midnightconfig.legToughMult": "Leg Toughness Multiplier",
+  "bodyhealthsystem.midnightconfig.footToughMult": "Foot Toughness Multiplier",
+
+  "bodyhealthsystem.midnightconfig.headToughOffset": "Head Toughness Offset",
+  "bodyhealthsystem.midnightconfig.torsoToughOffset": "Torso Toughness Offset",
+  "bodyhealthsystem.midnightconfig.legToughOffset": "Leg Toughness Offset",
+  "bodyhealthsystem.midnightconfig.footToughOffset": "Foot Toughness Offset",
+
+  "bodyhealthsystem.midnightconfig.comment_maxHealth": "Max Health",
+  "bodyhealthsystem.midnightconfig.comment_armorMult": "Armor Multipliers",
+  "bodyhealthsystem.midnightconfig.comment_armorOffset": "Armor Offsets",
+  "bodyhealthsystem.midnightconfig.comment_toughMult": "Toughness Multipliers",
+  "bodyhealthsystem.midnightconfig.comment_toughOffset": "Toughness Offset"
 }

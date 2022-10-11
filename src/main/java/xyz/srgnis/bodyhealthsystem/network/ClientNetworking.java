@@ -21,6 +21,8 @@ public class ClientNetworking {
             float health = buf.readFloat();
             float maxhealth = buf.readFloat();
 
+            //TODO: Add config sync at join and remove setMaxHealth on ClientNetworking.handleHealthChange
+            client.execute(() -> ((PlayerBodyProvider) client.player).getBody().getPart(id).setMaxHealth(maxhealth));
             client.execute(() -> ((PlayerBodyProvider) client.player).getBody().getPart(id).setHealth(health));
         }
     }

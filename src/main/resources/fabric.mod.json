@@ -20,7 +20,8 @@
   "entrypoints": {
     "main": [
       "xyz.srgnis.bodyhealthsystem.BHSMain"
-    ]
+    ],
+    "modmenu": [ "xyz.srgnis.bodyhealthsystem.config.ModMenuEntryPoint" ]
   },
   "mixins": [
     "bodyhealthsystem.mixins.json"

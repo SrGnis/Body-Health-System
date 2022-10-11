@@ -4,16 +4,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
+import xyz.srgnis.bodyhealthsystem.config.Config;
 import xyz.srgnis.bodyhealthsystem.constants.ArmorSlots;
-
-import static xyz.srgnis.bodyhealthsystem.BHSMain.CONFIG;
 
 public class ArmBodyPart extends BodyPart {
 
     private final BodySide side;
 
     public ArmBodyPart(BodySide side, PlayerEntity entity) {
-        this(side, CONFIG.ARM_MAX_HEALTH, CONFIG.ARM_MAX_HEALTH, entity);
+        this(side, Config.armMaxHealth, Config.armMaxHealth, entity);
     }
 
     public ArmBodyPart(BodySide side, float maxHealth, float health, PlayerEntity entity) {
