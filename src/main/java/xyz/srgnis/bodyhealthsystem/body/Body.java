@@ -125,8 +125,14 @@ public abstract class Body {
             max_health += part.getMaxHealth();
             actual_health += part.getHealth();
         }
-        entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ) );
+        if (isAlive()){
+            entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ));
+        }else {
+            entity.setHealth(0);
+        }
     }
+
+    public abstract boolean isAlive();
 
     public void checkNoCritical(BodyPart part){
         if(part.getHealth() > 0) {
@@ -135,6 +141,8 @@ public abstract class Body {
             noCriticalParts.remove(part.getIdentifier());
         }
     }
+
+    public abstract void applyCriticalPartsEffect();
 
     public void writeToNbt (NbtCompound nbt){
         NbtCompound new_nbt = new NbtCompound();

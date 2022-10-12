@@ -5,12 +5,10 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.parts.*;
-import xyz.srgnis.bodyhealthsystem.effects.MorphineStatusEffect;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
 import static xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts.*;
@@ -78,19 +76,9 @@ public class PlayerBody extends Body {
         if(remaining > 0){this.getPart(TORSO).takeDamage(remaining, source);}
     }
 
-    @Override
-    public void updateHealth(){
-        float max_health = 0;
-        float actual_health = 0;
-        for( BodyPart part : this.getParts()){
-            max_health += part.getMaxHealth();
-            actual_health += part.getHealth();
-        }
-        entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ) * isAlive() );
-    }
-
-    public int isAlive(){
-        return getPart(TORSO).getHealth() <= 0 || getPart(HEAD).getHealth() <= 0 ? 0 : 1;
+    //TODO: isAlive configurable.
+    public boolean isAlive(){
+        return getPart(TORSO).getHealth() < 0 && getPart(HEAD).getHealth() < 0;
     }
 
     //TODO: blindness on head critical?
