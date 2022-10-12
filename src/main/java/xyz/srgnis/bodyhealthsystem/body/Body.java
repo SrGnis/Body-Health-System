@@ -3,8 +3,12 @@ package xyz.srgnis.bodyhealthsystem.body;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.event.GameEvent;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
+import xyz.srgnis.bodyhealthsystem.mixin.ModifyAppliedDamageInvoker;
 import xyz.srgnis.bodyhealthsystem.util.Utils;
 
 import java.util.ArrayList;
@@ -72,12 +76,12 @@ public abstract class Body {
     //TODO: remaining no critical part damage application
     //Applies the damage to a single part
     public void applyDamageLocal(float amount, DamageSource source, BodyPart part){
-        part.takeDamage(amount, source);
+        takeDamage(amount, source, part);
     }
 
     //Applies the damage to a random part
     public void applyDamageLocalRandom(float amount, DamageSource source){
-        getNoCriticalParts().get(entity.getRandom().nextInt(noCriticalParts.size())).takeDamage(amount, source);
+        takeDamage(amount, source, getNoCriticalParts().get(entity.getRandom().nextInt(noCriticalParts.size())) );
     }
 
     //Splits the damage into all parts
@@ -91,7 +95,7 @@ public abstract class Body {
         float split_amount = amount/parts.size();
 
         for(BodyPart bodyPart : parts){
-            bodyPart.takeDamage(split_amount, source);
+            takeDamage(split_amount, source, bodyPart);
         }
     }
 
@@ -101,7 +105,7 @@ public abstract class Body {
 
         int i = 0;
         for(BodyPart bodyPart : parts){
-            bodyPart.takeDamage(damages.get(i), source);
+            takeDamage(damages.get(i), source, bodyPart);
             i++;
         }
     }
@@ -133,6 +137,33 @@ public abstract class Body {
     }
 
     public abstract boolean isAlive();
+
+    public float takeDamage(float amount, DamageSource source, BodyPart part){
+
+        amount = applyArmorToDamage(source, amount, part);
+        float f = amount = ((ModifyAppliedDamageInvoker)entity).invokeModifyAppliedDamage(source, amount);
+        amount = Math.max(amount - entity.getAbsorptionAmount(), 0.0f);
+        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - (f - amount));
+        float g = f - amount;
+        if (g > 0.0f && g < 3.4028235E37f && source.getAttacker() instanceof ServerPlayerEntity) {
+            ((ServerPlayerEntity)source.getAttacker()).increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(g * 10.0f));
+        }
+        if (amount == 0.0f) {
+            return amount;
+        }
+
+        float h = part.getHealth();
+        float sub = h - amount;
+        part.setHealth(Math.max(0, sub));
+
+        entity.getDamageTracker().onDamage(source, h, amount);
+        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - amount);
+        entity.emitGameEvent(GameEvent.ENTITY_DAMAGE);
+
+        return Math.max(0, -sub);
+    }
+
+    public abstract float applyArmorToDamage(DamageSource source, float amount, BodyPart part);
 
     public void checkNoCritical(BodyPart part){
         if(part.getHealth() > 0) {
