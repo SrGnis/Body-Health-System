@@ -2,8 +2,6 @@ package xyz.srgnis.bodyhealthsystem.body.player;
 
 import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
@@ -22,6 +20,10 @@ public class PlayerBody extends Body {
 
     public PlayerBody(PlayerEntity player) {
         this.entity = player;
+    }
+    
+    public void initParts(){
+        PlayerEntity player = ((PlayerEntity) entity);
         this.addPart(HEAD, new HeadBodyPart(player));
         this.addPart(TORSO, new TorsoBodyPart(player));
         this.addPart(LEFT_ARM, new ArmBodyPart(BodySide.LEFT,player));
@@ -37,6 +39,7 @@ public class PlayerBody extends Body {
     public void applyDamageBySource(float amount, DamageSource source){
         if(source==null){
             super.applyDamageBySource(amount,source);
+            return;
         }
         //TODO: handle more damage sources
         //TODO: starvation overpowered?
@@ -112,25 +115,6 @@ public class PlayerBody extends Body {
         }
     }
 
-    //TODO: Utility function?
-    public int getAmplifier(BodyPart part){
-        if(part.getHealth() <= part.getCriticalThreshold()){
-            return 1;
-        }
-        return 0;
-    }
-
-    public void applyStatusEffectWithAmplifier(StatusEffect effect, int amplifier){
-        if(amplifier >= 0){
-            StatusEffectInstance s = entity.getStatusEffect(effect);
-            if(s == null){
-                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
-            }else if(s.getDuration() <= 5 || s.getAmplifier() != amplifier){
-                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
-            }
-        }
-    }
-
     @Override
     public float takeDamage(float amount, DamageSource source, BodyPart part){
         PlayerEntity player = (PlayerEntity)entity;
@@ -155,10 +139,7 @@ public class PlayerBody extends Body {
             player.increaseStat(Stats.DAMAGE_TAKEN, Math.round(amount * 10.0f));
         }
 
-        float sub = part.getHealth() - amount;
-        part.setHealth(Math.max(0, sub));
-
-        return Math.max(0, -sub);
+        return part.damage(amount);
     }
 
     public float applyArmorToDamage(DamageSource source, float amount, BodyPart part){

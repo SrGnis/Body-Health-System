@@ -11,7 +11,7 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
-import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 
 public class ServerNetworking {
 
@@ -26,7 +26,7 @@ public class ServerNetworking {
     public static void syncBody(PlayerEntity pe){
         PacketByteBuf buf = PacketByteBufs.create();
 
-        for (BodyPart part : ((PlayerBodyProvider)pe).getBody().getParts()) {
+        for (BodyPart part : ((BodyProvider)pe).getBody().getParts()) {
             buf.writeIdentifier(part.getIdentifier());
             buf.writeFloat(part.getHealth());
             buf.writeFloat(part.getMaxHealth());

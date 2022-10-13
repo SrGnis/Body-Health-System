@@ -5,7 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
-import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 
 import static net.minecraft.client.gui.DrawableHelper.fill;
 
@@ -21,7 +21,7 @@ public class BHSHud implements HudRenderCallback {
     //TODO: Position config, select color in the parts
     @Override
     public void onHudRender(MatrixStack matrixStack, float v) {
-        PlayerBodyProvider player = (PlayerBodyProvider)MinecraftClient.getInstance().player;
+        BodyProvider player = (BodyProvider)MinecraftClient.getInstance().player;
 
         if (player != null) {
             int color;

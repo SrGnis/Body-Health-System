@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 
 //TODO: Allow Override max health on write/read to nbt?
 public abstract class BodyPart {
@@ -15,8 +15,8 @@ public abstract class BodyPart {
     protected float criticalThreshold;
     private LivingEntity entity;
     private Identifier identifier;
-
     protected int armorSlot;
+    protected Body body;
 
     protected DefaultedList<ItemStack> armorList;
     public BodyPart(float maxHealth, float health, LivingEntity entity, Identifier identifier) {
@@ -24,7 +24,12 @@ public abstract class BodyPart {
         this.health = health;
         this.entity = entity;
         this.identifier = identifier;
-        //TODO: add body to parts
+        this.body = ((BodyProvider)entity).getBody();
+    }
+
+    public void setHealth(float health) {
+        this.health = Math.min(Math.max(health, 0),maxHealth);
+        body.checkNoCritical(this);
     }
 
     public void heal(){
@@ -32,10 +37,19 @@ public abstract class BodyPart {
     }
 
     public float heal(float amount){
-        float add = health + amount;
-        setHealth(Math.min(maxHealth, add));
+        float newHealth = health + amount;
+        setHealth(newHealth);
 
-        return add - health;
+        return newHealth - health;
+    }
+
+    public void damage(){setHealth(0);}
+
+    public float damage(float amount){
+        float newHealth = health - amount;
+        setHealth(newHealth);
+
+        return Math.max(0, -newHealth);
     }
 
     public ItemStack getAffectedArmor(){
@@ -46,10 +60,6 @@ public abstract class BodyPart {
         return armorSlot;
     }
 
-    public void setHealth(float health) {
-        this.health = health;
-        ((PlayerBodyProvider)entity).getBody().checkNoCritical(this);
-    }
     public float getHealth() {
         return health;
     }

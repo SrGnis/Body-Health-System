@@ -2,6 +2,8 @@ package xyz.srgnis.bodyhealthsystem.body;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
@@ -20,6 +22,8 @@ public abstract class Body {
     protected final HashMap<Identifier, BodyPart> parts = new HashMap<>();
     protected HashMap<Identifier, BodyPart> noCriticalParts = new HashMap<>();
     protected LivingEntity entity;
+
+    public abstract void initParts();
 
     public void addPart(Identifier identifier, BodyPart part){
         parts.put(identifier, part);
@@ -46,6 +50,40 @@ public abstract class Body {
         return new ArrayList<>(noCriticalParts.keySet());
     }
 
+    public void writeToNbt (NbtCompound nbt){
+        NbtCompound new_nbt = new NbtCompound();
+        for(BodyPart part : getParts()){
+            part.writeToNbt(new_nbt);
+        }
+        nbt.put(BHSMain.MOD_ID, new_nbt);
+    }
+
+    //TODO: Is this the best way of handling not found parts?
+    public void readFromNbt (NbtCompound nbt) {
+        NbtCompound bodyNbt = nbt.getCompound(BHSMain.MOD_ID);
+        if (!bodyNbt.isEmpty()) {
+            noCriticalParts.clear();
+            for (Identifier partId : getPartsIdentifiers()) {
+                if(!bodyNbt.getCompound(partId.toString()).isEmpty()) {
+                    BodyPart part = getPart(partId);
+                    part.readFromNbt(bodyNbt.getCompound(partId.toString()));
+                    if(part.getHealth()>0){
+                        noCriticalParts.put(part.getIdentifier(), part);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public String toString(){
+        String s = "Body of player: TODO \n";
+        for (BodyPart p : getParts()) {
+            s = s + p.toString();
+        }
+        return s;
+    }
+
     public void healAll(){
         for(BodyPart part : getParts()){
             part.heal();
@@ -64,7 +102,7 @@ public abstract class Body {
             }
         }
     }
-    public void heal(float amount, BodyPart part){
+    public void healPart(float amount, BodyPart part){
         part.heal(amount);
     }
 
@@ -73,7 +111,6 @@ public abstract class Body {
         applyDamageLocalRandom(amount, source);
     }
 
-    //TODO: remaining no critical part damage application
     //Applies the damage to a single part
     public void applyDamageLocal(float amount, DamageSource source, BodyPart part){
         takeDamage(amount, source, part);
@@ -122,6 +159,52 @@ public abstract class Body {
         applyDamageListRandom(amount, source, randomlist);
     }
 
+    public float takeDamage(float amount, DamageSource source, BodyPart part){
+
+        amount = applyArmorToDamage(source, amount, part);
+        float f = amount = ((ModifyAppliedDamageInvoker)entity).invokeModifyAppliedDamage(source, amount);
+        amount = Math.max(amount - entity.getAbsorptionAmount(), 0.0f);
+        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - (f - amount));
+        float g = f - amount;
+        if (g > 0.0f && g < 3.4028235E37f && source.getAttacker() instanceof ServerPlayerEntity) {
+            ((ServerPlayerEntity)source.getAttacker()).increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(g * 10.0f));
+        }
+        if (amount == 0.0f) {
+            return amount;
+        }
+
+        float h = part.getHealth();
+        float remaining = part.damage(amount);
+
+        entity.getDamageTracker().onDamage(source, h, amount);
+        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - amount);
+        entity.emitGameEvent(GameEvent.ENTITY_DAMAGE);
+
+        return remaining;
+    }
+
+    public abstract float applyArmorToDamage(DamageSource source, float amount, BodyPart part);
+
+    public abstract void applyCriticalPartsEffect();
+
+    public void applyStatusEffectWithAmplifier(StatusEffect effect, int amplifier){
+        if(amplifier >= 0){
+            StatusEffectInstance s = entity.getStatusEffect(effect);
+            if(s == null){
+                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
+            }else if(s.getDuration() <= 5 || s.getAmplifier() != amplifier){
+                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
+            }
+        }
+    }
+
+    public int getAmplifier(BodyPart part){
+        if(part.getHealth() <= part.getCriticalThreshold()){
+            return 1;
+        }
+        return 0;
+    }
+
     public void updateHealth(){
         float max_health = 0;
         float actual_health = 0;
@@ -138,32 +221,6 @@ public abstract class Body {
 
     public abstract boolean isAlive();
 
-    public float takeDamage(float amount, DamageSource source, BodyPart part){
-
-        amount = applyArmorToDamage(source, amount, part);
-        float f = amount = ((ModifyAppliedDamageInvoker)entity).invokeModifyAppliedDamage(source, amount);
-        amount = Math.max(amount - entity.getAbsorptionAmount(), 0.0f);
-        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - (f - amount));
-        float g = f - amount;
-        if (g > 0.0f && g < 3.4028235E37f && source.getAttacker() instanceof ServerPlayerEntity) {
-            ((ServerPlayerEntity)source.getAttacker()).increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(g * 10.0f));
-        }
-        if (amount == 0.0f) {
-            return amount;
-        }
-
-        float h = part.getHealth();
-        float sub = h - amount;
-        part.setHealth(Math.max(0, sub));
-
-        entity.getDamageTracker().onDamage(source, h, amount);
-        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - amount);
-        entity.emitGameEvent(GameEvent.ENTITY_DAMAGE);
-
-        return Math.max(0, -sub);
-    }
-
-    public abstract float applyArmorToDamage(DamageSource source, float amount, BodyPart part);
 
     public void checkNoCritical(BodyPart part){
         if(part.getHealth() > 0) {
@@ -171,41 +228,5 @@ public abstract class Body {
         }else{
             noCriticalParts.remove(part.getIdentifier());
         }
-    }
-
-    public abstract void applyCriticalPartsEffect();
-
-    public void writeToNbt (NbtCompound nbt){
-        NbtCompound new_nbt = new NbtCompound();
-        for(BodyPart part : getParts()){
-            part.writeToNbt(new_nbt);
-        }
-        nbt.put(BHSMain.MOD_ID, new_nbt);
-    }
-
-    //TODO: Is this the best way of handling not found parts?
-    public void readFromNbt (NbtCompound nbt) {
-        NbtCompound bodyNbt = nbt.getCompound(BHSMain.MOD_ID);
-        if (!bodyNbt.isEmpty()) {
-            noCriticalParts.clear();
-            for (Identifier partId : getPartsIdentifiers()) {
-                if(!bodyNbt.getCompound(partId.toString()).isEmpty()) {
-                    BodyPart part = getPart(partId);
-                    part.readFromNbt(bodyNbt.getCompound(partId.toString()));
-                    if(part.getHealth()>0){
-                        noCriticalParts.put(part.getIdentifier(), part);
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public String toString(){
-        String s = "Body of player: TODO \n";
-        for (BodyPart p : getParts()) {
-            s = s + p.toString();
-        }
-        return s;
     }
 }
