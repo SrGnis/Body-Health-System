@@ -9,6 +9,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
+//TODO: MorphineItem needs more setup
 public class MorphineItem extends Item {
     public MorphineItem(Settings settings) {
         super(settings);

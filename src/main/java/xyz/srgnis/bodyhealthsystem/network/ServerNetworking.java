@@ -31,7 +31,6 @@ public class ServerNetworking {
             buf.writeFloat(part.getHealth());
             buf.writeFloat(part.getMaxHealth());
         }
-        //Todo: Use other identifier
         //Handled by ClientNetworking.handleHealthChange
         ServerPlayNetworking.send( (ServerPlayerEntity) pe, BHSMain.MOD_IDENTIFIER, buf);
     }

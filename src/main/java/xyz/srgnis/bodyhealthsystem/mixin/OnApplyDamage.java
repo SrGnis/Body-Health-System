@@ -12,7 +12,7 @@ import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
 @Mixin(PlayerEntity.class)
 public class OnApplyDamage {
 
-    //The method signature is needed to be able to access the source parameter.
+    //NOTE: The method signature is needed to be able to access the source parameter.
     @ModifyVariable(method = "applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public float handleHealthChange(float amount, DamageSource source) {
         if (!((PlayerEntity) (Object)this).isInvulnerableTo(source)) {
