@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/class-diagram
+package net.minecraft{
+    class LivingEntity
+    class PlayerEntity extends LivingEntity
+}
+
+abstract class Body{
+-HashMap parts
++{method} heal logic
++{method} damage logic
+}
+abstract class BodyPart{
+-float maxHealth
+-float health
+-int armorSlot
++{method}getters and setters
+}
+class PlayerBody extends Body{
++initParts()
++{method} specific damage logic
+}
+class HeadBodyPart extends BodyPart
+class TorsoBodyPart extends BodyPart
+class ArmBodyPart extends BodyPart
+class LegBodyPart extends BodyPart
+class FootBodyPart extends BodyPart
+interface BodyProvider{
++getBody()
++setBody()
+}
+
+Body --* "0..*" BodyPart
+BodyProvider --* "1" Body
+PlayerEntity --|> BodyProvider : by <b>OnPlayerInitMixin</b>
+@enduml
