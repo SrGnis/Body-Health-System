@@ -26,8 +26,6 @@ public class BHSMain implements ModInitializer {
 			.build();
 	@Override
 	public void onInitialize() {
-		HudRenderCallback.EVENT.register(new BHSHud());
-		ClientNetworking.initialize();
 		ServerNetworking.initialize();
 		DevCommands.initialize();
 		ModItems.registerItems();

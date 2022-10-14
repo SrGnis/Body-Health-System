@@ -21,7 +21,12 @@
     "main": [
       "xyz.srgnis.bodyhealthsystem.BHSMain"
     ],
-    "modmenu": [ "xyz.srgnis.bodyhealthsystem.config.ModMenuEntryPoint" ]
+    "client": [
+      "xyz.srgnis.bodyhealthsystem.BHSClient"
+    ],
+    "modmenu": [
+      "xyz.srgnis.bodyhealthsystem.config.ModMenuEntryPoint"
+    ]
   },
   "mixins": [
     "bodyhealthsystem.mixins.json"
