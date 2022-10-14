@@ -98,6 +98,6 @@ public abstract class BodyPart {
 
     @Override
     public String toString() {
-        return identifier + " MaxHP: " + maxHealth + " HP " + health + "\n";
+        return identifier.getPath() + " | MaxHP: " + maxHealth + " | HP " + health + "\n";
     }
 }

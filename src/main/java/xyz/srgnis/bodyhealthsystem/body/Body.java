@@ -77,11 +77,11 @@ public abstract class Body {
 
     @Override
     public String toString(){
-        String s = "Body of player: TODO \n";
+        StringBuilder s = new StringBuilder("Body of " + entity.getName().getString() + "\n");
         for (BodyPart p : getParts()) {
-            s = s + p.toString();
+            s.append(p.toString());
         }
-        return s;
+        return s.toString();
     }
 
     public void healAll(){
