@@ -7,7 +7,7 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
-import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 
 public class ClientNetworking {
 
@@ -22,8 +22,8 @@ public class ClientNetworking {
             float maxhealth = buf.readFloat();
 
             //TODO: Add config sync at join and remove setMaxHealth on ClientNetworking.handleHealthChange
-            client.execute(() -> ((PlayerBodyProvider) client.player).getBody().getPart(id).setMaxHealth(maxhealth));
-            client.execute(() -> ((PlayerBodyProvider) client.player).getBody().getPart(id).setHealth(health));
+            client.execute(() -> ((BodyProvider) client.player).getBody().getPart(id).setMaxHealth(maxhealth));
+            client.execute(() -> ((BodyProvider) client.player).getBody().getPart(id).setHealth(health));
         }
     }
 }

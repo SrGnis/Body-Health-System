@@ -16,7 +16,7 @@ public class ArmBodyPart extends BodyPart {
     }
 
     public ArmBodyPart(BodySide side, float maxHealth, float health, PlayerEntity entity) {
-        super(maxHealth, health, entity,  side==BodySide.LEFT? PlayerBodyParts.LEFT_ARM : PlayerBodyParts.RIGHT_ARM);
+        super(maxHealth, health, entity, side==BodySide.LEFT? PlayerBodyParts.LEFT_ARM : PlayerBodyParts.RIGHT_ARM);
         this.side = side;
         this.armorSlot = ArmorSlots.CHESTPLATE;
         this.armorList = entity.getInventory().armor;

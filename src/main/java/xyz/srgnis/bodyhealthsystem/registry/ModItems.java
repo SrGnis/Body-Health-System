@@ -14,7 +14,7 @@ public class ModItems {
     public static final Item MORPHINE_ITEM = new MorphineItem(new FabricItemSettings().group(BHSMain.BHS_GROUP));
 
     public static void registerItems(){
-        Registry.register(Registry.ITEM, new Identifier("bodyhealthsystem", "plaster"), PLASTER_ITEM);
-        Registry.register(Registry.ITEM, new Identifier("bodyhealthsystem", "morphine"), MORPHINE_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(BHSMain.MOD_ID, "plaster"), PLASTER_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(BHSMain.MOD_ID, "morphine"), MORPHINE_ITEM);
     }
 }

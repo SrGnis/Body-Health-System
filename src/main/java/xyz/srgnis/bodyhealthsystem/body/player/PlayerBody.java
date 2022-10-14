@@ -1,17 +1,18 @@
 package xyz.srgnis.bodyhealthsystem.body.player;
 
+import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.stat.Stats;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.parts.*;
-import xyz.srgnis.bodyhealthsystem.effects.MorphineStatusEffect;
+import xyz.srgnis.bodyhealthsystem.mixin.ModifyAppliedDamageInvoker;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
+import xyz.srgnis.bodyhealthsystem.util.Utils;
 
 import static xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts.*;
 
@@ -19,6 +20,10 @@ public class PlayerBody extends Body {
 
     public PlayerBody(PlayerEntity player) {
         this.entity = player;
+    }
+    
+    public void initParts(){
+        PlayerEntity player = ((PlayerEntity) entity);
         this.addPart(HEAD, new HeadBodyPart(player));
         this.addPart(TORSO, new TorsoBodyPart(player));
         this.addPart(LEFT_ARM, new ArmBodyPart(BodySide.LEFT,player));
@@ -34,6 +39,7 @@ public class PlayerBody extends Body {
     public void applyDamageBySource(float amount, DamageSource source){
         if(source==null){
             super.applyDamageBySource(amount,source);
+            return;
         }
         //TODO: handle more damage sources
         //TODO: starvation overpowered?
@@ -69,28 +75,18 @@ public class PlayerBody extends Body {
     public void applyFallDamage(float amount, DamageSource source){
         amount = amount/2;
         float remaining;
-        remaining = this.getPart(RIGHT_FOOT).takeDamage(amount, source);
-        if(remaining > 0){remaining = this.getPart(RIGHT_LEG).takeDamage(remaining, source);}
-        if(remaining > 0){this.getPart(TORSO).takeDamage(remaining, source);}
+        remaining = takeDamage(amount, source, this.getPart(RIGHT_FOOT));
+        if(remaining > 0){remaining = takeDamage(remaining, source, this.getPart(RIGHT_LEG));}
+        if(remaining > 0){takeDamage(remaining, source, this.getPart(TORSO));}
 
-        remaining = this.getPart(LEFT_FOOT).takeDamage(amount, source);
-        if(remaining > 0){remaining = this.getPart(LEFT_LEG).takeDamage(remaining, source);}
-        if(remaining > 0){this.getPart(TORSO).takeDamage(remaining, source);}
+        remaining = takeDamage(amount, source, this.getPart(LEFT_FOOT));
+        if(remaining > 0){remaining = takeDamage(remaining, source, this.getPart(LEFT_LEG));}
+        if(remaining > 0){takeDamage(remaining, source, this.getPart(TORSO));}
     }
 
-    @Override
-    public void updateHealth(){
-        float max_health = 0;
-        float actual_health = 0;
-        for( BodyPart part : this.getParts()){
-            max_health += part.getMaxHealth();
-            actual_health += part.getHealth();
-        }
-        entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ) * isAlive() );
-    }
-
-    public int isAlive(){
-        return getPart(TORSO).getHealth() <= 0 || getPart(HEAD).getHealth() <= 0 ? 0 : 1;
+    //TODO: isAlive configurable.
+    public boolean isAlive(){
+        return getPart(TORSO).getHealth() > 0 && getPart(HEAD).getHealth() > 0;
     }
 
     //TODO: blindness on head critical?
@@ -119,22 +115,42 @@ public class PlayerBody extends Body {
         }
     }
 
-    //TODO: Utility function?
-    public int getAmplifier(BodyPart part){
-        if(part.getHealth() <= part.getCriticalThreshold()){
-            return 1;
+    @Override
+    public float takeDamage(float amount, DamageSource source, BodyPart part){
+        PlayerEntity player = (PlayerEntity)entity;
+        //applyArmor
+        applyArmorToDamage(source, amount, part);
+        float f = amount = ((ModifyAppliedDamageInvoker)entity).invokeModifyAppliedDamage(source, amount);
+
+        //Copied from PlayerEntity.applyDamage
+        amount = Math.max(amount - entity.getAbsorptionAmount(), 0.0f);
+        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - (f - amount));
+        float g = f - amount;
+        if (g > 0.0f && g < 3.4028235E37f) {
+            player.increaseStat(Stats.DAMAGE_ABSORBED, Math.round(g * 10.0f));
         }
-        return 0;
+        if (amount == 0.0f) {
+            return amount;
+        }
+        player.addExhaustion(source.getExhaustion());
+        float h = entity.getHealth();
+        player.getDamageTracker().onDamage(source, h, amount);
+        if (amount < 3.4028235E37f) {
+            player.increaseStat(Stats.DAMAGE_TAKEN, Math.round(amount * 10.0f));
+        }
+
+        return part.damage(amount);
     }
 
-    public void applyStatusEffectWithAmplifier(StatusEffect effect, int amplifier){
-        if(amplifier >= 0){
-            StatusEffectInstance s = entity.getStatusEffect(effect);
-            if(s == null){
-                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
-            }else if(s.getDuration() <= 5 || s.getAmplifier() != amplifier){
-                entity.addStatusEffect(new StatusEffectInstance(effect, 40, amplifier));
+    public float applyArmorToDamage(DamageSource source, float amount, BodyPart part){
+        if(part.getAffectedArmor().getItem() instanceof ArmorItem) {
+            if (!source.bypassesArmor()) {
+                PlayerEntity player = (PlayerEntity)entity;
+                ArmorItem armorItem = ((ArmorItem) part.getAffectedArmor().getItem());
+                player.getInventory().damageArmor(source,amount,new int[]{part.getArmorSlot()});
+                amount = DamageUtil.getDamageLeft(amount, Utils.modifyProtection(armorItem, part.getArmorSlot()), Utils.modifyToughness(armorItem,part.getArmorSlot()));
             }
         }
+        return amount;
     }
 }

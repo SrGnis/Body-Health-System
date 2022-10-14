@@ -9,22 +9,22 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
-import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyProvider;
+import xyz.srgnis.bodyhealthsystem.body.Body;
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBody;
 
 @Mixin(PlayerEntity.class)
-public class OnPlayerJoinMixin implements PlayerBodyProvider {
-    public PlayerBody body = null;
+public class OnPlayerInitMixin implements BodyProvider {
+    public Body body = null;
     @Inject(method = "<init>*", at = @At("RETURN"))
     public void addBodyOnInit(World world, BlockPos pos, float yaw, GameProfile gameProfile, PlayerPublicKey publicKey, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        body = new PlayerBody(player);
-        BHSMain.LOGGER.info("Added body to player: " + player.getName());
+        this.body = new PlayerBody(player);
+        this.body.initParts();
     }
 
     @Override
-    public PlayerBody getBody() {
+    public Body getBody() {
         return body;
     }
 
