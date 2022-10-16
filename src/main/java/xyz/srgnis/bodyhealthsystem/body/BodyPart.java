@@ -8,6 +8,7 @@ import net.minecraft.util.collection.DefaultedList;
 import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 
 //TODO: Allow Override max health on write/read to nbt?
+//TODO: Check LivingEntity.getEquippedStack(), could be alternative to the actual implementation for getting the armor
 public abstract class BodyPart {
     private float maxHealth;
     private float health;
