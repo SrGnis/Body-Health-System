@@ -6,6 +6,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.stat.Stats;
+import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
@@ -34,7 +35,7 @@ public class PlayerBody extends Body {
         this.addPart(RIGHT_LEG, new LegBodyPart(BodySide.RIGHT,player));
         this.noCriticalParts.putAll(this.parts);
     }
-
+    //TODO: kill command don't kill;
     @Override
     public void applyDamageBySource(float amount, DamageSource source){
         if(source==null){
@@ -119,7 +120,9 @@ public class PlayerBody extends Body {
     public float takeDamage(float amount, DamageSource source, BodyPart part){
         PlayerEntity player = (PlayerEntity)entity;
         //applyArmor
-        applyArmorToDamage(source, amount, part);
+        BHSMain.LOGGER.info("Initial: " + amount);
+        amount = applyArmorToDamage(source, amount, part);
+        BHSMain.LOGGER.info("Final: " + amount);
         float f = amount = ((ModifyAppliedDamageInvoker)entity).invokeModifyAppliedDamage(source, amount);
 
         //Copied from PlayerEntity.applyDamage
