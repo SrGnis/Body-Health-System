@@ -25,7 +25,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import xyz.srgnis.bodyhealthsystem.client.BagScreenHandler;
+import xyz.srgnis.bodyhealthsystem.client.GenericScreenHandler;
+import xyz.srgnis.bodyhealthsystem.client.GenericScreenHandlerImpl;
 
 public class BagItem extends Item {
 	public BagItem(Settings settings) {
@@ -41,7 +42,7 @@ public class BagItem extends Item {
 
 	private NamedScreenHandlerFactory createScreenHandlerFactory(ItemStack stack) {
 		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
-			return new BagScreenHandler(syncId, inventory, new BagInventory(stack));
+			return new GenericScreenHandlerImpl(syncId, inventory);
 		}, stack.getName());
 	}
 }
