@@ -15,6 +15,10 @@ public class OnApplyDamage {
     //NOTE: The method signature is needed to be able to access the source parameter.
     @ModifyVariable(method = "applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public float handleHealthChange(float amount, DamageSource source) {
+        if(source.isOutOfWorld()){
+            //If is out of world (/kill) just return the damage to kill the player
+            return amount;
+        }
         if (!((PlayerEntity) (Object)this).isInvulnerableTo(source)) {
             Body body = ((BodyProvider)this).getBody();
             body.applyDamageBySource(amount, source);
