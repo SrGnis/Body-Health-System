@@ -102,6 +102,9 @@ public abstract class Body {
             }
         }
     }
+    public void healPart(int amount, Identifier partID) {
+        healPart(amount, getPart(partID));
+    }
     public void healPart(float amount, BodyPart part){
         part.heal(amount);
     }
