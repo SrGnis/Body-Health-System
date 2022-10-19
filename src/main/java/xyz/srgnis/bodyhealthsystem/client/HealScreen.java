@@ -12,7 +12,7 @@ import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 
-public class GenericScreen extends HandledScreen<ScreenHandler> {
+public class HealScreen extends HandledScreen<ScreenHandler> {
     public static final Text HEAD = Text.literal("HEAD");
     public static final Text LEFT_ARM = Text.literal("LEFT ARM");
     public static final Text RIGHT_ARM = Text.literal("RIGHT ARM");
@@ -23,13 +23,13 @@ public class GenericScreen extends HandledScreen<ScreenHandler> {
     public static final Text RIGHT_FOOT = Text.literal("RIGHT FOOT");
     private final PlayerEntity player;
 
-    private Body body;
-    private int buttonWidth = 75;
-    private int buttonHeight = 20;
-    private int buttonMargin = 2;
-    private int total = (buttonHeight+buttonMargin)*5;
+    private final Body body;
+    private final int buttonWidth = 75;
+    private final int buttonHeight = 20;
+    private final int buttonMargin = 2;
+    private final int total = (buttonHeight+buttonMargin)*5;
 
-    public GenericScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public HealScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.body = ((BodyProvider)inventory.player).getBody();
         this.player = inventory.player;

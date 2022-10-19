@@ -17,17 +17,23 @@
 package xyz.srgnis.bodyhealthsystem.client;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import xyz.srgnis.bodyhealthsystem.registry.CustomScreenHandler;
 
 
-public abstract class GenericScreenHandler extends ScreenHandler {
+public class HealScreenHandler extends ScreenHandler {
 
 	protected final PlayerEntity player;
-	protected GenericScreenHandler(ScreenHandlerType<? extends GenericScreenHandler> type, int syncId, PlayerEntity player) {
+	protected HealScreenHandler(ScreenHandlerType<? extends HealScreenHandler> type, int syncId, PlayerEntity player) {
 		super(type, syncId);
 		this.player = player;
+	}
+
+	public HealScreenHandler(int syncId, PlayerInventory inventory) {
+		this(CustomScreenHandler.BAG_SCREEN_HANDLER, syncId, inventory.player);
 	}
 
 	@Override
