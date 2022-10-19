@@ -32,6 +32,7 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
     private final int total = (buttonHeight+buttonMargin)*5;
 
     private final int heightAndMargin = buttonHeight+buttonMargin;
+    private final int widthAndMargin = buttonWidth+buttonMargin;
 
     BodyPartHealButton headButton;
     BodyPartHealButton leftArmButton;
@@ -74,44 +75,53 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
         this.addDrawableChild(headButton);
         row++;
 
-        this.addDrawableChild(new ButtonWidget(centerLeftX, buttonStartY+((buttonHeight+buttonMargin)*row), buttonWidth, buttonHeight, LEFT_ARM, button -> {
-            ClientNetworking.useHealingItem(PlayerBodyParts.LEFT_ARM, player.getMainHandStack());
-            this.close();
-        }));
+        leftArmButton.x=centerLeftX;
+        leftArmButton.y=buttonStartY+((heightAndMargin)*row);
+        leftArmButton.checkAndSetActive();
+        this.addDrawableChild(leftArmButton);
 
-        this.addDrawableChild(new ButtonWidget(centerLeftX+buttonMargin+buttonWidth, buttonStartY+((buttonHeight+buttonMargin)*row), buttonWidth, buttonHeight, RIGHT_ARM, button -> {
-            ClientNetworking.useHealingItem(PlayerBodyParts.RIGHT_ARM, player.getMainHandStack());
-            this.close();
-        }));
+        rightArmButton.x=centerLeftX+widthAndMargin;
+        rightArmButton.y=buttonStartY+((heightAndMargin)*row);
+        rightArmButton.checkAndSetActive();
+        this.addDrawableChild(rightArmButton);
         row++;
-        this.addDrawableChild(new ButtonWidget(centerX, buttonStartY+((buttonHeight+buttonMargin)*row), buttonWidth, buttonHeight, TORSO, button -> {
-            ClientNetworking.useHealingItem(PlayerBodyParts.TORSO, player.getMainHandStack());
-            this.close();
-        }));
+
+        torsoButton.x=centerX;
+        torsoButton.y=buttonStartY+((heightAndMargin)*row);
+        torsoButton.checkAndSetActive();
+        this.addDrawableChild(torsoButton);
         row++;
-        this.addDrawableChild(new ButtonWidget(centerLeftX, buttonStartY+((buttonHeight+buttonMargin)*row), buttonWidth, buttonHeight, LEFT_LEG, button -> {
-            ClientNetworking.useHealingItem(PlayerBodyParts.LEFT_LEG, player.getMainHandStack());
-            this.close();
-        }));
-        this.addDrawableChild(new ButtonWidget(centerLeftX+buttonMargin+buttonWidth, buttonStartY+((buttonHeight+buttonMargin)*row), buttonWidth, buttonHeight, RIGHT_LEG, button -> {
-            ClientNetworking.useHealingItem(PlayerBodyParts.RIGHT_LEG, player.getMainHandStack());
-            this.close();
-        }));
+
+        leftLegButton.x=centerLeftX;
+        leftLegButton.y=buttonStartY+((heightAndMargin)*row);
+        leftLegButton.checkAndSetActive();
+        this.addDrawableChild(leftLegButton);
+
+        rightLegButton.x=centerLeftX+widthAndMargin;
+        rightLegButton.y=buttonStartY+((heightAndMargin)*row);
+        rightLegButton.checkAndSetActive();
+        this.addDrawableChild(rightLegButton);
         row++;
-        this.addDrawableChild(new ButtonWidget(centerLeftX, buttonStartY+((buttonHeight+buttonMargin)*row), buttonWidth, buttonHeight, LEFT_FOOT, button -> {
-            ClientNetworking.useHealingItem(PlayerBodyParts.LEFT_FOOT, player.getMainHandStack());
-            this.close();
-        }));
-        this.addDrawableChild(new ButtonWidget(centerLeftX+buttonMargin+buttonWidth, buttonStartY+((buttonHeight+buttonMargin)*row), buttonWidth, buttonHeight, RIGHT_FOOT, button -> {
-            ClientNetworking.useHealingItem(PlayerBodyParts.RIGHT_FOOT, player.getMainHandStack());
-            this.close();
-        }));
+
+        leftFootButton.x=centerLeftX;
+        leftFootButton.y=buttonStartY+((heightAndMargin)*row);
+        leftFootButton.checkAndSetActive();
+        this.addDrawableChild(leftFootButton);
+
+        rightFootButton.x=centerLeftX+widthAndMargin;
+        rightFootButton.y=buttonStartY+((heightAndMargin)*row);
+        rightFootButton.checkAndSetActive();
+        this.addDrawableChild(rightFootButton);
+        row++;
     }
 
-    class BodyPartHealButton extends ButtonWidget implements ButtonWidget.PressAction {
+    class BodyPartHealButton extends ButtonWidget {
         public BodyPart part;
         public BodyPartHealButton(BodyPart part, int x, int y, int width, int height, Text message) {
-            super(x, y, width, height, message, button -> button.onPress());
+            super(x, y, width, height, message, button -> {
+                ClientNetworking.useHealingItem(part.getIdentifier(), player.getMainHandStack());
+                HealScreen.this.close();
+            });
             this.part = part;
         }
 
@@ -122,12 +132,6 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
 
         public void checkAndSetActive(){
             active = part.isDamaged();
-        }
-
-        @Override
-        public void onPress(ButtonWidget button) {
-            ClientNetworking.useHealingItem(part.getIdentifier(), player.getMainHandStack());
-            HealScreen.this.close();
         }
     }
 }
