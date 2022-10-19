@@ -101,4 +101,8 @@ public abstract class BodyPart {
     public String toString() {
         return identifier.getPath() + " | MaxHP: " + maxHealth + " | HP " + health + "\n";
     }
+
+    public boolean isDamaged() {
+        return health < maxHealth;
+    }
 }

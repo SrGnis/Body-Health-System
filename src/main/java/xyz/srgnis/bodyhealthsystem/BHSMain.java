@@ -2,17 +2,15 @@ package xyz.srgnis.bodyhealthsystem;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.srgnis.bodyhealthsystem.client.hud.BHSHud;
 import xyz.srgnis.bodyhealthsystem.command.DevCommands;
 import xyz.srgnis.bodyhealthsystem.config.Config;
-import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
+import xyz.srgnis.bodyhealthsystem.registry.CustomScreenHandler;
 import xyz.srgnis.bodyhealthsystem.registry.ModItems;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
@@ -31,5 +29,6 @@ public class BHSMain implements ModInitializer {
 		ModItems.registerItems();
 		ModStatusEffects.registerStatusEffects();
 		Config.init(MOD_ID, Config.class);
+		CustomScreenHandler.registerScreenHandlers();
 	}
 }
