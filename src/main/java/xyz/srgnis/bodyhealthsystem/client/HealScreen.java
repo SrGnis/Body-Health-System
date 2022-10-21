@@ -1,13 +1,17 @@
 package xyz.srgnis.bodyhealthsystem.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
@@ -15,6 +19,7 @@ import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 
 public class HealScreen extends HandledScreen<ScreenHandler> {
+    private static final Identifier TEXTURE = new Identifier(BHSMain.MOD_ID, "textures/gui/empty.png");
     public static final Text HEAD = Text.literal("HEAD");
     public static final Text LEFT_ARM = Text.literal("LEFT ARM");
     public static final Text RIGHT_ARM = Text.literal("RIGHT ARM");
@@ -23,14 +28,10 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
     public static final Text RIGHT_LEG = Text.literal("RIGHT LEG");
     public static final Text LEFT_FOOT = Text.literal("LEFT FOOT");
     public static final Text RIGHT_FOOT = Text.literal("RIGHT FOOT");
-    private final PlayerEntity player;
-
-    private final Body body;
     private final int buttonWidth = 75;
     private final int buttonHeight = 20;
     private final int buttonMargin = 2;
     private final int total = (buttonHeight+buttonMargin)*5;
-
     private final int heightAndMargin = buttonHeight+buttonMargin;
     private final int widthAndMargin = buttonWidth+buttonMargin;
 
@@ -42,6 +43,9 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
     BodyPartHealButton rightLegButton;
     BodyPartHealButton leftFootButton;
     BodyPartHealButton rightFootButton;
+    //FIXME: This should be in the handler
+    private final PlayerEntity player;
+    private final Body body;
 
     public HealScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -60,14 +64,23 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        int row = 0;
+        int startX = (this.width - this.backgroundWidth) / 2;
+        int startY = (this.height - this.backgroundHeight) / 2;
+
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+
+        drawTexture(matrices,startX,startY,0,0,this.backgroundWidth,this.backgroundHeight);
+    }
+
+    protected void drawButtons(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         int startX = (this.width - this.backgroundWidth) / 2;
         int startY = (this.height - this.backgroundHeight) / 2;
         int buttonStartY = startY+((this.backgroundHeight - total) / 2);
         int centerX = ((this.backgroundWidth - buttonWidth) / 2) + startX;
         int centerLeftX = ((this.backgroundWidth - buttonWidth * 2) / 2) + startX;
-
-        fill(matrices, startX, startY, startX+this.backgroundWidth, startY+this.backgroundHeight, 0xff999999);
+        int row = 0;
 
         headButton.x=centerX;
         headButton.y=buttonStartY+((heightAndMargin)*row);
@@ -113,6 +126,13 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
         rightFootButton.checkAndSetActive();
         this.addDrawableChild(rightFootButton);
         row++;
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta){
+        drawBackground(matrices, delta, mouseX, mouseY);
+        super.render(matrices, mouseX, mouseY, delta);
+        drawButtons(matrices, delta, mouseX, mouseY);
     }
 
     class BodyPartHealButton extends ButtonWidget {
