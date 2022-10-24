@@ -1,8 +1,11 @@
 {
   "item.bodyhealthsystem.plaster": "Plaster",
-  "itemGroup.bodyhealthsystem.general": "Body Health System",
-  "effect.bodyhealthsystem.morphine_effect": "Morphine",
   "item.bodyhealthsystem.morphine": "Morphine",
+  "item.bodyhealthsystem.medkit": "Medkit",
+
+  "itemGroup.bodyhealthsystem.general": "Body Health System",
+
+  "effect.bodyhealthsystem.morphine_effect": "Morphine",
 
   "bodyhealthsystem.midnightconfig.title": "Body Health System",
 

@@ -27,8 +27,8 @@ import net.minecraft.world.World;
 
 import xyz.srgnis.bodyhealthsystem.client.HealScreenHandler;
 
-public class BagItem extends Item {
-	public BagItem(Settings settings) {
+public class MedkitItem extends Item {
+	public MedkitItem(Settings settings) {
 		super(settings);
 	}
 

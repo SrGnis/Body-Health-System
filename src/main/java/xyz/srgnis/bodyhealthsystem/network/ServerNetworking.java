@@ -25,8 +25,6 @@ public class ServerNetworking {
     //TODO: to much logic here
     private static void handleUseHealingItem(MinecraftServer minecraftServer, ServerPlayerEntity serverPlayerEntity, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender) {
         Identifier partID = packetByteBuf.readIdentifier();
-        ItemStack itemStack = packetByteBuf.readItemStack();
-        //TODO: a player should not be able to send a use healing item if the part is not damaged
         if(((BodyProvider) serverPlayerEntity).getBody().getPart(partID).isDamaged()) {
             ((BodyProvider) serverPlayerEntity).getBody().healPart(4, partID);
             //TODO: syncBody call should be in healPart method?
