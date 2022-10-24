@@ -135,6 +135,10 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
         drawButtons(matrices, delta, mouseX, mouseY);
     }
 
+    @Override
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+    }
+
     class BodyPartHealButton extends ButtonWidget {
         public BodyPart part;
         public BodyPartHealButton(BodyPart part, int x, int y, int width, int height, Text message) {
