@@ -4,7 +4,6 @@ import net.minecraft.entity.player.HungerManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
 
 //TODO Force disable natural regeneration could be a config option
 @Mixin(HungerManager.class)

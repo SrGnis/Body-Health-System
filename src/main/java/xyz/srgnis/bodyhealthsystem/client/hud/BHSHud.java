@@ -10,13 +10,13 @@ import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import static net.minecraft.client.gui.DrawableHelper.fill;
 
 public class BHSHud implements HudRenderCallback {
-    int dark_green = 0xff38761d;
-    int green = 0xff8fce00;
-    int red = 0xffb70000;
-    int black = 0xff191919;
-    int yellow = 0xffffd966;
-    int orange = 0xfff87c00;
-    int gray = 0xff5b5b5b;
+    final int dark_green = 0xff38761d;
+    final int green = 0xff8fce00;
+    final int red = 0xffb70000;
+    final int black = 0xff191919;
+    final int yellow = 0xffffd966;
+    final int orange = 0xfff87c00;
+    final int gray = 0xff5b5b5b;
 
     //TODO: Position config, select color in the parts
     @Override
