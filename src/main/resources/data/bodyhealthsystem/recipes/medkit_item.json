@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "WFW",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:string"
+        },
+        "W": {
+            "item": "minecraft:white_wool"
+        },
+        "F": {
+            "item": "minecraft:fermented_spider_eye"
+        }
+    },
+    "result": {
+        "item": "bodyhealthsystem:medkit",
+        "count": 1
+    }
+}
