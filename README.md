@@ -11,3 +11,17 @@ If some parts lose all the health debuffs will be applied to the player, as slow
 - Better GUI.
 - Add custom Damage Distributions for each mob.
 - Create an API and code revision.
+
+## Crafting
+
+### Plaster
+
+![plaster_crafting](docs/images/plaster_crafting.png)
+
+### Morphine
+
+![morphine_crafting](docs/images/morphine_crafting.png)
+
+### Medkit
+
+![medkit crafting](docs/images/medkit_crafting.png)
