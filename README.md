@@ -7,5 +7,7 @@ If some parts lose all the health debuffs will be applied to the player, as slow
 ## TODO
 
 - Ray cast arrows to apply the damage to a specific part.
-- HUD config
-- Beter GUI
+- HUD configuration.
+- Better GUI.
+- Add custom Damage Distributions for each mob.
+- Create an API and code revision.
