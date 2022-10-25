@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.srgnis.bodyhealthsystem.client;
+package xyz.srgnis.bodyhealthsystem.client.screen;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

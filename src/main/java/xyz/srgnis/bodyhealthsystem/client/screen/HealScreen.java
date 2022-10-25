@@ -1,4 +1,4 @@
-package xyz.srgnis.bodyhealthsystem.client;
+package xyz.srgnis.bodyhealthsystem.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;

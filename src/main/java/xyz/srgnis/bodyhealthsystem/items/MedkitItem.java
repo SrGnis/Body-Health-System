@@ -25,7 +25,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import xyz.srgnis.bodyhealthsystem.client.HealScreenHandler;
+import xyz.srgnis.bodyhealthsystem.client.screen.HealScreenHandler;
 
 public class MedkitItem extends Item {
 	public MedkitItem(Settings settings) {
