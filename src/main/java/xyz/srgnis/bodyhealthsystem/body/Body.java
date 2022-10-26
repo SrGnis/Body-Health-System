@@ -211,18 +211,29 @@ public abstract class Body {
     public void updateHealth(){
         float max_health = 0;
         float actual_health = 0;
+        boolean shouldDie = false;
         for( BodyPart part : this.getParts()){
             max_health += part.getMaxHealth();
             actual_health += part.getHealth();
+            if(part.isKillRequirement && part.getHealth() <= 0){
+                shouldDie = true;
+            }
         }
-        if (isAlive()){
-            entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ));
-        }else {
+        if (shouldDie){
             entity.setHealth(0);
+        }else {
+            entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ));
         }
     }
 
-    public abstract boolean isAlive();
+    public boolean shouldDie(){
+        for( BodyPart part : this.getParts()){
+            if(part.isKillRequirement && part.getHealth() <= 0){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     public void checkNoCritical(BodyPart part){

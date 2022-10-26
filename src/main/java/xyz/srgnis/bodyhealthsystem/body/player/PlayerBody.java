@@ -85,11 +85,6 @@ public class PlayerBody extends Body {
         if(remaining > 0){takeDamage(remaining, source, this.getPart(TORSO));}
     }
 
-    //TODO: isAlive configurable.
-    public boolean isAlive(){
-        return getPart(TORSO).getHealth() > 0 && getPart(HEAD).getHealth() > 0;
-    }
-
     //TODO: blindness on head critical?
     public void applyCriticalPartsEffect(){
         if(entity.getStatusEffect(ModStatusEffects.MORPHINE_EFFECT) == null) {

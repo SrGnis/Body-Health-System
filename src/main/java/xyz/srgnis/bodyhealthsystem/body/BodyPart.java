@@ -18,6 +18,8 @@ public abstract class BodyPart {
     private Identifier identifier;
     protected int armorSlot;
     protected Body body;
+    //TODO: Add this to the mod config
+    protected boolean isKillRequirement = false;
 
     protected DefaultedList<ItemStack> armorList;
     public BodyPart(float maxHealth, float health, LivingEntity entity, Identifier identifier) {
@@ -49,6 +51,18 @@ public abstract class BodyPart {
     public float damage(float amount){
         float newHealth = health - amount;
         setHealth(newHealth);
+
+        return Math.max(0, -newHealth);
+    }
+
+    public float damageWithoutKill(float amount){
+        float newHealth = health - amount;
+
+        if(isKillRequirement) {
+            setHealth(Math.max(1, newHealth));
+        }else {
+            setHealth(newHealth);
+        }
 
         return Math.max(0, -newHealth);
     }
