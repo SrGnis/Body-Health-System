@@ -16,5 +16,6 @@ public class TorsoBodyPart extends BodyPart {
         this.armorSlot = ArmorSlots.CHESTPLATE;
         this.armorList = entity.getInventory().armor;
         this.criticalThreshold = maxHealth/3;
+        this.isKillRequirement = true;
     }
 }

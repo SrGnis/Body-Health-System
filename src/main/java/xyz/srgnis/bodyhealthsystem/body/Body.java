@@ -4,6 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
@@ -177,7 +178,14 @@ public abstract class Body {
         }
 
         float h = part.getHealth();
-        float remaining = part.damage(amount);
+        float remaining;
+        //TODO: This could mistake other magic damage as poison, is a better way of doing this?
+        if(source.getName() == "magic" && entity.getStatusEffect(StatusEffects.POISON) != null) {
+            remaining = part.damageWithoutKill(amount);
+        }else{
+            remaining = part.damage(amount);
+        }
+
 
         entity.getDamageTracker().onDamage(source, h, amount);
         entity.setAbsorptionAmount(entity.getAbsorptionAmount() - amount);
@@ -211,18 +219,29 @@ public abstract class Body {
     public void updateHealth(){
         float max_health = 0;
         float actual_health = 0;
+        boolean shouldDie = false;
         for( BodyPart part : this.getParts()){
             max_health += part.getMaxHealth();
             actual_health += part.getHealth();
+            if(part.isKillRequirement && part.getHealth() <= 0){
+                shouldDie = true;
+            }
         }
-        if (isAlive()){
-            entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ));
-        }else {
+        if (shouldDie){
             entity.setHealth(0);
+        }else {
+            entity.setHealth(entity.getMaxHealth() * ( actual_health / max_health ));
         }
     }
 
-    public abstract boolean isAlive();
+    public boolean shouldDie(){
+        for( BodyPart part : this.getParts()){
+            if(part.isKillRequirement && part.getHealth() <= 0){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     public void checkNoCritical(BodyPart part){
