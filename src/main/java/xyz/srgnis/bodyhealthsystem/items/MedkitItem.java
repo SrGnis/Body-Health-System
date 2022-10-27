@@ -16,16 +16,20 @@
 
 package xyz.srgnis.bodyhealthsystem.items;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 import xyz.srgnis.bodyhealthsystem.client.screen.HealScreenHandler;
+import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
 public class MedkitItem extends Item {
 	public MedkitItem(Settings settings) {
@@ -37,6 +41,11 @@ public class MedkitItem extends Item {
 		ItemStack stack = user.getStackInHand(hand);
 		user.openHandledScreen(createScreenHandlerFactory(stack));
 		return TypedActionResult.success(stack);
+	}
+
+	@Override
+	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+		return ActionResult.PASS;
 	}
 
 	private NamedScreenHandlerFactory createScreenHandlerFactory(ItemStack stack) {
