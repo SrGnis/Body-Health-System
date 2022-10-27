@@ -113,11 +113,10 @@ public class PlayerBody extends Body {
 
     @Override
     public float takeDamage(float amount, DamageSource source, BodyPart part){
+
         PlayerEntity player = (PlayerEntity)entity;
         //applyArmor
-        BHSMain.LOGGER.info("Initial: " + amount);
         amount = applyArmorToDamage(source, amount, part);
-        BHSMain.LOGGER.info("Final: " + amount);
         float f = amount = ((ModifyAppliedDamageInvoker)entity).invokeModifyAppliedDamage(source, amount);
 
         //Copied from PlayerEntity.applyDamage
@@ -137,7 +136,14 @@ public class PlayerBody extends Body {
             player.increaseStat(Stats.DAMAGE_TAKEN, Math.round(amount * 10.0f));
         }
 
-        return part.damage(amount);
+        float remaining;
+        //TODO: This could mistake other magic damage as poison, is a better way of doing this?
+        if(source.getName() == "magic" && entity.getStatusEffect(StatusEffects.POISON) != null) {
+            remaining = part.damageWithoutKill(amount);
+        }else{
+            remaining = part.damage(amount);
+        }
+        return remaining;
     }
 
     public float applyArmorToDamage(DamageSource source, float amount, BodyPart part){

@@ -2,9 +2,11 @@ package xyz.srgnis.bodyhealthsystem;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.srgnis.bodyhealthsystem.command.DevCommands;
@@ -13,6 +15,9 @@ import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
 import xyz.srgnis.bodyhealthsystem.registry.CustomScreenHandler;
 import xyz.srgnis.bodyhealthsystem.registry.ModItems;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
+
+import static net.minecraft.client.util.InputUtil.GLFW_CURSOR;
+import static net.minecraft.client.util.InputUtil.GLFW_CURSOR_NORMAL;
 
 public class BHSMain implements ModInitializer {
 	public static final String MOD_ID = "bodyhealthsystem";
@@ -30,5 +35,10 @@ public class BHSMain implements ModInitializer {
 		ModStatusEffects.registerStatusEffects();
 		Config.init(MOD_ID, Config.class);
 		CustomScreenHandler.registerScreenHandlers();
+	}
+
+	public static boolean debuggerReleaseControl() {
+		GLFW.glfwSetInputMode(MinecraftClient.getInstance().getWindow().getHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		return true;
 	}
 }

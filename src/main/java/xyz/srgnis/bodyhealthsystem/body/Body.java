@@ -4,6 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
@@ -177,7 +178,14 @@ public abstract class Body {
         }
 
         float h = part.getHealth();
-        float remaining = part.damage(amount);
+        float remaining;
+        //TODO: This could mistake other magic damage as poison, is a better way of doing this?
+        if(source.getName() == "magic" && entity.getStatusEffect(StatusEffects.POISON) != null) {
+            remaining = part.damageWithoutKill(amount);
+        }else{
+            remaining = part.damage(amount);
+        }
+
 
         entity.getDamageTracker().onDamage(source, h, amount);
         entity.setAbsorptionAmount(entity.getAbsorptionAmount() - amount);
