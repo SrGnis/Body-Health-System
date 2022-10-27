@@ -26,3 +26,6 @@ If some parts lose all the health debuffs will be applied to the player, as slow
 ### Medkit
 
 ![medkit crafting](docs/images/medkit_crafting.png)
+
+## Contributing
+TODO but you can check the [UML diagram](https://github.com/SrGnis/Body-Health-System/blob/master/docs/images/BodyHealthSystemUML.png)
