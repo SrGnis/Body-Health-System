@@ -17,7 +17,6 @@
 package xyz.srgnis.bodyhealthsystem.items;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,8 +27,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.client.screen.HealScreenHandler;
-import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
 public class MedkitItem extends Item {
 	public MedkitItem(Settings settings) {
@@ -39,18 +38,21 @@ public class MedkitItem extends Item {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
-		user.openHandledScreen(createScreenHandlerFactory(stack));
+		user.openHandledScreen(createScreenHandlerFactory(stack, user));
 		return TypedActionResult.success(stack);
 	}
 
 	@Override
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-		return ActionResult.PASS;
+		if(entity instanceof BodyProvider){
+			user.openHandledScreen(createScreenHandlerFactory(stack, entity));
+		}
+		return ActionResult.CONSUME;
 	}
 
-	private NamedScreenHandlerFactory createScreenHandlerFactory(ItemStack stack) {
+	private NamedScreenHandlerFactory createScreenHandlerFactory(ItemStack stack, LivingEntity entity) {
 		return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
-			return new HealScreenHandler(syncId, inventory);
+			return new HealScreenHandler(syncId, inventory, entity);
 		}, stack.getName());
 	}
 }

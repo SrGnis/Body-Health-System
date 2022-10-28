@@ -16,6 +16,7 @@
 
 package xyz.srgnis.bodyhealthsystem.client.screen;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -26,14 +27,20 @@ import xyz.srgnis.bodyhealthsystem.registry.CustomScreenHandler;
 
 public class HealScreenHandler extends ScreenHandler {
 
-	protected final PlayerEntity player;
-	protected HealScreenHandler(ScreenHandlerType<? extends HealScreenHandler> type, int syncId, PlayerEntity player) {
+	protected final PlayerEntity user;
+	protected final LivingEntity entity;
+	protected HealScreenHandler(ScreenHandlerType<? extends HealScreenHandler> type, int syncId, PlayerEntity user, LivingEntity entity) {
 		super(type, syncId);
-		this.player = player;
+		this.user = user;
+		this.entity = entity;
+	}
+
+	public HealScreenHandler(int syncId, PlayerInventory inventory, LivingEntity entity) {
+		this(CustomScreenHandler.BAG_SCREEN_HANDLER, syncId, inventory.player, entity);
 	}
 
 	public HealScreenHandler(int syncId, PlayerInventory inventory) {
-		this(CustomScreenHandler.BAG_SCREEN_HANDLER, syncId, inventory.player);
+		this(CustomScreenHandler.BAG_SCREEN_HANDLER, syncId, inventory.player, inventory.player);
 	}
 
 	@Override

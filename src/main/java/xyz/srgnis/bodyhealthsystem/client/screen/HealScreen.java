@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -17,7 +18,7 @@ import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 
-public class HealScreen extends HandledScreen<ScreenHandler> {
+public class HealScreen extends HandledScreen<HealScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(BHSMain.MOD_ID, "textures/gui/empty.png");
     public static final Text HEAD = Text.literal("HEAD");
     public static final Text LEFT_ARM = Text.literal("LEFT ARM");
@@ -43,13 +44,14 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
     BodyPartHealButton leftFootButton;
     BodyPartHealButton rightFootButton;
     //FIXME: This should be in the handler
-    private final PlayerEntity player;
+    private final LivingEntity player;
     private final Body body;
 
     public HealScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title);
+        super((HealScreenHandler) handler, inventory, title);
         this.body = ((BodyProvider)inventory.player).getBody();
-        this.player = inventory.player;
+        this.player = this.handler.entity;
+
 
         headButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.HEAD),0, 0, buttonWidth, buttonHeight, HEAD);
         leftArmButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_ARM),0, 0, buttonWidth, buttonHeight, LEFT_ARM);
