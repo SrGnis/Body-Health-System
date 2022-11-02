@@ -16,32 +16,52 @@
 
 package xyz.srgnis.bodyhealthsystem.client.screen;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
-import xyz.srgnis.bodyhealthsystem.registry.CustomScreenHandler;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.world.World;
+import xyz.srgnis.bodyhealthsystem.body.Body;
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
+import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
+import xyz.srgnis.bodyhealthsystem.registry.ScreenHandlers;
+
+import static xyz.srgnis.bodyhealthsystem.network.ClientNetworking.requestBodyData;
 
 
-public class HealScreenHandler extends ScreenHandler {
+public class HealScreenHandler extends net.minecraft.screen.ScreenHandler {
 
 	protected final PlayerEntity user;
 	protected final LivingEntity entity;
-	protected HealScreenHandler(ScreenHandlerType<? extends HealScreenHandler> type, int syncId, PlayerEntity user, LivingEntity entity) {
-		super(type, syncId);
-		this.user = user;
-		this.entity = entity;
-	}
 
 	public HealScreenHandler(int syncId, PlayerInventory inventory, LivingEntity entity) {
-		this(CustomScreenHandler.BAG_SCREEN_HANDLER, syncId, inventory.player, entity);
+		super(ScreenHandlers.HEAL_SCREEN_HANDLER, syncId);
+		this.user = inventory.player;
+		this.entity = entity;
+		//FIXME: is other way of doing this?
+		requestBodyData(entity);
 	}
 
-	public HealScreenHandler(int syncId, PlayerInventory inventory) {
-		this(CustomScreenHandler.BAG_SCREEN_HANDLER, syncId, inventory.player, inventory.player);
+	//Used by the Client
+	public HealScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
+		this(syncId, playerInventory, readEntity(buf, playerInventory.player.world));
+
 	}
+
+	private static LivingEntity readEntity(PacketByteBuf buf, World world) {
+		int id = buf.readInt();
+		return (LivingEntity) world.getEntityById(id);
+	}
+
+	public LivingEntity getEntity() {return entity;}
+
+	public Body getBody() {
+		return ((BodyProvider)entity).getBody();
+	}
+
+	public PlayerEntity getUser() {return user;}
 
 	@Override
 	public ItemStack transferSlot(PlayerEntity player, int index) {

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import xyz.srgnis.bodyhealthsystem.command.DevCommands;
 import xyz.srgnis.bodyhealthsystem.config.Config;
 import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
-import xyz.srgnis.bodyhealthsystem.registry.CustomScreenHandler;
+import xyz.srgnis.bodyhealthsystem.registry.ScreenHandlers;
 import xyz.srgnis.bodyhealthsystem.registry.ModItems;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 
@@ -27,6 +27,10 @@ public class BHSMain implements ModInitializer {
 			new Identifier(MOD_ID, "general"))
 			.icon(() -> new ItemStack(ModItems.PLASTER_ITEM))
 			.build();
+
+	public static Identifier id(String path) {
+		return new Identifier(MOD_ID, path);
+	}
 	@Override
 	public void onInitialize() {
 		ServerNetworking.initialize();
@@ -34,7 +38,7 @@ public class BHSMain implements ModInitializer {
 		ModItems.registerItems();
 		ModStatusEffects.registerStatusEffects();
 		Config.init(MOD_ID, Config.class);
-		CustomScreenHandler.registerScreenHandlers();
+		ScreenHandlers.registerScreenHandlers();
 	}
 
 	public static boolean debuggerReleaseControl() {

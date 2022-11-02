@@ -44,14 +44,9 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
     BodyPartHealButton leftFootButton;
     BodyPartHealButton rightFootButton;
     //FIXME: This should be in the handler
-    private final LivingEntity player;
-    private final Body body;
-
     public HealScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super((HealScreenHandler) handler, inventory, title);
-        this.body = ((BodyProvider)inventory.player).getBody();
-        this.player = this.handler.entity;
-
+        Body body = ((HealScreenHandler) handler).getBody();
 
         headButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.HEAD),0, 0, buttonWidth, buttonHeight, HEAD);
         leftArmButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_ARM),0, 0, buttonWidth, buttonHeight, LEFT_ARM);
@@ -144,7 +139,8 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
         public BodyPart part;
         public BodyPartHealButton(BodyPart part, int x, int y, int width, int height, Text message) {
             super(x, y, width, height, message, button -> {
-                ClientNetworking.useHealingItem(part.getIdentifier(), player.getMainHandStack());
+                //TODO add target entity
+                ClientNetworking.useHealingItem(part.getIdentifier(), handler.getUser().getMainHandStack());
                 HealScreen.this.close();
             });
             this.part = part;
