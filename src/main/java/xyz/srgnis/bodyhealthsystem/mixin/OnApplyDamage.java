@@ -24,7 +24,6 @@ public class OnApplyDamage {
             Body body = ((BodyProvider)this).getBody();
             body.applyDamageBySource(amount, source);
             body.updateHealth();
-            BHSMain.LOGGER.warn("hello");
             ServerNetworking.syncBody((PlayerEntity)(Object)this);
         }
         return 0;
