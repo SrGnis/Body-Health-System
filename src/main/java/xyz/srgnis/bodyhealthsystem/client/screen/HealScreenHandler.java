@@ -16,25 +16,57 @@
 
 package xyz.srgnis.bodyhealthsystem.client.screen;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
-import xyz.srgnis.bodyhealthsystem.registry.CustomScreenHandler;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.world.World;
+import xyz.srgnis.bodyhealthsystem.body.Body;
+import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
+import xyz.srgnis.bodyhealthsystem.registry.ScreenHandlers;
+
+import static xyz.srgnis.bodyhealthsystem.network.ClientNetworking.requestBodyData;
 
 
-public class HealScreenHandler extends ScreenHandler {
+public class HealScreenHandler extends net.minecraft.screen.ScreenHandler {
 
-	protected final PlayerEntity player;
-	protected HealScreenHandler(ScreenHandlerType<? extends HealScreenHandler> type, int syncId, PlayerEntity player) {
-		super(type, syncId);
-		this.player = player;
+	protected final PlayerEntity user;
+	protected final LivingEntity entity;
+	protected final ItemStack itemStack;
+
+	public HealScreenHandler(int syncId, PlayerInventory inventory, ItemStack itemStack, LivingEntity entity) {
+		super(ScreenHandlers.HEAL_SCREEN_HANDLER, syncId);
+		this.user = inventory.player;
+		this.entity = entity;
+		this.itemStack = itemStack;
+		//FIXME: is other way of doing this?
+		requestBodyData(entity);
 	}
 
-	public HealScreenHandler(int syncId, PlayerInventory inventory) {
-		this(CustomScreenHandler.BAG_SCREEN_HANDLER, syncId, inventory.player);
+	//Used by the Client
+	public HealScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
+		this(syncId, playerInventory, readItemStack(buf), readEntity(buf, playerInventory.player.world));
+
 	}
+
+	private static ItemStack readItemStack(PacketByteBuf buf) {
+		return buf.readItemStack();
+	}
+
+	private static LivingEntity readEntity(PacketByteBuf buf, World world) {
+		int id = buf.readInt();
+		return (LivingEntity) world.getEntityById(id);
+	}
+
+	public LivingEntity getEntity() {return entity;}
+
+	public Body getBody() {
+		return ((BodyProvider)entity).getBody();
+	}
+
+	public PlayerEntity getUser() {return user;}
 
 	@Override
 	public ItemStack transferSlot(PlayerEntity player, int index) {
@@ -44,5 +76,9 @@ public class HealScreenHandler extends ScreenHandler {
 	@Override
 	public boolean canUse(PlayerEntity player) {
 		return true;
+	}
+
+	public ItemStack getItemStack() {
+		return itemStack;
 	}
 }
