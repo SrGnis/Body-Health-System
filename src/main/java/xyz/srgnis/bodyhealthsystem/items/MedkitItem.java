@@ -36,6 +36,7 @@ import net.minecraft.world.World;
 import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.client.screen.HealScreenHandler;
 
+//FIXME: null pointers
 public class MedkitItem extends Item {
 	public MedkitItem(Settings settings) {
 		super(settings);
@@ -61,11 +62,12 @@ public class MedkitItem extends Item {
 
 			@Override
 			public ScreenHandler createMenu(int syncId, PlayerInventory inventory, PlayerEntity player) {
-				return new HealScreenHandler(syncId, inventory, entity);
+				return new HealScreenHandler(syncId, inventory, stack, entity);
 			}
 
 			@Override
 			public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+				buf.writeItemStack(stack);
 				buf.writeInt(entity.getId());
 			}
 

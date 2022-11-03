@@ -43,7 +43,6 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
     BodyPartHealButton rightLegButton;
     BodyPartHealButton leftFootButton;
     BodyPartHealButton rightFootButton;
-    //FIXME: This should be in the handler
     public HealScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super((HealScreenHandler) handler, inventory, title);
         Body body = ((HealScreenHandler) handler).getBody();
@@ -133,14 +132,14 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        this.textRenderer.draw(matrices, this.handler.getEntity().getName(), (float)this.titleX, (float)this.titleY, 4210752);
     }
 
     class BodyPartHealButton extends ButtonWidget {
         public BodyPart part;
         public BodyPartHealButton(BodyPart part, int x, int y, int width, int height, Text message) {
             super(x, y, width, height, message, button -> {
-                //TODO add target entity
-                ClientNetworking.useHealingItem(part.getIdentifier(), handler.getUser().getMainHandStack());
+                ClientNetworking.useHealingItem(handler.getEntity() ,part.getIdentifier(), handler.getItemStack());
                 HealScreen.this.close();
             });
             this.part = part;

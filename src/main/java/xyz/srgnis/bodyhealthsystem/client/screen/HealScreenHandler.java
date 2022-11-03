@@ -25,7 +25,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.world.World;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
-import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
 import xyz.srgnis.bodyhealthsystem.registry.ScreenHandlers;
 
 import static xyz.srgnis.bodyhealthsystem.network.ClientNetworking.requestBodyData;
@@ -35,19 +34,25 @@ public class HealScreenHandler extends net.minecraft.screen.ScreenHandler {
 
 	protected final PlayerEntity user;
 	protected final LivingEntity entity;
+	protected final ItemStack itemStack;
 
-	public HealScreenHandler(int syncId, PlayerInventory inventory, LivingEntity entity) {
+	public HealScreenHandler(int syncId, PlayerInventory inventory, ItemStack itemStack, LivingEntity entity) {
 		super(ScreenHandlers.HEAL_SCREEN_HANDLER, syncId);
 		this.user = inventory.player;
 		this.entity = entity;
+		this.itemStack = itemStack;
 		//FIXME: is other way of doing this?
 		requestBodyData(entity);
 	}
 
 	//Used by the Client
 	public HealScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
-		this(syncId, playerInventory, readEntity(buf, playerInventory.player.world));
+		this(syncId, playerInventory, readItemStack(buf), readEntity(buf, playerInventory.player.world));
 
+	}
+
+	private static ItemStack readItemStack(PacketByteBuf buf) {
+		return buf.readItemStack();
 	}
 
 	private static LivingEntity readEntity(PacketByteBuf buf, World world) {
@@ -71,5 +76,9 @@ public class HealScreenHandler extends net.minecraft.screen.ScreenHandler {
 	@Override
 	public boolean canUse(PlayerEntity player) {
 		return true;
+	}
+
+	public ItemStack getItemStack() {
+		return itemStack;
 	}
 }

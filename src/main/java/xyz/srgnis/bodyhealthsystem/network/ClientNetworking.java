@@ -15,6 +15,8 @@ import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 
 import static xyz.srgnis.bodyhealthsystem.BHSMain.id;
 
+//FIXME: this is a bit of a mess
+//FIXME: null pointers
 public class ClientNetworking {
 
     public static void initialize(){
@@ -47,9 +49,10 @@ public class ClientNetworking {
         }
     }
 
-    public static void useHealingItem(Identifier partID, ItemStack itemStack){
+    public static void useHealingItem(Entity entity, Identifier partID, ItemStack itemStack){
         PacketByteBuf buf = PacketByteBufs.create();
 
+        buf.writeInt(entity.getId());
         buf.writeIdentifier(partID);
         buf.writeItemStack(itemStack);
 

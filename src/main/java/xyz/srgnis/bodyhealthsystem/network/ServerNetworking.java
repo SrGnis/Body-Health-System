@@ -20,6 +20,8 @@ import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 
 import static xyz.srgnis.bodyhealthsystem.BHSMain.id;
 
+//FIXME: this is a bit of a mess
+//FIXME: null pointers
 public class ServerNetworking {
 
     public static void initialize(){
@@ -48,12 +50,16 @@ public class ServerNetworking {
 
     //TODO: to much logic here
     private static void handleUseHealingItem(MinecraftServer minecraftServer, ServerPlayerEntity serverPlayerEntity, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender) {
+        Entity entity = serverPlayerEntity.getWorld().getEntityById(packetByteBuf.readInt());
         Identifier partID = packetByteBuf.readIdentifier();
-        if(((BodyProvider) serverPlayerEntity).getBody().getPart(partID).isDamaged()) {
-            ((BodyProvider) serverPlayerEntity).getBody().healPart(4, partID);
+        ItemStack itemStack = packetByteBuf.readItemStack();
+
+        if(((BodyProvider) entity).getBody().getPart(partID).isDamaged()) {
+            ((BodyProvider) entity).getBody().healPart(4, partID);
             //TODO: syncBody call should be in healPart method?
-            serverPlayerEntity.getMainHandStack().decrement(1);
-            syncBody(serverPlayerEntity);
+            itemStack.decrement(1);
+            //FIXME: this cast will cause problems
+            syncBody((PlayerEntity) entity);
         }
     }
 
