@@ -6,6 +6,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
+import xyz.srgnis.bodyhealthsystem.config.Config;
 
 import static net.minecraft.client.gui.DrawableHelper.fill;
 
@@ -18,12 +19,13 @@ public class BHSHud implements HudRenderCallback {
     static final int orange = 0xfff87c00;
     static final int gray = 0xff5b5b5b;
 
-    //TODO: Position config, select color in the parts
+    private static int startX;
+    private static int startY;
+
+    //TODO: select color in the parts
     @Override
     public void onHudRender(MatrixStack matrixStack, float v) {
-        int startX = 0;
-        int startY = 0;
-
+        setHudCords();
         BodyProvider player = (BodyProvider)MinecraftClient.getInstance().player;
 
         if (player != null) {
@@ -81,5 +83,26 @@ public class BHSHud implements HudRenderCallback {
 
         fill(matrixStack, startX, startY, endX, endY, black);
         fill(matrixStack, startX+HUDConstants.BORDER_SIZE, startY+HUDConstants.BORDER_SIZE, endX-HUDConstants.BORDER_SIZE, endY-HUDConstants.BORDER_SIZE, color);
+    }
+
+    private static void setHudCords(){
+        switch (Config.hudPosition){
+            case TOP_LEFT:
+                startX = Config.hudXOffset;
+                startY = Config.hudYOffset;
+                break;
+            case TOP_RIGHT:
+                startX = MinecraftClient.getInstance().getWindow().getScaledWidth()-HUDConstants.BODY_WIDTH-Config.hudXOffset;
+                startY = Config.hudYOffset;
+                break;
+            case BOTTOM_LEFT:
+                startX = Config.hudXOffset;
+                startY = MinecraftClient.getInstance().getWindow().getScaledHeight()-HUDConstants.BODY_HEIGHT-Config.hudYOffset;
+                break;
+            case BOTTOM_RIGHT:
+                startX = MinecraftClient.getInstance().getWindow().getScaledWidth()-HUDConstants.BODY_WIDTH-Config.hudXOffset;
+                startY = MinecraftClient.getInstance().getWindow().getScaledHeight()-HUDConstants.BODY_HEIGHT-Config.hudYOffset;
+                break;
+        }
     }
 }

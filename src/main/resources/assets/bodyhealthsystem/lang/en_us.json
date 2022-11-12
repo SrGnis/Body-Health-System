@@ -35,9 +35,19 @@
   "bodyhealthsystem.midnightconfig.legToughOffset": "Leg Toughness Offset",
   "bodyhealthsystem.midnightconfig.footToughOffset": "Foot Toughness Offset",
 
+  "bodyhealthsystem.midnightconfig.hudPosition": "HUD Position",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.TOP_RIGHT": "Top Right",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.TOP_LEFT": "Top Left",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.BOTTOM_RIGHT": "Bottom Right",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.BOTTOM_LEFT": "Bottom Left",
+  "bodyhealthsystem.midnightconfig.hudXOffset": "HUD Horizontal Offset",
+  "bodyhealthsystem.midnightconfig.hudYOffset": "HUD Vertical Offset",
+
+
   "bodyhealthsystem.midnightconfig.comment_maxHealth": "Max Health",
   "bodyhealthsystem.midnightconfig.comment_armorMult": "Armor Multipliers",
   "bodyhealthsystem.midnightconfig.comment_armorOffset": "Armor Offsets",
   "bodyhealthsystem.midnightconfig.comment_toughMult": "Toughness Multipliers",
-  "bodyhealthsystem.midnightconfig.comment_toughOffset": "Toughness Offset"
+  "bodyhealthsystem.midnightconfig.comment_toughOffset": "Toughness Offset",
+  "bodyhealthsystem.midnightconfig.comment_HUDConfig": "HUD Config"
 }

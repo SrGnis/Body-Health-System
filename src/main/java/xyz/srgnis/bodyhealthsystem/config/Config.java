@@ -33,4 +33,16 @@ public class Config extends MidnightConfig {
     @Entry public static float legToughOffset = 0;
     @Entry public static float footToughOffset = 0;
 
+    @Comment public static Comment comment_HUDConfig;
+    @Entry public static HudPosition hudPosition = HudPosition.TOP_LEFT;
+    @Entry public static int hudXOffset = 0;
+    @Entry public static int hudYOffset = 0;
+
+    public enum HudPosition {
+        TOP_RIGHT,
+        TOP_LEFT,
+        BOTTOM_RIGHT,
+        BOTTOM_LEFT;
+    }
+
 }
