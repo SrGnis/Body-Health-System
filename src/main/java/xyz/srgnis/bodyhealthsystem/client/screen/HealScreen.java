@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -17,7 +18,7 @@ import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
 
-public class HealScreen extends HandledScreen<ScreenHandler> {
+public class HealScreen extends HandledScreen<HealScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(BHSMain.MOD_ID, "textures/gui/empty.png");
     public static final Text HEAD = Text.literal("HEAD");
     public static final Text LEFT_ARM = Text.literal("LEFT ARM");
@@ -42,14 +43,9 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
     BodyPartHealButton rightLegButton;
     BodyPartHealButton leftFootButton;
     BodyPartHealButton rightFootButton;
-    //FIXME: This should be in the handler
-    private final PlayerEntity player;
-    private final Body body;
-
     public HealScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title);
-        this.body = ((BodyProvider)inventory.player).getBody();
-        this.player = inventory.player;
+        super((HealScreenHandler) handler, inventory, title);
+        Body body = ((HealScreenHandler) handler).getBody();
 
         headButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.HEAD),0, 0, buttonWidth, buttonHeight, HEAD);
         leftArmButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_ARM),0, 0, buttonWidth, buttonHeight, LEFT_ARM);
@@ -136,13 +132,14 @@ public class HealScreen extends HandledScreen<ScreenHandler> {
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        this.textRenderer.draw(matrices, this.handler.getEntity().getName(), (float)this.titleX, (float)this.titleY, 4210752);
     }
 
     class BodyPartHealButton extends ButtonWidget {
         public BodyPart part;
         public BodyPartHealButton(BodyPart part, int x, int y, int width, int height, Text message) {
             super(x, y, width, height, message, button -> {
-                ClientNetworking.useHealingItem(part.getIdentifier(), player.getMainHandStack());
+                ClientNetworking.useHealingItem(handler.getEntity() ,part.getIdentifier(), handler.getItemStack());
                 HealScreen.this.close();
             });
             this.part = part;

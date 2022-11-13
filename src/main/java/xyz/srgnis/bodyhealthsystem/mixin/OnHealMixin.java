@@ -18,7 +18,9 @@ public class OnHealMixin {
             Body body = ((BodyProvider)pe).getBody();
             body.heal(amount);
             body.updateHealth();
-            ServerNetworking.syncBody(pe);
+            if(!le.world.isClient){
+                ServerNetworking.syncBody(pe);
+            }
             return 0;
         }
         return amount;

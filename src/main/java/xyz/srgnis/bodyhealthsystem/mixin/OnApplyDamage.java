@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.network.ServerNetworking;
