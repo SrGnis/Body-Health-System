@@ -5,8 +5,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -14,26 +12,15 @@ import net.minecraft.util.Identifier;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
-import xyz.srgnis.bodyhealthsystem.body.player.BodyProvider;
 import xyz.srgnis.bodyhealthsystem.body.player.PlayerBodyParts;
 import xyz.srgnis.bodyhealthsystem.network.ClientNetworking;
+import xyz.srgnis.bodyhealthsystem.constants.GUIConstants;
+
+import static xyz.srgnis.bodyhealthsystem.util.Draw.drawHealthRectangle;
+import static xyz.srgnis.bodyhealthsystem.util.Draw.selectHealthColor;
 
 public class HealScreen extends HandledScreen<HealScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(BHSMain.MOD_ID, "textures/gui/empty.png");
-    public static final Text HEAD = Text.literal("HEAD");
-    public static final Text LEFT_ARM = Text.literal("LEFT ARM");
-    public static final Text RIGHT_ARM = Text.literal("RIGHT ARM");
-    public static final Text TORSO = Text.literal("TORSO");
-    public static final Text LEFT_LEG = Text.literal("LEFT LEG");
-    public static final Text RIGHT_LEG = Text.literal("RIGHT LEG");
-    public static final Text LEFT_FOOT = Text.literal("LEFT FOOT");
-    public static final Text RIGHT_FOOT = Text.literal("RIGHT FOOT");
-    private final int buttonWidth = 75;
-    private final int buttonHeight = 20;
-    private final int buttonMargin = 2;
-    private final int total = (buttonHeight+buttonMargin)*5;
-    private final int heightAndMargin = buttonHeight+buttonMargin;
-    private final int widthAndMargin = buttonWidth+buttonMargin;
 
     BodyPartHealButton headButton;
     BodyPartHealButton leftArmButton;
@@ -47,14 +34,14 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
         super((HealScreenHandler) handler, inventory, title);
         Body body = ((HealScreenHandler) handler).getBody();
 
-        headButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.HEAD),0, 0, buttonWidth, buttonHeight, HEAD);
-        leftArmButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_ARM),0, 0, buttonWidth, buttonHeight, LEFT_ARM);
-        rightArmButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.RIGHT_ARM),0, 0, buttonWidth, buttonHeight, RIGHT_ARM);
-        torsoButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.TORSO),0, 0, buttonWidth, buttonHeight, TORSO);
-        leftLegButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_LEG),0, 0, buttonWidth, buttonHeight, LEFT_LEG);
-        rightLegButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.RIGHT_LEG),0, 0, buttonWidth, buttonHeight, RIGHT_LEG);
-        leftFootButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_FOOT),0, 0, buttonWidth, buttonHeight, LEFT_FOOT);
-        rightFootButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.RIGHT_FOOT),0, 0, buttonWidth, buttonHeight, RIGHT_FOOT);
+        headButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.HEAD),0, 0, GUIConstants.SCALED_HEAD_WIDTH, GUIConstants.SCALED_HEAD_HEIGHT);
+        leftArmButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_ARM),0, 0, GUIConstants.SCALED_LEFT_ARM_WIDTH, GUIConstants.SCALED_LEFT_ARM_HEIGHT);
+        rightArmButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.RIGHT_ARM),0, 0, GUIConstants.SCALED_RIGHT_ARM_WIDTH, GUIConstants.SCALED_RIGHT_ARM_HEIGHT);
+        torsoButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.TORSO),0, 0, GUIConstants.SCALED_TORSO_WIDTH, GUIConstants.SCALED_TORSO_HEIGHT);
+        leftLegButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_LEG),0, 0, GUIConstants.SCALED_LEFT_LEG_WIDTH, GUIConstants.SCALED_LEFT_LEG_HEIGHT);
+        rightLegButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.RIGHT_LEG),0, 0, GUIConstants.SCALED_RIGHT_LEG_WIDTH, GUIConstants.SCALED_RIGHT_LEG_HEIGHT);
+        leftFootButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.LEFT_FOOT),0, 0, GUIConstants.SCALED_LEFT_FOOT_WIDTH, GUIConstants.SCALED_LEFT_FOOT_HEIGHT);
+        rightFootButton = new BodyPartHealButton(body.getPart(PlayerBodyParts.RIGHT_FOOT),0, 0, GUIConstants.SCALED_RIGHT_FOOT_WIDTH, GUIConstants.SCALED_RIGHT_FOOT_HEIGHT);
     }
 
     @Override
@@ -71,56 +58,55 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
 
     protected void drawButtons(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         int startX = (this.width - this.backgroundWidth) / 2;
+        startX = ((this.backgroundWidth - GUIConstants.SCALED_BODY_WIDTH) / 2) + startX;
         int startY = (this.height - this.backgroundHeight) / 2;
-        int buttonStartY = startY+((this.backgroundHeight - total) / 2);
-        int centerX = ((this.backgroundWidth - buttonWidth) / 2) + startX;
-        int centerLeftX = ((this.backgroundWidth - buttonWidth * 2) / 2) + startX;
-        int row = 0;
+        startY = startY+((this.backgroundHeight - GUIConstants.SCALED_BODY_HEIGHT) / 2);
 
-        headButton.x=centerX;
-        headButton.y=buttonStartY+((heightAndMargin)*row);
+
+        headButton.x=startX+ GUIConstants.SCALED_HEAD_X_OFFSET;
+        headButton.y=startY+ GUIConstants.SCALED_HEAD_Y_OFFSET;
         headButton.checkAndSetActive();
         this.addDrawableChild(headButton);
-        row++;
 
-        leftArmButton.x=centerLeftX;
-        leftArmButton.y=buttonStartY+((heightAndMargin)*row);
+
+        leftArmButton.x=startX+ GUIConstants.SCALED_LEFT_ARM_X_OFFSET;
+        leftArmButton.y=startY+ GUIConstants.SCALED_LEFT_ARM_Y_OFFSET;
         leftArmButton.checkAndSetActive();
         this.addDrawableChild(leftArmButton);
 
-        rightArmButton.x=centerLeftX+widthAndMargin;
-        rightArmButton.y=buttonStartY+((heightAndMargin)*row);
+        rightArmButton.x=startX+ GUIConstants.SCALED_RIGHT_ARM_X_OFFSET;
+        rightArmButton.y=startY+ GUIConstants.SCALED_RIGHT_ARM_Y_OFFSET;
         rightArmButton.checkAndSetActive();
         this.addDrawableChild(rightArmButton);
-        row++;
 
-        torsoButton.x=centerX;
-        torsoButton.y=buttonStartY+((heightAndMargin)*row);
+
+        torsoButton.x=startX+ GUIConstants.SCALED_TORSO_X_OFFSET;
+        torsoButton.y=startY+ GUIConstants.SCALED_TORSO_Y_OFFSET;
         torsoButton.checkAndSetActive();
         this.addDrawableChild(torsoButton);
-        row++;
 
-        leftLegButton.x=centerLeftX;
-        leftLegButton.y=buttonStartY+((heightAndMargin)*row);
+
+        leftLegButton.x=startX+ GUIConstants.SCALED_LEFT_LEG_X_OFFSET;
+        leftLegButton.y=startY+ GUIConstants.SCALED_LEFT_LEG_Y_OFFSET;
         leftLegButton.checkAndSetActive();
         this.addDrawableChild(leftLegButton);
 
-        rightLegButton.x=centerLeftX+widthAndMargin;
-        rightLegButton.y=buttonStartY+((heightAndMargin)*row);
+        rightLegButton.x=startX+ GUIConstants.SCALED_RIGHT_LEG_X_OFFSET;
+        rightLegButton.y=startY+ GUIConstants.SCALED_RIGHT_LEG_Y_OFFSET;
         rightLegButton.checkAndSetActive();
         this.addDrawableChild(rightLegButton);
-        row++;
 
-        leftFootButton.x=centerLeftX;
-        leftFootButton.y=buttonStartY+((heightAndMargin)*row);
+
+        leftFootButton.x=startX+ GUIConstants.SCALED_LEFT_FOOT_X_OFFSET;
+        leftFootButton.y=startY+ GUIConstants.SCALED_LEFT_FOOT_Y_OFFSET;
         leftFootButton.checkAndSetActive();
         this.addDrawableChild(leftFootButton);
 
-        rightFootButton.x=centerLeftX+widthAndMargin;
-        rightFootButton.y=buttonStartY+((heightAndMargin)*row);
+        rightFootButton.x=startX+ GUIConstants.SCALED_RIGHT_FOOT_X_OFFSET;
+        rightFootButton.y=startY+ GUIConstants.SCALED_RIGHT_FOOT_Y_OFFSET;
         rightFootButton.checkAndSetActive();
         this.addDrawableChild(rightFootButton);
-        row++;
+
     }
 
     @Override
@@ -135,6 +121,7 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
         this.textRenderer.draw(matrices, this.handler.getEntity().getName(), (float)this.titleX, (float)this.titleY, 4210752);
     }
 
+    //TODO refactor BodyPartHealButton into his own class
     class BodyPartHealButton extends ButtonWidget {
         public BodyPart part;
         public BodyPartHealButton(BodyPart part, int x, int y, int width, int height, Text message) {
@@ -150,8 +137,18 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
             this.part = part;
         }
 
+        public BodyPartHealButton(BodyPart part, int x, int y, int width, int height) {
+            this(part, x,  y,  width, height, Text.literal(""));
+        }
+
         public void checkAndSetActive(){
             active = part.isDamaged();
+        }
+
+        @Override
+        public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta){
+            int color = selectHealthColor(part);
+            drawHealthRectangle(matrices, x, y, width, height, color);
         }
     }
 }
