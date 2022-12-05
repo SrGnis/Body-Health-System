@@ -62,7 +62,6 @@ public class ServerNetworking {
                 int slot = serverPlayerEntity.getInventory().getSlotWithStack(itemStack);
                 serverPlayerEntity.getInventory().getStack(slot).decrement(1);
             }
-            itemStack.decrement(1);
             //TODO: syncBody call should be in healPart method?
             //FIXME: this cast will cause problems
             syncBody((PlayerEntity) entity);
