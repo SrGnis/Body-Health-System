@@ -42,7 +42,9 @@ public class HealScreenHandler extends net.minecraft.screen.ScreenHandler {
 		this.entity = entity;
 		this.itemStack = itemStack;
 		//FIXME: is other way of doing this?
-		requestBodyData(entity);
+		if(entity.world.isClient()){
+			requestBodyData(entity);
+		}
 	}
 
 	//Used by the Client
