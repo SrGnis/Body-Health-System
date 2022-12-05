@@ -56,8 +56,14 @@ public class ServerNetworking {
 
         if(((BodyProvider) entity).getBody().getPart(partID).isDamaged()) {
             ((BodyProvider) entity).getBody().healPart(4, partID);
-            //TODO: syncBody call should be in healPart method?
+            if (serverPlayerEntity.getInventory().getMainHandStack().getItem() == itemStack.getItem()){
+                serverPlayerEntity.getInventory().getMainHandStack().decrement(1);
+            }else{
+                int slot = serverPlayerEntity.getInventory().getSlotWithStack(itemStack);
+                serverPlayerEntity.getInventory().getStack(slot).decrement(1);
+            }
             itemStack.decrement(1);
+            //TODO: syncBody call should be in healPart method?
             //FIXME: this cast will cause problems
             syncBody((PlayerEntity) entity);
         }
