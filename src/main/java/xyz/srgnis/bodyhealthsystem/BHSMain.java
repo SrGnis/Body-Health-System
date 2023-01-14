@@ -1,7 +1,7 @@
 package xyz.srgnis.bodyhealthsystem;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -23,7 +23,7 @@ public class BHSMain implements ModInitializer {
 	public static final String MOD_ID = "bodyhealthsystem";
 	public  static Identifier MOD_IDENTIFIER = new Identifier(BHSMain.MOD_ID);
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final ItemGroup BHS_GROUP = FabricItemGroupBuilder.create(
+	public static final ItemGroup BHS_GROUP = FabricItemGroup.builder(
 			new Identifier(MOD_ID, "general"))
 			.icon(() -> new ItemStack(ModItems.PLASTER_ITEM))
 			.build();
