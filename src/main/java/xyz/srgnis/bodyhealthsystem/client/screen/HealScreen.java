@@ -68,7 +68,6 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
         headButton.checkAndSetActive();
         this.addDrawableChild(headButton);
 
-
         leftArmButton.setX(startX+ GUIConstants.SCALED_LEFT_ARM_X_OFFSET);
         leftArmButton.setY(startY+ GUIConstants.SCALED_LEFT_ARM_Y_OFFSET);
         leftArmButton.checkAndSetActive();
@@ -106,7 +105,6 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
         rightFootButton.setY(startY+ GUIConstants.SCALED_RIGHT_FOOT_Y_OFFSET);
         rightFootButton.checkAndSetActive();
         this.addDrawableChild(rightFootButton);
-
     }
 
     @Override
@@ -147,7 +145,7 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
         @Override
         public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta){
             int color = selectHealthColor(part);
-            drawHealthRectangle(matrices, x, y, width, height, color);
+            drawHealthRectangle(matrices, this.getX(), this.getY(), width, height, color);
         }
     }
 }
