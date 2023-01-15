@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "bodyhealthsystem:items/morphine"
+    "layer0": "bodyhealthsystem:item/morphine"
   }
 }

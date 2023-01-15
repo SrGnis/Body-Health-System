@@ -17,7 +17,7 @@ import xyz.srgnis.bodyhealthsystem.body.player.PlayerBody;
 public class OnPlayerInitMixin implements BodyProvider {
     public Body body = null;
     @Inject(method = "<init>*", at = @At("RETURN"))
-    public void addBodyOnInit(World world, BlockPos pos, float yaw, GameProfile gameProfile, PlayerPublicKey publicKey, CallbackInfo ci) {
+    public void addBodyOnInit(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         this.body = new PlayerBody(player);
         this.body.initParts();
