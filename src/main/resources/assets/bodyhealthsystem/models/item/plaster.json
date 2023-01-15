@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "bodyhealthsystem:items/plaster"
+    "layer0": "bodyhealthsystem:item/plaster"
   }
 }
