@@ -2,9 +2,12 @@ package xyz.srgnis.bodyhealthsystem.body.player;
 
 import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.stat.Stats;
 import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
@@ -44,30 +47,16 @@ public class PlayerBody extends Body {
         }
         //TODO: handle more damage sources
         //TODO: starvation overpowered?
-        switch (source.getName()){
-            case "fall":
-            case "hotFloor":
-                applyFallDamage(amount, source);
-                break;
-            case "lightningBolt":
-            case "lava":
-            case "fireball":
-            case "explosion":
-            case "explosion.player":
-                applyDamageFullRandom(amount, source);
-                break;
-            case "drown":
-            case "starve":
-                applyDamageLocal(amount, source, this.getPart(TORSO));
-                break;
-            case "flyIntoWall":
-            case "anvil":
-            case "fallingBlock":
-            case "fallingStalactite":
-                applyDamageLocal(amount, source, this.getPart(HEAD));
-                break;
-            default:
-                applyDamageLocalRandom(amount, source);
+        if (source.isOf(DamageTypes.FALL) || source.isOf(DamageTypes.HOT_FLOOR)) {
+            applyFallDamage(amount, source);
+        } else if (source.isOf(DamageTypes.LIGHTNING_BOLT) || source.isOf(DamageTypes.LAVA) || source.isOf(DamageTypes.FIREBALL) || source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION)) {
+            applyDamageFullRandom(amount, source);
+        } else if (source.isOf(DamageTypes.DROWN) || source.isOf(DamageTypes.STARVE)) {
+            applyDamageLocal(amount, source, this.getPart(TORSO));
+        } else if (source.isOf(DamageTypes.FLY_INTO_WALL) || source.isOf(DamageTypes.FALLING_ANVIL) || source.isOf(DamageTypes.FALLING_BLOCK) || source.isOf(DamageTypes.FALLING_STALACTITE)) {
+            applyDamageLocal(amount, source, this.getPart(HEAD));
+        } else {
+            applyDamageLocalRandom(amount, source);
         }
 
     }
@@ -131,14 +120,14 @@ public class PlayerBody extends Body {
         }
         player.addExhaustion(source.getExhaustion());
         float h = entity.getHealth();
-        player.getDamageTracker().onDamage(source, h, amount);
+        player.getDamageTracker().onDamage(source, amount);
         if (amount < 3.4028235E37f) {
             player.increaseStat(Stats.DAMAGE_TAKEN, Math.round(amount * 10.0f));
         }
 
         float remaining;
         //TODO: This could mistake other magic damage as poison, is a better way of doing this?
-        if(source.getName() == "magic" && entity.getStatusEffect(StatusEffects.POISON) != null) {
+        if(source.isOf(DamageTypes.MAGIC) && entity.getStatusEffect(StatusEffects.POISON) != null) {
             remaining = part.damageWithoutKill(amount);
         }else{
             remaining = part.damage(amount);
@@ -148,7 +137,7 @@ public class PlayerBody extends Body {
 
     public float applyArmorToDamage(DamageSource source, float amount, BodyPart part){
         if(part.getAffectedArmor().getItem() instanceof ArmorItem) {
-            if (!source.bypassesArmor()) {
+            if (!source.isIn(DamageTypeTags.BYPASSES_ARMOR)) {
                 PlayerEntity player = (PlayerEntity)entity;
                 ArmorItem armorItem = ((ArmorItem) part.getAffectedArmor().getItem());
                 player.getInventory().damageArmor(source,amount,new int[]{part.getArmorSlot()});

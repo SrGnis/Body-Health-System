@@ -1,6 +1,7 @@
 package xyz.srgnis.bodyhealthsystem.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
@@ -45,18 +46,18 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(DrawContext drawContext, float delta, int mouseX, int mouseY) {
         int startX = (this.width - this.backgroundWidth) / 2;
         int startY = (this.height - this.backgroundHeight) / 2;
 
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        //RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+        //RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        //RenderSystem.setShaderTexture(0, TEXTURE);
 
-        drawTexture(matrices,startX,startY,0,0,this.backgroundWidth,this.backgroundHeight);
+        drawContext.drawTexture(TEXTURE, startX,startY,0,0,this.backgroundWidth,this.backgroundHeight);
     }
 
-    protected void drawButtons(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawButtons(DrawContext drawContext, float delta, int mouseX, int mouseY) {
         int startX = (this.width - this.backgroundWidth) / 2;
         startX = ((this.backgroundWidth - GUIConstants.SCALED_BODY_WIDTH) / 2) + startX;
         int startY = (this.height - this.backgroundHeight) / 2;
@@ -108,15 +109,15 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta){
-        drawBackground(matrices, delta, mouseX, mouseY);
-        super.render(matrices, mouseX, mouseY, delta);
-        drawButtons(matrices, delta, mouseX, mouseY);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta){
+        drawBackground(drawContext, delta, mouseX, mouseY);
+        super.render(drawContext, mouseX, mouseY, delta);
+        drawButtons(drawContext, delta, mouseX, mouseY);
     }
 
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        this.textRenderer.draw(matrices, this.handler.getEntity().getName(), (float)this.titleX, (float)this.titleY, 4210752);
+    protected void drawForeground(DrawContext drawContext, int mouseX, int mouseY) {
+        drawContext.drawText(this.textRenderer, this.handler.getEntity().getName(), this.titleX, this.titleY, 4210752, false);
     }
 
     //TODO refactor BodyPartHealButton into his own class
@@ -143,9 +144,9 @@ public class HealScreen extends HandledScreen<HealScreenHandler> {
         }
 
         @Override
-        public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta){
+        public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta){
             int color = selectHealthColor(part);
-            drawHealthRectangle(matrices, this.getX(), this.getY(), width, height, color);
+            drawHealthRectangle(drawContext, this.getX(), this.getY(), width, height, color);
         }
     }
 }
