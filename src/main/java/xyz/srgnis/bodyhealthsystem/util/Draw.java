@@ -1,10 +1,8 @@
 package xyz.srgnis.bodyhealthsystem.util;
 
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.constants.GUIConstants;
-
-import static net.minecraft.client.gui.DrawableHelper.fill;
 
 public class Draw {
     static final int dark_green = 0xff38761d;
@@ -35,11 +33,11 @@ public class Draw {
         return gray;
     }
 
-    public static void drawHealthRectangle(MatrixStack matrixStack, int startX, int startY, int width, int height, int color){
+    public static void drawHealthRectangle(DrawContext drawContext, int startX, int startY, int width, int height, int color){
         int endX = startX+width;
         int endY = startY+height;
 
-        fill(matrixStack, startX, startY, endX, endY, black);
-        fill(matrixStack, startX+ GUIConstants.BORDER_SIZE, startY+ GUIConstants.BORDER_SIZE, endX- GUIConstants.BORDER_SIZE, endY- GUIConstants.BORDER_SIZE, color);
+        drawContext.fill(startX, startY, endX, endY, black);
+        drawContext.fill(startX+ GUIConstants.BORDER_SIZE, startY+ GUIConstants.BORDER_SIZE, endX- GUIConstants.BORDER_SIZE, endY- GUIConstants.BORDER_SIZE, color);
     }
 }
