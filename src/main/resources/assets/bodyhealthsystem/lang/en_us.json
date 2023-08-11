@@ -42,6 +42,7 @@
   "bodyhealthsystem.midnightconfig.enum.HudPosition.BOTTOM_LEFT": "Bottom Left",
   "bodyhealthsystem.midnightconfig.hudXOffset": "HUD Horizontal Offset",
   "bodyhealthsystem.midnightconfig.hudYOffset": "HUD Vertical Offset",
+  "bodyhealthsystem.midnightconfig.hiddeVanillaHealth": "Hidde vanilla Health Bar",
 
 
   "bodyhealthsystem.midnightconfig.comment_maxHealth": "Max Health",
