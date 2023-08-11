@@ -10,7 +10,8 @@
     "OnHealMixin",
     "NaturalRegenMixin",
     "ModifyAppliedDamageInvoker",
-    "PlayerTickMixin"
+    "PlayerTickMixin",
+    "NoHeartsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
