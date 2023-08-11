@@ -21,9 +21,10 @@ public class BHSHud implements HudRenderCallback {
         setHudCords();
         BodyProvider player = (BodyProvider)MinecraftClient.getInstance().player;
 
-        if (!(player == null || MinecraftClient.getInstance().options.debugEnabled)) {
+        if (!(player == null)) {
             int color;
             drawContext.getMatrices().push();
+            drawContext.getMatrices().translate(0,0,-1);
             //head
             color = selectHealthColor(player.getBody().getPart(PlayerBodyParts.HEAD));
             drawHealthRectangle(drawContext, startX+ GUIConstants.HEAD_X_OFFSET, startY+ GUIConstants.HEAD_Y_OFFSET, GUIConstants.HEAD_WIDTH, GUIConstants.HEAD_HEIGHT, color);
