@@ -26,3 +26,7 @@ If some parts lose all the health debuffs will be applied to the player, as slow
 
 ## Contributing
 TODO but you can check the [UML diagram](https://github.com/SrGnis/Body-Health-System/blob/master/docs/images/BodyHealthSystemUML.png)
+
+## Contributors
+
+Many thanks to @Blayung for his fixes of the HUD
