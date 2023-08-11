@@ -21,7 +21,7 @@ public class BHSHud implements HudRenderCallback {
         setHudCords();
         BodyProvider player = (BodyProvider)MinecraftClient.getInstance().player;
 
-        if (player != null) {
+        if (!(player == null || MinecraftClient.getInstance().options.debugEnabled)) {
             int color;
             drawContext.getMatrices().push();
             //head
