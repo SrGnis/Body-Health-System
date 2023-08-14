@@ -252,4 +252,11 @@ public abstract class Body {
             noCriticalParts.remove(part.getIdentifier());
         }
     }
+
+    public void applyTotem(){
+        for( BodyPart part : this.getParts()){
+            if( part.getHealth() < 1.0F) part.setHealth(1.0F);
+        }
+        this.updateHealth();
+    }
 }

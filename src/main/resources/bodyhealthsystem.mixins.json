@@ -11,7 +11,8 @@
     "NaturalRegenMixin",
     "ModifyAppliedDamageInvoker",
     "PlayerTickMixin",
-    "NoHeartsMixin"
+    "NoHeartsMixin",
+    "OnTryUseTotemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
