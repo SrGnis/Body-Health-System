@@ -14,6 +14,7 @@ import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
 import xyz.srgnis.bodyhealthsystem.body.player.parts.*;
+import xyz.srgnis.bodyhealthsystem.config.Config;
 import xyz.srgnis.bodyhealthsystem.mixin.ModifyAppliedDamageInvoker;
 import xyz.srgnis.bodyhealthsystem.registry.ModStatusEffects;
 import xyz.srgnis.bodyhealthsystem.util.Utils;
@@ -52,7 +53,7 @@ public class PlayerBody extends Body {
         } else if (source.isOf(DamageTypes.LIGHTNING_BOLT) || source.isOf(DamageTypes.LAVA) || source.isOf(DamageTypes.FIREBALL) || source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION)) {
             applyDamageFullRandom(amount, source);
         } else if (source.isOf(DamageTypes.DROWN) || source.isOf(DamageTypes.STARVE)) {
-            applyDamageLocal(amount, source, this.getPart(TORSO));
+            applyDamageLocal(Config.drownStarveDamage, source, this.getPart(TORSO));
         } else if (source.isOf(DamageTypes.FLY_INTO_WALL) || source.isOf(DamageTypes.FALLING_ANVIL) || source.isOf(DamageTypes.FALLING_BLOCK) || source.isOf(DamageTypes.FALLING_STALACTITE)) {
             applyDamageLocal(amount, source, this.getPart(HEAD));
         } else {
