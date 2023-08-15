@@ -34,7 +34,7 @@ public class Config extends MidnightConfig {
     @Entry public static float footToughOffset = 0;
 
     @Comment public static Comment comment_damage;
-    @Entry public static float drownStarveDamage = 0.5F;
+    @Entry public static float drowningDamage = 0.5F;
 
     @Comment public static Comment comment_HUDConfig;
     @Entry public static HudPosition hudPosition = HudPosition.TOP_LEFT;

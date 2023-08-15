@@ -2,14 +2,12 @@ package xyz.srgnis.bodyhealthsystem.body.player;
 
 import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.stat.Stats;
-import xyz.srgnis.bodyhealthsystem.BHSMain;
 import xyz.srgnis.bodyhealthsystem.body.Body;
 import xyz.srgnis.bodyhealthsystem.body.BodyPart;
 import xyz.srgnis.bodyhealthsystem.body.BodySide;
@@ -52,8 +50,10 @@ public class PlayerBody extends Body {
             applyFallDamage(amount, source);
         } else if (source.isOf(DamageTypes.LIGHTNING_BOLT) || source.isOf(DamageTypes.LAVA) || source.isOf(DamageTypes.FIREBALL) || source.isOf(DamageTypes.EXPLOSION) || source.isOf(DamageTypes.PLAYER_EXPLOSION)) {
             applyDamageFullRandom(amount, source);
-        } else if (source.isOf(DamageTypes.DROWN) || source.isOf(DamageTypes.STARVE)) {
-            applyDamageLocal(Config.drownStarveDamage, source, this.getPart(TORSO));
+        } else if (source.isOf(DamageTypes.STARVE)) {
+            applyDamageLocal(amount, source, this.getPart(TORSO));
+        } else if (source.isOf(DamageTypes.DROWN)) {
+            applyDamageLocal(Config.drowningDamage, source, this.getPart(TORSO));
         } else if (source.isOf(DamageTypes.FLY_INTO_WALL) || source.isOf(DamageTypes.FALLING_ANVIL) || source.isOf(DamageTypes.FALLING_BLOCK) || source.isOf(DamageTypes.FALLING_STALACTITE)) {
             applyDamageLocal(amount, source, this.getPart(HEAD));
         } else {

@@ -44,7 +44,7 @@
   "bodyhealthsystem.midnightconfig.hudYOffset": "HUD Vertical Offset",
   "bodyhealthsystem.midnightconfig.hiddeVanillaHealth": "Hidde vanilla Health Bar",
 
-  "bodyhealthsystem.midnightconfig.drownStarveDamage": "Drowning and Starving damage",
+  "bodyhealthsystem.midnightconfig.drowningDamage": "Drowning damage",
 
   "bodyhealthsystem.midnightconfig.comment_maxHealth": "Max Health",
   "bodyhealthsystem.midnightconfig.comment_armorMult": "Armor Multipliers",
