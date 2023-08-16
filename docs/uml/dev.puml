@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/class-diagram
+package net.minecraft{
+    class LivingEntity
+}
+
+abstract class Body{
+    - HashMap parts
+    + {method} heal logic
+    + {method} damage logic
+}
+class BodyRegistry{
+}
+abstract class BodyPart{
+    - float maxHealth
+    - float health
+    - int armorSlot
+    + {method}getters and setters
+}
+class BodyPartRegistry{
+}
+class BodyImpl extends Body{
+    + initParts()
+    + {method} specific damage logic
+}
+
+class OnLivingEntityInitMixin
+note right: Calls BodyManager.assignBody()
+class BodyManager{
+    - assignmentConditions
+    + addAssignment()
+    + assignBody()
+}
+class BodyAssignment{
+    - Body body
+    - LivingEntity[] affectedEntities
+    - int priority
+    + shouldUse()
+}
+
+interface BodyProvider{
+    + getBody()
+    + setBody()
+    + removeBody()
+}
+
+'-------------------------------------------------------------------------'
+
+BodyManager --* "0..*" BodyAssignment
+BodyAssignment --* "1" Body
+
+Body --* "0..*" BodyPart
+BodyProvider --* "1" Body
+LivingEntity --|> BodyProvider
+(BodyProvider, LivingEntity) ..  OnLivingEntityInitMixin
+BodyRegistry -- Body
+BodyPartRegistry -- BodyPart
+@enduml
