@@ -12,10 +12,14 @@ abstract class Body{
 class BodyRegistry{
 }
 abstract class BodyPart{
+    - PartLocation location
     - float maxHealth
     - float health
     - int armorSlot
     + {method}getters and setters
+}
+abstract class BodyPartModifier{
+
 }
 class BodyPartRegistry{
 }
@@ -35,13 +39,21 @@ class BodyAssignment{
     - Body body
     - LivingEntity[] affectedEntities
     - int priority
-    + shouldUse()
+    - Predicate shouldUse
 }
-
 interface BodyProvider{
     + getBody()
     + setBody()
     + removeBody()
+}
+abstract class BodyFunction{
+    - BodyPart[] parts
+    - int minPartNumber
+    - float debufThreshold
+    - bool isCritical
+    + tick()
+    - thresholdExceeded()
+    - applyDebuf()
 }
 
 '-------------------------------------------------------------------------'
@@ -55,4 +67,7 @@ LivingEntity --|> BodyProvider
 (BodyProvider, LivingEntity) ..  OnLivingEntityInitMixin
 BodyRegistry -- Body
 BodyPartRegistry -- BodyPart
+Body --* BodyFunction
+BodyFunction --* BodyPart
+BodyPart -* BodyPartModifier
 @enduml

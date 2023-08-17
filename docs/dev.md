@@ -37,5 +37,5 @@ When a VampirePlayer gets a VampireWing health to a critical level (threshold) a
 
 When an `LivingEntity` is created, the `BodyManager` is used to assign to it, if necessary, a `Body`. For this purpose,
 multiple `BodyAssignement` are used, which are composed of the `Body` to assign, a list of entities to which to apply 
-this assignment, a priority to handle overwrites and a `shouldUse` method where additional logic can be specified. 
+this assignment, a priority to handle overwrites and a `shouldUse` `Predicate` where additional logic can be specified. 
 These `BodyAssignement` can be created by other mods and will also be generated automatically when parsing the configuration.
