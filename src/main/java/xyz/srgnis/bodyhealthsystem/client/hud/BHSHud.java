@@ -26,6 +26,7 @@ public class BHSHud implements HudRenderCallback {
                 int color;
                 drawContext.getMatrices().push();
                 drawContext.getMatrices().translate(0,0,-1);
+                drawContext.getMatrices().scale(Config.hudScale, Config.hudScale, 1);
                 //head
                 color = selectHealthColor(player.getBody().getPart(PlayerBodyParts.HEAD));
                 drawHealthRectangle(drawContext, startX+ GUIConstants.HEAD_X_OFFSET, startY+ GUIConstants.HEAD_Y_OFFSET, GUIConstants.HEAD_WIDTH, GUIConstants.HEAD_HEIGHT, color);
