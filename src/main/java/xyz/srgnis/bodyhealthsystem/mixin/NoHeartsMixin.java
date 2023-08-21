@@ -19,7 +19,14 @@ public class NoHeartsMixin {
         ci.cancel();
     }
 
-    @ModifyVariable(method = "Lnet/minecraft/client/gui/hud/InGameHud;renderStatusBars(Lnet/minecraft/client/gui/DrawContext;)V", at = @At("STORE"), name = "s")
+    @ModifyVariable(
+            method = "Lnet/minecraft/client/gui/hud/InGameHud;renderStatusBars(Lnet/minecraft/client/gui/DrawContext;)V",
+            at = @At("STORE"),
+            ordinal = 9,
+            index = 17,
+            name = "s",
+            require = 0
+    )
     private int moveArmorBarDown(int s) {
         if(Config.hiddeVanillaHealth) {
             return s + 10;
