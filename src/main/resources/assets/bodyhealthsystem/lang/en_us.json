@@ -47,11 +47,14 @@
 
   "bodyhealthsystem.midnightconfig.drowningDamage": "Drowning damage",
 
+  "bodyhealthsystem.midnightconfig.allowFoodHealing": "Allow food healing",
+
   "bodyhealthsystem.midnightconfig.comment_maxHealth": "Max Health",
   "bodyhealthsystem.midnightconfig.comment_armorMult": "Armor Multipliers",
   "bodyhealthsystem.midnightconfig.comment_armorOffset": "Armor Offsets",
   "bodyhealthsystem.midnightconfig.comment_toughMult": "Toughness Multipliers",
   "bodyhealthsystem.midnightconfig.comment_toughOffset": "Toughness Offset",
   "bodyhealthsystem.midnightconfig.comment_HUDConfig": "HUD Config",
-  "bodyhealthsystem.midnightconfig.comment_damage": "Damage"
+  "bodyhealthsystem.midnightconfig.comment_damage": "Damage",
+  "bodyhealthsystem.midnightconfig.comment_healing": "Healing"
 }

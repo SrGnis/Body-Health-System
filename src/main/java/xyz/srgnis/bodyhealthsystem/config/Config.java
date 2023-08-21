@@ -36,6 +36,9 @@ public class Config extends MidnightConfig {
     @Comment(centered = true) public static Comment comment_damage;
     @Entry public static float drowningDamage = 0.5F;
 
+    @Comment(centered = true) public static Comment comment_healing;
+    @Entry public static boolean allowFoodHealing = false;
+
     @Comment(centered = true) public static Comment comment_HUDConfig;
     @Entry public static HudPosition hudPosition = HudPosition.TOP_LEFT;
     @Entry public static int hudXOffset = 0;
