@@ -1,0 +1,111 @@
+---
+title: Body Health System UML
+---
+classDiagram
+namespace Minecraft {
+    class LivingEntity
+}
+
+class Body{
+    - HashMap parts
+    + heal logic()
+    + damage logic()
+}
+
+class BodyRegistry
+
+class BodyPart{
+    - PartLocation location
+    - float maxHealth
+    - float health
+    - int armorSlot
+    - attributeModifiers
+    + getters and setters()
+}
+
+class BodyPartModifier{
+    - attributeModifiers
+}
+
+class BodyPartRegistry
+
+class BodyImpl{
+    + initParts()
+    + specific damage logic()
+}
+
+class BodyManager{
+    - assignmentConditions
+    + addAssignment()
+    + assignBody()
+    + getBody(LivingEntity) : Body
+}
+
+class BodyAssignment{
+    - Body body
+    - LivingEntity[] affectedEntities
+    - int priority
+    - Predicate shouldUse
+}
+
+class BodyProvider{
+    + getBody() : Body
+    + setBody(Body)
+    + removeBody()
+}
+
+class BodyFunction{
+    - BodyPart[] parts
+    - int minPartNumber
+    - float debufThreshold
+    - bool isCritical
+    + tick()
+    - thresholdExceeded()
+    - applyDebuf()
+}
+
+class DamageManager
+
+class DamageHandler{
+    - DamageType[] affectedTypes
+    - int priority
+    - Predicate shouldApply
+    + applyDamage(float, DamageSource) : bool
+}
+
+class DamageHandlerRegistry
+
+class PartLocation
+
+class PartLocationElement
+
+class DefaultDamageHandler
+
+class BodyPartManager
+
+%%----------------Relationships----------------
+
+    BodyManager --* "0..*" BodyAssignment
+    BodyAssignment --* "1" Body
+    BodyRegistry --* "0..*" Body
+    Body <|-- BodyImpl
+
+    Body --* "1" BodyPartManager
+    BodyProvider --* "1" Body
+    LivingEntity --|> BodyProvider
+
+    Body --* "0..*" BodyFunction
+    BodyFunction --* "1" BodyPartManager
+
+    BodyPart --* "1..*" PartLocation
+    PartLocation --* "1..*" PartLocationElement
+    BodyPartRegistry --* "0..*"BodyPart
+    BodyPart --* "0..*" BodyPartModifier
+    BodyPartManager --* "0..*" BodyPart
+
+    BodyPartManager "1" *-- DamageHandler
+    Body --* "1" DamageManager
+    DamageManager --* "0..*" DamageHandler
+    DamageHandler <|-- DefaultDamageHandler
+    DamageHandlerRegistry --* "0..*" DamageHandler
+

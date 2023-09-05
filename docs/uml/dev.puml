@@ -1,6 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
-package net.minecraft{
+package minecraft{
     class LivingEntity
 }
 
@@ -16,10 +16,11 @@ abstract class BodyPart{
     - float maxHealth
     - float health
     - int armorSlot
+    - attributeModifiers
     + {method}getters and setters
 }
 abstract class BodyPartModifier{
-
+    - attributeModifiers
 }
 class BodyPartRegistry{
 }
@@ -56,6 +57,10 @@ abstract class BodyFunction{
     - applyDebuf()
 }
 
+class PartLocation{}
+
+class PartLocationElement{}
+
 '-------------------------------------------------------------------------'
 
 BodyManager --* "0..*" BodyAssignment
@@ -65,9 +70,12 @@ Body --* "0..*" BodyPart
 BodyProvider --* "1" Body
 LivingEntity --|> BodyProvider
 (BodyProvider, LivingEntity) ..  OnLivingEntityInitMixin
-BodyRegistry -- Body
-BodyPartRegistry -- BodyPart
+BodyRegistry --* Body
+BodyPartRegistry --* BodyPart
 Body --* BodyFunction
 BodyFunction --* BodyPart
 BodyPart -* BodyPartModifier
+PartLocation --* PartLocationElement
+BodyPart --* PartLocation
+
 @enduml
