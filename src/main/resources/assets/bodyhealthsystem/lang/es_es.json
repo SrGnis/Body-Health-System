@@ -1,0 +1,57 @@
+{
+  "item.bodyhealthsystem.plaster": "Yeso",
+  "item.bodyhealthsystem.morphine": "Morfina",
+  "item.bodyhealthsystem.medkit": "Botiquín",
+
+  "itemGroup.bodyhealthsystem.general": "Sistema de Salud Corporal",
+
+  "effect.bodyhealthsystem.morphine_effect": "Efecto de Morfina",
+
+  "bodyhealthsystem.midnightconfig.title": "Sistema de Salud Corporal",
+
+  "bodyhealthsystem.midnightconfig.headMaxHealth": "Salud Máxima de la Cabeza",
+  "bodyhealthsystem.midnightconfig.torsoMaxHealth": "Salud Máxima del Torso",
+  "bodyhealthsystem.midnightconfig.legMaxHealth": "Salud Máxima de las Piernas",
+  "bodyhealthsystem.midnightconfig.armMaxHealth": "Salud Máxima de los Brazos",
+  "bodyhealthsystem.midnightconfig.footMaxHealth": "Salud Máxima de los Pies",
+
+  "bodyhealthsystem.midnightconfig.headArmorMult": "Multiplicador de Armadura de la Cabeza",
+  "bodyhealthsystem.midnightconfig.torsoArmorMult": "Multiplicador de Armadura del Torso",
+  "bodyhealthsystem.midnightconfig.legArmorMult": "Multiplicador de Armadura de las Piernas",
+  "bodyhealthsystem.midnightconfig.footArmorMult": "Multiplicador de Armadura de los Pies",
+
+  "bodyhealthsystem.midnightconfig.headArmorOffset": "Desplazamiento de Armadura de la Cabeza",
+  "bodyhealthsystem.midnightconfig.torsoArmorOffset": "Desplazamiento de Armadura del Torso",
+  "bodyhealthsystem.midnightconfig.legArmorOffset": "Desplazamiento de Armadura de las Piernas",
+  "bodyhealthsystem.midnightconfig.footArmorOffset": "Desplazamiento de Armadura de los Pies",
+
+  "bodyhealthsystem.midnightconfig.headToughMult": "Multiplicador de Resistencia de la Cabeza",
+  "bodyhealthsystem.midnightconfig.torsoToughMult": "Multiplicador de Resistencia del Torso",
+  "bodyhealthsystem.midnightconfig.legToughMult": "Multiplicador de Resistencia de las Piernas",
+  "bodyhealthsystem.midnightconfig.footToughMult": "Multiplicador de Resistencia de los Pies",
+
+  "bodyhealthsystem.midnightconfig.headToughOffset": "Desplazamiento de Resistencia de la Cabeza",
+  "bodyhealthsystem.midnightconfig.torsoToughOffset": "Desplazamiento de Resistencia del Torso",
+  "bodyhealthsystem.midnightconfig.legToughOffset": "Desplazamiento de Resistencia de las Piernas",
+  "bodyhealthsystem.midnightconfig.footToughOffset": "Desplazamiento de Resistencia de los Pies",
+
+  "bodyhealthsystem.midnightconfig.hudPosition": "Posición del HUD",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.TOP_RIGHT": "Arriba a la Derecha",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.TOP_LEFT": "Arriba a la Izquierda",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.BOTTOM_RIGHT": "Abajo a la Derecha",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.BOTTOM_LEFT": "Abajo a la Izquierda",
+  "bodyhealthsystem.midnightconfig.hudXOffset": "Desplazamiento Horizontal del HUD",
+  "bodyhealthsystem.midnightconfig.hudYOffset": "Desplazamiento Vertical del HUD",
+  "bodyhealthsystem.midnightconfig.hudScale": "Escala del HUD",
+  "bodyhealthsystem.midnightconfig.hiddeVanillaHealth": "Ocultar Barra de Salud Vanilla",
+
+  "bodyhealthsystem.midnightconfig.drowningDamage": "Daño por Ahogamiento",
+
+  "bodyhealthsystem.midnightconfig.comment_maxHealth": "Salud Máxima",
+  "bodyhealthsystem.midnightconfig.comment_armorMult": "Multiplicadores de Armadura",
+  "bodyhealthsystem.midnightconfig.comment_armorOffset": "Desplazamientos de Armadura",
+  "bodyhealthsystem.midnightconfig.comment_toughMult": "Multiplicadores de Resistencia",
+  "bodyhealthsystem.midnightconfig.comment_toughOffset": "Desplazamiento de Resistencia",
+  "bodyhealthsystem.midnightconfig.comment_HUDConfig": "Configuración del HUD",
+  "bodyhealthsystem.midnightconfig.comment_damage": "Daño"
+}
