@@ -1,0 +1,57 @@
+{
+  "item.bodyhealthsystem.plaster": "Plaster",
+  "item.bodyhealthsystem.morphine": "Morfina",
+  "item.bodyhealthsystem.medkit": "Apteczka",
+
+  "bodyhealthsystem.group.general": "Body Health System",
+
+  "effect.bodyhealthsystem.morphine_effect": "Morfina",
+
+  "bodyhealthsystem.midnightconfig.title": "Body Health System",
+
+  "bodyhealthsystem.midnightconfig.headMaxHealth": "Maksymalne Punkty Zdrowia Głowy",
+  "bodyhealthsystem.midnightconfig.torsoMaxHealth": "Maksymalne Punkty Zdrowia Tułowia",
+  "bodyhealthsystem.midnightconfig.legMaxHealth": "Maksymalne Punkty Zdrowia Nóg",
+  "bodyhealthsystem.midnightconfig.armMaxHealth": "Maksymalne Punkty Zdrowia Rąk",
+  "bodyhealthsystem.midnightconfig.footMaxHealth": "Maksymalne Punkty Zdrowia Stóp",
+
+  "bodyhealthsystem.midnightconfig.headArmorMult": "Mnożnik Zbroi Głowy",
+  "bodyhealthsystem.midnightconfig.torsoArmorMult": "Mnożnik Zbroi Tułowia",
+  "bodyhealthsystem.midnightconfig.legArmorMult": "Mnożnik Zbroi Nóg",
+  "bodyhealthsystem.midnightconfig.footArmorMult": "Mnożnik Zbroi Stóp",
+
+  "bodyhealthsystem.midnightconfig.headArmorOffset": "Przesunięcie Zbroi Głowy",
+  "bodyhealthsystem.midnightconfig.torsoArmorOffset": "Przesunięcie Zbroi Tułowia",
+  "bodyhealthsystem.midnightconfig.legArmorOffset": "Przesunięcie Zbroi Nóg",
+  "bodyhealthsystem.midnightconfig.footArmorOffset": "Przesunięcie Zbroi Stóp",
+
+  "bodyhealthsystem.midnightconfig.headToughMult": "Mnożnik Wytrzymałości Głowy",
+  "bodyhealthsystem.midnightconfig.torsoToughMult": "Mnożnik Wytrzymałości Tułowia",
+  "bodyhealthsystem.midnightconfig.legToughMult": "Mnożnik Wytrzymałości Nóg",
+  "bodyhealthsystem.midnightconfig.footToughMult": "Mnożnik Wytrzymałości Stóp",
+
+  "bodyhealthsystem.midnightconfig.headToughOffset": "Przesunięcie Wytrzymałości Głowy",
+  "bodyhealthsystem.midnightconfig.torsoToughOffset": "Przesunięcie Wytrzymałości Tułowia",
+  "bodyhealthsystem.midnightconfig.legToughOffset": "Przesunięcie Wytrzymałości Nóg",
+  "bodyhealthsystem.midnightconfig.footToughOffset": "Przesunięcie Wytrzymałości Stóp",
+
+  "bodyhealthsystem.midnightconfig.hudPosition": "Pozycja HUD",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.TOP_RIGHT": "Prawy Górny Róg",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.TOP_LEFT": "Lewy Górny Róg",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.BOTTOM_RIGHT": "Prawy Dolny Róg",
+  "bodyhealthsystem.midnightconfig.enum.HudPosition.BOTTOM_LEFT": "Lewy Dolny Róg",
+  "bodyhealthsystem.midnightconfig.hudXOffset": "Poziome Przesunięcie HUD",
+  "bodyhealthsystem.midnightconfig.hudYOffset": "Pionowe Przesunięcie HUD",
+  "bodyhealthsystem.midnightconfig.hudScale": "Skala HUD",
+  "bodyhealthsystem.midnightconfig.hiddeVanillaHealth": "Ukryj vanilla pasek życia",
+
+  "bodyhealthsystem.midnightconfig.drowningDamage": "Obrażenia od topienia się",
+
+  "bodyhealthsystem.midnightconfig.comment_maxHealth": "Maksymalne Punkty Zdrowia",
+  "bodyhealthsystem.midnightconfig.comment_armorMult": "Mnożniki Zbroi",
+  "bodyhealthsystem.midnightconfig.comment_armorOffset": "Przesunięcia Zbroi",
+  "bodyhealthsystem.midnightconfig.comment_toughMult": "Mnożniki Wytrzymałości",
+  "bodyhealthsystem.midnightconfig.comment_toughOffset": "Przesunięcia Wytrzymałości",
+  "bodyhealthsystem.midnightconfig.comment_HUDConfig": "Konfiguracja HUD",
+  "bodyhealthsystem.midnightconfig.comment_damage": "Obrażenia"
+}
