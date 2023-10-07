@@ -3,7 +3,7 @@
   "item.bodyhealthsystem.morphine": "Morphine",
   "item.bodyhealthsystem.medkit": "Medkit",
 
-  "itemGroup.bodyhealthsystem.general": "Body Health System",
+  "bodyhealthsystem.group.general": "Body Health System",
 
   "effect.bodyhealthsystem.morphine_effect": "Morphine",
 
